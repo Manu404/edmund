@@ -7,6 +7,9 @@
 #include "ESPFlash.h"
 #include "game.h"
 
+#define CURRENT_GAME_STATE_PATH "/currentGame"
+#define BKP_GAME_STATE_PATH "/bkpGame"
+
 #define SERIAL_SPEED 19200
 
 struct UIMapping {
@@ -41,12 +44,14 @@ class Hardware
     float GetPositionFromPot(float scale);
     void Print(String m);
     void PrintLine(String m);
+    void DrawSymbol(int x_pos, int y_pos, const uint8_t *logo);
+    void DrawScreen(const uint8_t* screen);
     String GetDebugLine();
     void SaveStateToSpiff(GameState state);
     GameState LoadStateFromSpiff();
   private:
     Adafruit_PCD8544 lcd = Adafruit_PCD8544(D0, D1, D3, D4, D2);    
-    ESPFlash<GameState> stateArray = ESPFlash<GameState>("/gamestate");
+    ESPFlash<GameState> stateArray = ESPFlash<GameState>(CURRENT_GAME_STATE_PATH);
     void initScreen();
     void initInputs();
     float getPotValue();

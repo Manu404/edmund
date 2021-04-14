@@ -47,6 +47,14 @@ void Hardware::PrintLine(String m){
   lcd.println(m);
 }
 
+void Hardware::DrawSymbol(int x_pos, int y_pos, const uint8_t *logo){
+  lcd.drawBitmap(x_pos * 9, y_pos * 10, logo, 9, 10, BLACK);
+}
+
+void Hardware::DrawScreen(const uint8_t* logo) {
+  lcd.drawBitmap(0, 0, logo, 84, 48, BLACK);
+}
+
 int Hardware::isPressed(int prev, int curr){
   if(prev == curr) return 0;
   if(prev > curr) return -1;
@@ -108,6 +116,8 @@ void Hardware::BeginFrame(){
 
 void Hardware::EndFrame() {
   this->display();
+  Serial.print("."); 
+  delay(20);
 }
 
 void Hardware::SaveStateToSpiff(GameState state){
