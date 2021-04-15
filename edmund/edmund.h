@@ -17,9 +17,7 @@ class Edmund {
     {
       hardware.BeginFrame();
       screenManager.loopCurrent(hardware, game); 
-    
-      /*else {
-      }  */
+
       hardware.EndFrame();
       
       if(hardware.IsResetPressed() == 1)

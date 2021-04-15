@@ -69,7 +69,6 @@ const unsigned char symbol5 [] PROGMEM = {
 };
 
 
-
 class BootScreen : public IScreen
 {
   private:
@@ -83,24 +82,13 @@ class BootScreen : public IScreen
     }
     virtual ScreenEnum loop(Hardware& hardware, Game& game)
     {
-      if(tick == 100) tick = 0;
-      if(symbol == 5) symbol = 0;
+      if(tick == 20) tick = 0;
       
       tick += 1;
-
-      if(symbol == 0)
-        hardware.DrawSymbol(0, 0, symbol1);
-      else if(symbol == 1)
-        hardware.DrawSymbol(1, 0, symbol2);
-      else if(symbol == 2)
-        hardware.DrawSymbol(2, 0, symbol3);
-      else if(symbol == 3)
-        hardware.DrawSymbol(3, 0, symbol4);
-      else if(symbol == 4)
-        hardware.DrawSymbol(4, 0, symbol5);
+      hardware.DrawScreen(logo);
         
-      if(hardware.IsMiddlePressed() == 1 || tick == 20)
-        symbol += 1;
+      if (hardware.IsMiddlePressed() == 1 || tick == 20)
+        return MainScreenEnum;
       return BootScreenEnum;
     } 
 };

@@ -5,6 +5,7 @@ Hardware::Hardware(){
 
 void Hardware::Initialize(){
   Serial.begin(SERIAL_SPEED);  
+  Serial.println("init.");
   initScreen();
   initInputs();  
 }
@@ -49,6 +50,14 @@ void Hardware::PrintLine(String m){
 
 void Hardware::DrawSymbol(int x_pos, int y_pos, const uint8_t *logo){
   lcd.drawBitmap(x_pos * 9, y_pos * 10, logo, 9, 10, BLACK);
+}
+
+void Hardware::DrawNumeric(int x_pos, int y_pos, const uint8_t* logo) {
+  lcd.drawBitmap(x_pos, y_pos, logo, 4, 5, BLACK);
+}
+
+void Hardware::DrawNumericWhite(int x_pos, int y_pos, const uint8_t* logo) {
+  lcd.drawBitmap(x_pos, y_pos, logo, 4, 5, WHITE);
 }
 
 void Hardware::DrawScreen(const uint8_t* logo) {
@@ -98,7 +107,7 @@ void Hardware::refreshInputs(){
 }
 
 String Hardware::GetDebugLine(){
-  return String(current.left) + "|" + String(current.middle) + "|" + String(current.right) + "|" + String(current.pot);
+  return String(current.left) + String(current.middle) + String(current.right) + "|" + String(current.pot) + "|" + String(this->frameDuration) + "ms.";
 }
 
 void Hardware::clear(){
@@ -110,17 +119,19 @@ void Hardware::display() {
 }
 
 void Hardware::BeginFrame(){
+  this->frameStart = millis();
   this->clear();
   refreshInputs();
 }
 
 void Hardware::EndFrame() {
-  this->display();
-  Serial.print("."); 
-  delay(20);
+  this->display();  
+  this->frameDuration = (millis() - this->frameStart);
+  if(this->frameDuration < FRAME_DURATION_MS)
+    delay(FRAME_DURATION_MS - this->frameDuration);
 }
 
-void Hardware::SaveStateToSpiff(GameState state){
+void Hardware::SaveStateToSpiff(GameState& state){
   stateArray.set(state);
 }
 

@@ -9,8 +9,10 @@
 
 #define CURRENT_GAME_STATE_PATH "/currentGame"
 #define BKP_GAME_STATE_PATH "/bkpGame"
+#define TARGET_FPS 30
+#define FRAME_DURATION_MS 1000 / TARGET_FPS
 
-#define SERIAL_SPEED 19200
+#define SERIAL_SPEED 115200
 
 struct UIMapping {
   int right = D5;
@@ -45,13 +47,15 @@ class Hardware
     void Print(String m);
     void PrintLine(String m);
     void DrawSymbol(int x_pos, int y_pos, const uint8_t *logo);
+    void DrawNumeric(int x_pos, int y_pos, const uint8_t* logo);
+    void DrawNumericWhite(int x_pos, int y_pos, const uint8_t* logo);
     void DrawScreen(const uint8_t* screen);
     String GetDebugLine();
-    void SaveStateToSpiff(GameState state);
+    void SaveStateToSpiff(GameState& state);
     GameState LoadStateFromSpiff();
-  private:
-    Adafruit_PCD8544 lcd = Adafruit_PCD8544(D0, D1, D3, D4, D2);    
-    ESPFlash<GameState> stateArray = ESPFlash<GameState>(CURRENT_GAME_STATE_PATH);
+    Adafruit_PCD8544 lcd = Adafruit_PCD8544(D0, D1, D3, D4, D2);
+  private:  
+    ESPFlash<GameState> stateArray = ESPFlash<GameState>("/currentGame");
     void initScreen();
     void initInputs();
     float getPotValue();
@@ -63,6 +67,8 @@ class Hardware
     void clear();
     void display();
     int debug_combination = -1;
+    unsigned long frameStart = 0;
+    long frameDuration = 0;
 };
 
 #endif

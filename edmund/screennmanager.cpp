@@ -8,7 +8,7 @@ ConfigScreen _cfInstance = ConfigScreen();
 BootScreen _btInstance = BootScreen();
 
 ScreenManager::ScreenManager(){
-  current = &_msInstance;
+  current = &_btInstance;
 }
 
 void ScreenManager::loopCurrent(Hardware& hardware, Game& game){

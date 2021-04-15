@@ -3,16 +3,19 @@ hardware esp32 based stats counter for multiplayer edh
 
 ## things this stuff do
 
-- life
-- received cmdr dmg
-- inflicted cmdr dmg
-- infect received
-- infect inflicted
-- mana pool (single player)
+- you + 3 opponents stat tracking
+	- life
+	- received/inflicted cmdr dmg
+	- received/innfliced infect dmg
+	- mana pool (you only)
+- roll dices
 - web
-  - remote text display
-  - player edit
-  - game history logs
+	- remote text display
+	- player edit
+	- game history logs
+- text-to-speech commander effects
+- up to 130fps 84x48 nokia grade lcd screen ! (idle, when it's snowy)
+
 
 ## button to press on the stuff to make it do things
 
@@ -26,11 +29,14 @@ hardware esp32 based stats counter for multiplayer edh
 
 - 1x esp32
 - 1x pcd8544 
-- 3x buttons
-- 1x pot 
+- 3x buttons (*)
+- 1x pot (*)
+- 1x rotary encoder (*)
 - 3x 1k ohm
 - 7505 regulator
 - (headers for lcd and pcd8544)
+
+(*): All parts were salvaged with respect to the gods of the interwebs
 
 ## things to know about the stuffs you need to make the stuff do things
 
