@@ -3,7 +3,6 @@
 
 #define PLAYER_COUNT 4
 
-
 class Player
 {
   public:
@@ -24,7 +23,7 @@ class Player
     }
 
     void ApplyDeltaToCommanderDamages(int delta, int target){
-      if((delta < 0 && CommanderDamages == 0) || (target < 0 || target > PLAYER_COUNT)) return;
+      if((delta < 0 && CommanderDamages[target] == 0) || (target < 0 || target > PLAYER_COUNT)) return;
       CommanderDamages[target] += delta;
     }
 
