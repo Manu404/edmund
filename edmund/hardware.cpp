@@ -73,6 +73,10 @@ void Hardware::DrawScreen(const uint8_t* logo) {
   lcd.drawBitmap(0, 0, logo, 84, 48, BLACK);
 }
 
+void Hardware::DrawBox(int x, int y, int w, int h, uint16_t color) {
+  lcd.fillRect(x, y, w, h, color);
+}
+
 int Hardware::isPressed(int prev, int curr){
   if(prev == curr) return 0;
   if(prev > curr) return -1;

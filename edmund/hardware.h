@@ -6,6 +6,9 @@
 #include "ESPFlash.h"
 #include "game.h"
 
+#define MIN(a,b) (((a)<(b))?(a):(b))
+#define MAX(a,b) (((a)>(b))?(a):(b))
+
 #define CURRENT_GAME_STATE_PATH "/currentGame"
 #define BKP_GAME_STATE_PATH "/bkpGame"
 #define TARGET_FPS 30
@@ -48,6 +51,7 @@ class Hardware
     void PrintSymbol(int x_pos, int y_pos, const uint8_t *logo);
     void PrintSmallNumeric(int x_pos, int y_pos, int value, uint16_t color, int length);
     void DrawScreen(const uint8_t* screen);
+    void DrawBox(int x, int y, int w, int h, uint16_t color);
     String GetDebugLine();
     void SaveStateToSpiff(GameState& state);
     GameState LoadStateFromSpiff();

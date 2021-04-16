@@ -2,7 +2,7 @@
 #define PLAYER_INCLUDED
 
 #define PLAYER_COUNT 4
-#define PROPERTY_COUNT 5
+
 
 class Player
 {
@@ -15,7 +15,7 @@ class Player
       Life = 40;
       Infect = 0;   
       for (int i = 0; i < PLAYER_COUNT; i++)
-        CommanderDamages[i] = i;
+        CommanderDamages[i] = 0;
     }
 
     void ApplyDeltaToLife(int delta){
@@ -23,14 +23,9 @@ class Player
       Life += delta;
     }
 
-    void ApplyDeltaToCommanderDamages(int delta){
-      if(delta < 0 && CommanderDamages == 0) return;
-      CommanderDamages[0] += delta;      
-    }
-
-    void ApplyDeltaToReceivedCommanderDamages(int delta){
-      if(delta < 0 && CommanderDamages == 0) return;
-      CommanderDamages[0] += delta;
+    void ApplyDeltaToCommanderDamages(int delta, int target){
+      if((delta < 0 && CommanderDamages == 0) || (target < 0 || target > PLAYER_COUNT)) return;
+      CommanderDamages[target] += delta;
     }
 
     void ApplyDeltaToInfect(int delta){

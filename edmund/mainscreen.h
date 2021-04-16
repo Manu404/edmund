@@ -9,15 +9,24 @@ class Mainscreen : public IScreen
 {
   private:
     int debug = -1;
-    int col_size = 12;
-    int row_size = 8;
-    int row_margin = 2;
+
+    const int col_size = 12;
+    const int row_size = 8;
+    const int row_margin = 2;
+    const int col_margin = 2;
+    const int head_col_size = 6;
+    const int mana_head_col_size = 7;
+
+    int current_player;
+    PlayerProperties current_property;
+    int currentPosition = NULL;
+
+    void printManaPool(Game& game, Hardware& hardware);
 
     void print(Hardware& hardware, Game& game);
-    void updatePosition();
-    void processInputs(Hardware& hardware, Game& game);
-    void legacyPrint(Hardware& hardware, Game& game);
-    
+    void updateNavigationPosition(int position);
+    void processInputs(Hardware& hardware, Game& game);    
+    void updateProperty(int delta, Game& game);
   public: 
     Mainscreen();
     virtual ScreenEnum loop(Hardware& hardware, Game& game);

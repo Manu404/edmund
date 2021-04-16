@@ -4,75 +4,21 @@ Mainscreen::Mainscreen() {
 
 }
 
-int current_player;
-int current_property;
-int currentPosition = NULL;
-
-void Mainscreen::print(Hardware& hardware, Game& game) {
-  int y = 0, x = 0, col_margin = 2, life_column = 4, infect_column = 5;
-  uint16_t color = BLACK;
-
-  hardware.DrawScreen(mainlayout);
-
-  for (int row = 0; row < 4; row++) {
-    for (int col = 0; col < 6; col++) {
-      if (col == 5) { // if infect, map to bottom row
-        x = col_size + 6 + (row * col_size) + col_margin;
-        y = row_size + (4 * row_size) + row_margin;
-      }
-      else {
-        x = col_size + 6 + (col * col_size) + col_margin;
-        y = row_size + (row * row_size) + row_margin;
-      }
-
-      if (col == life_column) x = 0;
-
-      if (col >= row && col < life_column) x += col_size;
-
-      if (row == current_player && col == current_property) {
-        hardware.lcd.fillRect(MAX(x - col_margin, 0), (y - 1), (col_size + 1), (row_size - 1), color);
-        color = WHITE;
-      }
-
-      if (col == infect_column) {
-        hardware.PrintSmallNumeric(x, y, game.state.Players[row].Infect, color, 2);
-      }
-      else if (col < life_column) {
-        hardware.PrintSmallNumeric(x, y, game.state.Players[row].CommanderDamages[col], color, 2);
-      }
-      else if (col == life_column) {
-        if (game.state.Players[row].Life > 99)
-          hardware.PrintSmallNumeric(x, y, game.state.Players[row].Life, color, 3);
-        else
-          hardware.PrintSmallNumeric(x + col_margin, y, game.state.Players[row].Life, color, 2);
-      }
-      color = BLACK;
-    }
-  }
-}
-
-void Mainscreen::updatePosition()
+ScreenEnum Mainscreen::loop(Hardware& hardware, Game& game)
 {
-  if (currentPosition < 4) {
-    current_player = currentPosition;
-    current_property = 4;
-  }
-  else if (currentPosition < 17) {
-    current_player = (currentPosition - 4) / 3;
-    current_property = (currentPosition - 4) % 3;
-  }
-  else {
-    current_player = (currentPosition - 17);
-    current_property = 5;
-  }
+  processInputs(hardware, game);
+
+  print(hardware, game);
+
+  if (hardware.IsMiddlePressed() == 1)
+    return ConfigScreenEnum;
+  return MainScreenEnum;
 }
 
 void Mainscreen::processInputs(Hardware& hardware, Game& game)
 {
-  if (hardware.HasPotChanged() || currentPosition == NULL) {
-    currentPosition = (hardware.GetPositionFromPot(game.GetPlayerCount() * game.GetPropertyCount()));
-    updatePosition();
-  }
+  if (hardware.HasPotChanged() || currentPosition == NULL) 
+    updateNavigationPosition(hardware.GetPositionFromPot((game.GetPlayerCount() * game.GetPropertyCount()) + game.GetManaTypeCount()));
 
   if (hardware.IsRightPressed() == 1)
     game.UpdateCurrentProperty(1, current_player, current_property);
@@ -85,27 +31,104 @@ void Mainscreen::processInputs(Hardware& hardware, Game& game)
     debug *= -1;
 }
 
-ScreenEnum Mainscreen::loop(Hardware& hardware, Game& game)
+void Mainscreen::updateNavigationPosition(int position)
 {
-  processInputs(hardware, game);
+  currentPosition = position;
+  if (currentPosition < 6) {
+    current_player = 0;
+    current_property = (PlayerProperties)(6 + (currentPosition % 6));
+    return;
+  }
 
-  print(hardware, game);
+  currentPosition -= 6;
 
-  if (hardware.IsMiddlePressed() == 1)
-    return ConfigScreenEnum;
-  return MainScreenEnum;
+  if (currentPosition < 4) {
+    current_player = currentPosition;
+    current_property = Life_property;
+  }
+  else if (currentPosition < 16) {
+    current_player = (currentPosition - 4) / 3;
+    current_property = (PlayerProperties)((currentPosition - 4) % 3);
+  }
+  else {
+    current_player = (currentPosition - 16);
+    current_property = Infect_property;
+  }
 }
 
+//void Mainscreen::updateProperty(int delta, Game& game)
+//{
+//  if (current_property < 4)
+//    
+//  else if (current_property == 4)
+//    game.state.Players[current_player].ApplyDeltaToLife(delta);
+//  else if (current_property == 5)
+//    game.state.Players[current_player].ApplyDeltaToInfect(delta);
+//  else {
+//    // mana pool
+//  }
+//}
 
-void Mainscreen::legacyPrint(Hardware& hardware, Game& game) {
-  //hardware.PrintLine(game.GetOpponentLifeLine());
-  //hardware.PrintLine(game.GetCommanderDamages());
-  //hardware.PrintLine(game.GetReceivedCommanderDamages());
+void Mainscreen::print(Hardware& hardware, Game& game) {
+  int life_column = Life_property, infect_column = Infect_property;
 
-  //if (debug == 1) {
-  //  hardware.PrintLine(hardware.GetDebugLine());
-  //  hardware.PrintLine(game.GetCurrentPosition());
-  //}
+  hardware.DrawScreen(mainlayout);
+
+  int y = 0, x = 0;
+  uint16_t color = BLACK;
+
+  printManaPool(game, hardware);
+
+  for (int row = 0; row < 4; row++) {
+    for (int col = 0; col < 6; col++, color = BLACK) {
+      // compute property position
+      if (col != 5) {
+        x = col_size + head_col_size + (col * col_size) + col_margin;
+        y = row_size + (row * row_size) + row_margin;
+      }
+      else {
+        x = col_size + head_col_size + (row * col_size) + col_margin;
+        y = row_size + (4 * row_size) + row_margin;
+      }
+      if (col == life_column) x = 0;
+      if (col >= row && col < life_column) x += col_size;
+
+      // print selection box
+      if (row == current_player && col == current_property) {
+        hardware.DrawBox(MAX(x - col_margin, 0), (y - 1), (col_size + 1), (row_size - 1), color);
+        color = WHITE;
+      }
+
+      // print player property
+      if (col == infect_column) {
+        hardware.PrintSmallNumeric(x, y, game.state.Players[row].Infect, color, 2);
+      }
+      else if (col < life_column - 1) {
+        hardware.PrintSmallNumeric(x, y, game.state.Players[row].CommanderDamages[col + (col >= row)], color, 2);
+      }
+      else if (col == life_column) {
+        if (game.state.Players[row].Life > 99)
+          hardware.PrintSmallNumeric(x, y, game.state.Players[row].Life, color, 3);
+        else
+          hardware.PrintSmallNumeric(x + col_margin, y, game.state.Players[row].Life, color, 2);
+      }
+    }
+  }
 }
 
-
+void Mainscreen::printManaPool(Game& game, Hardware& hardware)
+{
+  int y = 0, x = 0;
+  uint16_t color = BLACK;
+  int* pool = game.state.ManaPool.GetManaPoolContent();
+  x = col_size + head_col_size + (4 * col_size) + col_margin + mana_head_col_size;
+  for (int i = 0; i < MANA_TYPE_COUNT; i++, color = BLACK) {
+    y = (i * row_size) + row_margin;
+    if (current_player == 0 && (current_property - 6) == i)
+    {
+      hardware.lcd.fillRect(MAX(x - col_margin, 0), (y - 1), (col_size + 1), (row_size - 1), color);
+      color = WHITE;
+    }
+    hardware.PrintSmallNumeric(x, y, game.state.ManaPool.GetManaPoolContent((ManaType)i), color, 2);
+  }
+}
