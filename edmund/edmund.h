@@ -27,7 +27,7 @@ class Edmund {
     void setup()
     {
       hardware.Initialize();
-      game.state = hardware.LoadStateFromSpiff();
+      //game.state = hardware.LoadStateFromSpiff();
     }
 };
 #endif

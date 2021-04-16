@@ -4,6 +4,10 @@
 #include <Arduino.h>
 #include "./player.h"
 
+
+#define MIN(a,b) (((a)<(b))?(a):(b))
+#define MAX(a,b) (((a)>(b))?(a):(b))
+
 class ManaPoolState {
   public:
     int W;
@@ -16,8 +20,7 @@ class ManaPoolState {
 
 class GameState {
   public:
-    Player Me;
-    Player Opponents[3];
+    Player Players[PLAYER_COUNT];
     ManaPoolState ManaPool;
 };
 
@@ -25,23 +28,12 @@ class Game
 {
   public:
     Game();
-    String GetOpponentLifeLine();
-    String GetCommanderDamages();
-    String GetReceivedCommanderDamages();
-    void MoveRight();
-    void MoveLeft();
-    String GetCurrentPosition();
-    void UpdateCurrentProperty(int delta);
-    void UpdateCurrentPropertyFromPot(int current);
+    void UpdateCurrentProperty(int delta, int player, int property);
     GameState state;   
+    int GetPropertyCount();
+    int GetPlayerCount();
   private:
     String space = "";
-    String FormatAsColumn(int a, int b, int c, int property);
-    String GetFormatedValue(int value, int player, int property);
-    int static const opponentCount = 3;  
-    int currentProperty = 0;
-    int currentPlayer = 0;
-    int propertyCount = 3;
 };
 
 #endif

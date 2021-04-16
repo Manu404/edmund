@@ -1,4 +1,6 @@
 #include "./hardware.h"
+#include <SPI.h>     
+#include "font.h"
 
 Hardware::Hardware(){
 }
@@ -48,16 +50,23 @@ void Hardware::PrintLine(String m){
   lcd.println(m);
 }
 
-void Hardware::DrawSymbol(int x_pos, int y_pos, const uint8_t *logo){
+void Hardware::PrintSymbol(int x_pos, int y_pos, const uint8_t *logo){
   lcd.drawBitmap(x_pos * 9, y_pos * 10, logo, 9, 10, BLACK);
 }
 
-void Hardware::DrawNumeric(int x_pos, int y_pos, const uint8_t* logo) {
-  lcd.drawBitmap(x_pos, y_pos, logo, 4, 5, BLACK);
-}
-
-void Hardware::DrawNumericWhite(int x_pos, int y_pos, const uint8_t* logo) {
-  lcd.drawBitmap(x_pos, y_pos, logo, 4, 5, WHITE);
+void Hardware::PrintSmallNumeric(int x_pos, int y_pos, int value, uint16_t color, int length) {
+  int char_w = 4, char_h = 5;
+  int digitsShift = 0, currentValue = 0, maxRange = 3;
+  int debug = value == 42;
+  for (int i = 1; i <= maxRange; i++) {
+    int p = pow(10, i);
+    currentValue = (value % p) / (p / 10);
+    value = value - currentValue;
+    if ((length - i) < 0) continue;
+    if (!(currentValue == 0 && i == 3)) // don't print on leading 0 for hundred
+      lcd.drawBitmap(x_pos + (char_w * ((length - digitsShift) - 1)) - (i < 3 && length == 3), y_pos, numericFont[currentValue], char_w, char_h, color);
+    digitsShift += 1;
+  }
 }
 
 void Hardware::DrawScreen(const uint8_t* logo) {
@@ -70,35 +79,33 @@ int Hardware::isPressed(int prev, int curr){
   return 1;
 }
 
-int Hardware::IsRightPressed(){  
+int Hardware::IsRightPressed() {  
   return isPressed(previous.right, current.right) == -1;
 }
 
-int Hardware::IsLeftPressed(){  
+int Hardware::IsLeftPressed() {  
   return isPressed(previous.left, current.left) == -1;
 }
 
-int Hardware::IsMiddlePressed(){  
+int Hardware::IsMiddlePressed() {  
   return isPressed(previous.middle, current.middle) == -1;
 }
 
-int Hardware::IsDebugPressed(){
+int Hardware::IsDebugPressed() {
   return isPressed(previous.debug, current.debug) == -1;
 }
 
-int Hardware::IsResetPressed(){
+int Hardware::IsResetPressed() {
   return isPressed(previous.reset, current.reset) == -1;
 }
 
-int Hardware::HasPotChanged(){
+int Hardware::HasPotChanged() {
   return previous.pot != current.pot;
 }
 
-float Hardware::GetPositionFromPot(float scale){
-  float currentPos = (log(current.pot) - 1.39) / (5 / scale);
-  if(currentPos > scale) currentPos = scale - 1;
-  if(currentPos < 0) currentPos = 0.00f;
-  return currentPos;
+float Hardware::GetPositionFromPot(float scale) {
+  // log, resistor biased +5 top
+  return (1024 * exp(log(((float)current.pot / 1024)))) / (1024 / scale);
 }
 
 void Hardware::refreshInputs(){

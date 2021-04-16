@@ -1,8 +1,7 @@
 #ifndef HARDWARE_INCLUDED
 #define HARDWARE_INCLUDED
 
-#include <SPI.h>               // include SPI library
-#include <Adafruit_GFX.h>      // include adafruit graphics library
+#include <Adafruit_GFX.h> 
 #include <Adafruit_PCD8544.h> 
 #include "ESPFlash.h"
 #include "game.h"
@@ -46,19 +45,18 @@ class Hardware
     float GetPositionFromPot(float scale);
     void Print(String m);
     void PrintLine(String m);
-    void DrawSymbol(int x_pos, int y_pos, const uint8_t *logo);
-    void DrawNumeric(int x_pos, int y_pos, const uint8_t* logo);
-    void DrawNumericWhite(int x_pos, int y_pos, const uint8_t* logo);
+    void PrintSymbol(int x_pos, int y_pos, const uint8_t *logo);
+    void PrintSmallNumeric(int x_pos, int y_pos, int value, uint16_t color, int length);
     void DrawScreen(const uint8_t* screen);
     String GetDebugLine();
     void SaveStateToSpiff(GameState& state);
     GameState LoadStateFromSpiff();
     Adafruit_PCD8544 lcd = Adafruit_PCD8544(D0, D1, D3, D4, D2);
+
   private:  
     ESPFlash<GameState> stateArray = ESPFlash<GameState>("/currentGame");
     void initScreen();
     void initInputs();
-    float getPotValue();
     int isPressed(int prev, int curr);
     UIState current, previous;
     UIMapping mapping;
@@ -70,5 +68,6 @@ class Hardware
     unsigned long frameStart = 0;
     long frameDuration = 0;
 };
+
 
 #endif
