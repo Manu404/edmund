@@ -19,14 +19,13 @@ class Mainscreen : public IScreen
 
     int current_player;
     PlayerProperties current_property;
-    int currentPosition = NULL;
 
     void printManaPool(Game& game, Hardware& hardware);
 
-    void print(Hardware& hardware, Game& game);
+    void printPlayersProperties(Hardware& hardware, Game& game);
+    void drawLayout(Hardware& hardware);
     void updateNavigationPosition(int position);
     void processInputs(Hardware& hardware, Game& game);    
-    void updateProperty(int delta, Game& game);
   public: 
     Mainscreen();
     virtual ScreenEnum loop(Hardware& hardware, Game& game);

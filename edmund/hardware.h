@@ -53,7 +53,7 @@ class Hardware
     void DrawScreen(const uint8_t* screen);
     void DrawBox(int x, int y, int w, int h, uint16_t color);
     String GetDebugLine();
-    void SaveStateToSpiff(GameState& state);
+    void SaveStateToSpiff(const GameState& state);
     GameState LoadStateFromSpiff();
     Adafruit_PCD8544 lcd = Adafruit_PCD8544(D0, D1, D3, D4, D2);
 

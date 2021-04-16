@@ -4,6 +4,21 @@
 #include <Arduino.h>
 #include "./player.h"
 
+#define PROPERTY_COUNT 6
+enum PlayerProperties {
+  Commander_1_property = 0,
+  Commander_2_property = 1,
+  Commander_3_property = 2,
+  Commander_x_property = 3,
+  Life_property = 4,
+  Infect_property = 5,
+  W_MANA_property = 6,
+  U_MANA_property = 7,
+  R_MANA_property = 8,
+  B_MANA_property = 9,
+  G_MANA_property = 10,
+  X_MANA_property = 11
+};
 
 #define MANA_TYPE_COUNT 6
 enum ManaType {
@@ -16,11 +31,12 @@ enum ManaType {
 };
 
 class ManaPoolState {
+  private:
     int pool[MANA_TYPE_COUNT];
   public:
 
     ManaPoolState() {
-      for (int i = 0; i < MANA_TYPE_COUNT; pool[i] = 0, i++);
+      Empty();
     }  
 
     int GetManaPoolContent(ManaType type) {
@@ -35,6 +51,10 @@ class ManaPoolState {
     int* GetManaPoolContent() {
       return pool;
     }
+
+    void Empty() {
+      for (int i = 0; i < MANA_TYPE_COUNT; pool[i] = 0, i++);
+    }
 };
 
 class GameState {
@@ -43,33 +63,21 @@ class GameState {
     ManaPoolState ManaPool;
 };
 
-#define PROPERTY_COUNT 5
-
-enum PlayerProperties {
-  Commander_1_property = 0,
-  Commander_2_property = 1,
-  Commander_3_property = 2,
-  Life_property = 4,
-  Infect_property = 5,
-  W_MANA_property = 6,
-  U_MANA_property = 7,
-  R_MANA_property = 8,
-  B_MANA_property = 9,
-  G_MANA_property = 10,
-  X_MANA_property = 11
-};
-
 class Game 
 {
   public:
     Game();
-    void UpdateCurrentProperty(int delta, int player, int property);
-    GameState state;   
+    void UpdatePlayerProperty(int delta, int player, PlayerProperties property);
+    int GetPlayerProperty(int player, PlayerProperties property);
     int GetPropertyCount();
     int GetPlayerCount();
-    int GetManaTypeCount();
+    int GetManaTypeCount(); 
+    void Reset();
+    const GameState GetState();
+    void LoadState(GameState newState);
   private:
     String space = "";
+    GameState state;
 };
 
 #endif

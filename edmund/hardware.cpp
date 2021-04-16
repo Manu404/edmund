@@ -142,7 +142,7 @@ void Hardware::EndFrame() {
     delay(FRAME_DURATION_MS - this->frameDuration);
 }
 
-void Hardware::SaveStateToSpiff(GameState& state){
+void Hardware::SaveStateToSpiff(const GameState& state){
   stateArray.set(state);
 }
 

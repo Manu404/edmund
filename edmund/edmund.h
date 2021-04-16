@@ -17,7 +17,6 @@ class Edmund {
     {
       hardware.BeginFrame();
       screenManager.loopCurrent(hardware, game); 
-
       hardware.EndFrame();
       
       if(hardware.IsResetPressed() == 1)
@@ -27,7 +26,7 @@ class Edmund {
     void setup()
     {
       hardware.Initialize();
-      //game.state = hardware.LoadStateFromSpiff();
+      game.LoadState(hardware.LoadStateFromSpiff());
     }
 };
 #endif
