@@ -1,4 +1,5 @@
 #include "mainscreen.h"
+#include "./layouts/mainscreen_layout.h"
 
 MainScreen::MainScreen() {
 
@@ -98,7 +99,7 @@ void MainScreen::printPlayersProperties(Hardware& hardware, Game& game) {
 }
 
 void MainScreen::drawLayout(Hardware& hardware) {
-  hardware.DrawScreen(mainlayout);
+  hardware.DrawScreen(mainscreen_layout);
 }
 
 void MainScreen::printManaPool(Game& game, Hardware& hardware) {
