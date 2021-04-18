@@ -8,24 +8,24 @@
 class Edmund {
   private:
     int debug = -1;
-    Game game = Game();
-    Hardware hardware = Hardware();
-    ScreenManager screenManager = ScreenManager();
+    Game* game = new Game();
+    Hardware* hardware = new Hardware();
+    ScreenManager* screenManager = new ScreenManager();
   public:
     void loop()
     {
-      hardware.BeginFrame();
-      screenManager.loopCurrent(hardware, game); 
-      hardware.EndFrame();
+      hardware->BeginFrame();
+      screenManager->loopCurrent(*hardware, *game);
+      hardware->EndFrame();
       
-      if(hardware.IsResetPressed() == 1)
-        game = Game();
+      if (hardware->IsResetPressed() == 1)
+        game->Reset();
     }   
     
     void setup()
     {
-      hardware.Initialize();
-      game.LoadState(hardware.LoadStateFromSpiff());
+      hardware->Initialize();
+      game->LoadGameState(hardware->LoadStateFromSpiff());
     }
 };
 #endif

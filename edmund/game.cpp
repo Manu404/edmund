@@ -25,6 +25,7 @@ void Game::UpdatePlayerProperty(int delta, int player, PlayerProperties property
     default: break;
   }
 }
+
 int Game::GetPlayerProperty(int player, PlayerProperties property) {
   if (player < 0 || player > GetPlayerCount() || property < 0 || property > GetPropertyCount() + GetManaTypeCount()) return -1;
 
@@ -56,9 +57,9 @@ int Game::GetManaTypeCount() {
 void Game::Reset() {
   state = GameState();
 }
-const GameState Game::GetState() {
+const GameState Game::GetGameState() {
   return state;
 }
-void Game::LoadState(GameState newState) {
+void Game::LoadGameState(GameState newState) {
   state = newState;
 }

@@ -73,8 +73,8 @@ class Game
     int GetPlayerCount();
     int GetManaTypeCount(); 
     void Reset();
-    const GameState GetState();
-    void LoadState(GameState newState);
+    const GameState GetGameState();
+    void LoadGameState(GameState newState);
   private:
     String space = "";
     GameState state;

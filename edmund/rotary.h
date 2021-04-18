@@ -1,4 +1,4 @@
-/*
+/* https://github.com/buxtronix/arduino/tree/master/libraries/Rotary
  * Rotary encoder library for Arduino.
  */
 

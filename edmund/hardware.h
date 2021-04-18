@@ -20,7 +20,7 @@
 
 #define SERIAL_SPEED 115200
 
-struct UIMapping {
+struct PinMapping {
   int right = 1;
   int middle = 3;
   int left = 2;
@@ -39,10 +39,42 @@ struct UIState {
   int rotary_direction;
 };
 
+
+class McpProvider {
+  Adafruit_MCP23017* current_mcp;
+  TwoWire* wire;
+  int ready = 0;
+public:
+  McpProvider() : current_mcp { new Adafruit_MCP23017() }, wire { new TwoWire() }  {  }
+
+  void Initialize(int SDA, int SDC) {
+    wire->begin(SDA, SDC);
+    current_mcp->begin(wire);
+    current_mcp->setupInterrupts(true, false, LOW);
+    ready = 1;
+  }
+
+  int IsReady() {
+    return ready;
+  }
+
+  void pinMode(int pin, int mode) {
+    current_mcp->pinMode(pin, mode);
+  }
+  void setupInterruptPinMode(int pin, int mode, int interupt_mode) {
+    current_mcp->pinMode(pin, mode);
+    current_mcp->pinMode(pin, interupt_mode);
+  }
+  int digitalRead(int pin) {
+    return current_mcp->digitalRead(pin);
+  }
+};
+
 class Hardware 
 {
   public:
     Hardware();
+    Hardware(Adafruit_PCD8544* lcd, McpProvider* mcp, ESPFlash<GameState>* stateArray, PinMapping mapping, TwoWire wire);
     void Initialize();
     void BeginFrame();
     void EndFrame();
@@ -65,25 +97,28 @@ class Hardware
     String GetDebugLine();
     void SaveStateToSpiff(const GameState& state);
     GameState LoadStateFromSpiff();
-    Adafruit_PCD8544 lcd = Adafruit_PCD8544(D0, D1, D3, D4, D2);
-
   private:  
-    ESPFlash<GameState> stateArray = ESPFlash<GameState>("/currentGame");
+    // injectable dependencies
+    ESPFlash<GameState>* stateArray;
+    Adafruit_PCD8544* lcd;
+    PinMapping pinMapping;
+    TwoWire wire;
+    //Adafruit_MCP23017* mcp;
+    McpProvider* mcp_provider;
+
+    UIState current, previous;
+    int debug_combination = -1;
+    unsigned long frameStart = 0;
+    int previous_encoder_value = 0, current_encoder_value = 0;
+    long frameDuration = 0;
+
     void initScreen();
     void initInputs();
     int isPressed(int prev, int curr);
-    UIState current, previous;
-    UIMapping mapping;
     void refreshInputs();
     UIState getState();
     void clear();
     void display();
-    int debug_combination = -1;
-    unsigned long frameStart = 0;
-    long frameDuration = 0;
-    TwoWire wire;
-
-    int previous_encoder_value = 0, current_encoder_value = 0;
 };
 
 

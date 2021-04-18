@@ -1,4 +1,5 @@
-/* Rotary encoder handler for arduino. v1.1
+/* https://github.com/buxtronix/arduino/tree/master/libraries/Rotary
+ * Rotary encoder handler for arduino. v1.1
  *
  * Copyright 2011 Ben Buxton. Licenced under the GNU GPL Version 3.
  * Contact: bb@cactii.net

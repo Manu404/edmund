@@ -25,7 +25,7 @@ void Mainscreen::processInputs(Hardware& hardware, Game& game) {
     game.UpdatePlayerProperty(hardware.GetEncoderDelta(), current_player, current_property);
 
   if (hardware.IsRightPressed() == 1 || hardware.IsLeftPressed())
-    hardware.SaveStateToSpiff(game.GetState());
+    hardware.SaveStateToSpiff(game.GetGameState());
 
   //if (hardware.IsDebugPressed() == 1)
   //if (hardware.IsResetPressed() == 1)
@@ -108,7 +108,7 @@ void Mainscreen::printManaPool(Game& game, Hardware& hardware) {
   for (int i = 0; i < MANA_TYPE_COUNT; i++, color = BLACK) {
     y = (i * row_size) + row_margin;
     if (current_player == 0 && (current_property - 6) == i) {
-      hardware.lcd.fillRect(MAX(x - col_margin, 0), (y - 1), (col_size + 1), (row_size - 1), color);
+      hardware.DrawBox(MAX(x - col_margin, 0), (y - 1), (col_size + 1), (row_size - 1), color);
       color = WHITE;
     }
     hardware.PrintSmallNumeric(x, y, game.GetPlayerProperty(0, (PlayerProperties)(W_MANA_property + i)), color, 2);
