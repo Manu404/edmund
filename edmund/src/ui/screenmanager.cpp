@@ -3,7 +3,7 @@
 #include "./configscreen.h"
 #include "./bootscreen.h"
 
-Mainscreen _msInstance = Mainscreen();
+MainScreen _msInstance = MainScreen();
 ConfigScreen _cfInstance = ConfigScreen();
 BootScreen _btInstance = BootScreen();
 

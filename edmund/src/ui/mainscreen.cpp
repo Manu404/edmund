@@ -1,10 +1,10 @@
 #include "mainscreen.h"
 
-Mainscreen::Mainscreen() {
+MainScreen::MainScreen() {
 
 }
 
-ScreenEnum Mainscreen::loop(Hardware& hardware, Game& game) {
+ScreenEnum MainScreen::loop(Hardware& hardware, Game& game) {
   processInputs(hardware, game);
   drawLayout(hardware);
   printPlayersProperties(hardware, game);
@@ -12,7 +12,7 @@ ScreenEnum Mainscreen::loop(Hardware& hardware, Game& game) {
   return MainScreenEnum;
 }
 
-void Mainscreen::processInputs(Hardware& hardware, Game& game) {
+void MainScreen::processInputs(Hardware& hardware, Game& game) {
   if (hardware.HasPotChanged()) 
     updateNavigationPosition(hardware.GetPositionFromPot((game.GetPlayerCount() * (game.GetPropertyCount() - 1)) + game.GetManaTypeCount()));
 
@@ -32,7 +32,7 @@ void Mainscreen::processInputs(Hardware& hardware, Game& game) {
   //  game.Reset();
 }
 
-void Mainscreen::updateNavigationPosition(int position) {
+void MainScreen::updateNavigationPosition(int position) {
   if (position < 6) {
     current_player = 0;
     current_property = (PlayerProperties)(6 + (position % 6));
@@ -57,7 +57,7 @@ void Mainscreen::updateNavigationPosition(int position) {
   current_property = Infect_property;
 }
 
-void Mainscreen::printPlayersProperties(Hardware& hardware, Game& game) {
+void MainScreen::printPlayersProperties(Hardware& hardware, Game& game) {
   int y = 0, x = 0;
   int life_column = Life_property, infect_column = Infect_property;
   uint16_t color = BLACK;
@@ -97,11 +97,11 @@ void Mainscreen::printPlayersProperties(Hardware& hardware, Game& game) {
   }
 }
 
-void Mainscreen::drawLayout(Hardware& hardware) {
+void MainScreen::drawLayout(Hardware& hardware) {
   hardware.DrawScreen(mainlayout);
 }
 
-void Mainscreen::printManaPool(Game& game, Hardware& hardware) {
+void MainScreen::printManaPool(Game& game, Hardware& hardware) {
   int y = 0, x = 0;
   uint16_t color = BLACK;
   x = col_size + head_col_size + (4 * col_size) + col_margin + mana_head_col_size;

@@ -5,7 +5,7 @@
 #include "../game.h"
 #include "screen.h"
 
-class Mainscreen : public IScreen
+class MainScreen : public IScreen
 {
   private:
     int debug = -1;
@@ -27,7 +27,7 @@ class Mainscreen : public IScreen
     void updateNavigationPosition(int position);
     void processInputs(Hardware& hardware, Game& game);    
   public: 
-    Mainscreen();
+    MainScreen();
     virtual ScreenEnum loop(Hardware& hardware, Game& game);
 };
 
