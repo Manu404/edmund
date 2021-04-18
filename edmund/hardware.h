@@ -3,6 +3,10 @@
 
 #include <Adafruit_GFX.h> 
 #include <Adafruit_PCD8544.h> 
+#include <Adafruit_MCP23017.h>
+#include <Wire.h>
+
+
 #include "ESPFlash.h"
 #include "game.h"
 
@@ -11,16 +15,18 @@
 
 #define CURRENT_GAME_STATE_PATH "/currentGame"
 #define BKP_GAME_STATE_PATH "/bkpGame"
-#define TARGET_FPS 30
+#define TARGET_FPS 120
 #define FRAME_DURATION_MS 1000 / TARGET_FPS
 
 #define SERIAL_SPEED 115200
 
 struct UIMapping {
-  int right = D5;
-  int middle = D6;
-  int left = D7;
+  int right = 1;
+  int middle = 3;
+  int left = 2;
   int pot = A0;
+  int CLK = 1;
+  int DT = 2;
 };
 
 struct UIState {
@@ -30,6 +36,7 @@ struct UIState {
   int pot;
   int debug;
   int reset;
+  int rotary_direction;
 };
 
 class Hardware 
@@ -41,9 +48,12 @@ class Hardware
     void EndFrame();
     int IsRightPressed();
     int IsLeftPressed();
+    int GetEncoderDelta();
     int IsMiddlePressed();
     int IsDebugPressed();
-    int IsResetPressed();
+    int IsResetPressed();    
+    int IsEncoderTurnedRight();
+    int IsEncoderTurnedLeft();
     int HasPotChanged();
     float GetPositionFromPot(float scale);
     void Print(String m);
@@ -71,6 +81,9 @@ class Hardware
     int debug_combination = -1;
     unsigned long frameStart = 0;
     long frameDuration = 0;
+    TwoWire wire;
+
+    int previous_encoder_value = 0, current_encoder_value = 0;
 };
 
 

@@ -20,6 +20,10 @@ void Mainscreen::processInputs(Hardware& hardware, Game& game) {
     game.UpdatePlayerProperty(1, current_player, current_property);
   if (hardware.IsLeftPressed() == 1)
     game.UpdatePlayerProperty(-1, current_player, current_property);
+
+  if (hardware.GetEncoderDelta() != 0)
+    game.UpdatePlayerProperty(hardware.GetEncoderDelta(), current_player, current_property);
+
   if (hardware.IsRightPressed() == 1 || hardware.IsLeftPressed())
     hardware.SaveStateToSpiff(game.GetState());
 

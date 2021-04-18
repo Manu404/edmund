@@ -1,3 +1,5 @@
+#include <Adafruit_MCP23017.h>
+
 #include "./edmund.h"
 
 Edmund ed;

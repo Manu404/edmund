@@ -11,7 +11,6 @@ class Edmund {
     Game game = Game();
     Hardware hardware = Hardware();
     ScreenManager screenManager = ScreenManager();
-
   public:
     void loop()
     {

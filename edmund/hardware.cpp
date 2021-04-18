@@ -1,8 +1,28 @@
 #include "./hardware.h"
 #include <SPI.h>     
 #include "font.h"
+#include "rotary.h"
+
+// ----------------------------------------------------
+Adafruit_MCP23017 mcp;
+int isMcpInitialized = 0;
+Rotary rotary = Rotary(5, 6);
+int global_encoder_value = 0;
+
+void rte() {
+  if (isMcpInitialized == 0) return;
+  unsigned char result = rotary.process(mcp.digitalRead(1), mcp.digitalRead(2));
+  if (result == DIR_CW) {
+    global_encoder_value++;
+  }
+  else if (result == DIR_CCW) {
+    global_encoder_value--;
+  }
+}
+// ----------------------------------------------------
 
 Hardware::Hardware(){
+  attachInterrupt(0, rte, CHANGE);
 }
 
 void Hardware::Initialize(){
@@ -10,21 +30,45 @@ void Hardware::Initialize(){
   Serial.println("init.");
   initScreen();
   initInputs();  
+  isMcpInitialized = 1;
 }
 
 void Hardware::initInputs(){  
-  pinMode(mapping.left, INPUT);
-  pinMode(mapping.middle, INPUT);
-  pinMode(mapping.right, INPUT);
+  wire.begin(D5, D6);
+  mcp.begin(&wire);
+
+  mcp.setupInterrupts(true, false, LOW);
+
+  // configuration for a button on port A
+  // interrupt will triger when the pin is taken to ground by a pushbutton
+  mcp.pinMode(mapping.DT, INPUT);
+  //mcp.pullUp(mapping.DT, HIGH);  // turn on a 100K pullup internally
+
+  mcp.setupInterruptPin(mapping.DT, CHANGE);
+
+  // similar, but on port B.
+  mcp.pinMode(mapping.CLK, INPUT);
+  //mcp.pullUp(mapping.CLK, HIGH);  // turn on a 100K pullup internall
+  mcp.setupInterruptPin(mapping.CLK, CHANGE);
+
+  //mcp.pinMode(mapping.DT, INPUT);
+  //mcp.pinMode(mapping.CLK, INPUT);
+  mcp.pinMode(mapping.middle, INPUT);
   pinMode(mapping.pot, INPUT);
 }
 
+// https://lastminuteengineers.com/rotary-encoder-arduino-tutorial/
 UIState Hardware::getState(){ 
-  int left = digitalRead(mapping.left);
-  int right = digitalRead(mapping.right);
-  int middle = digitalRead(mapping.middle);
+
+  current_encoder_value = global_encoder_value;
+  int direction = previous_encoder_value - current_encoder_value;
+  previous_encoder_value = current_encoder_value;
+
+  int middle = 0;
   float pot = analogRead(mapping.pot);
-  
+  int left = 0 || direction < 0;
+  int right = 0 || direction > 0;
+
   return UIState 
   { 
     right,
@@ -32,7 +76,8 @@ UIState Hardware::getState(){
     left,
     pot, 
     left * right,    
-    left * right * middle * (pot > 1020) * current.debug
+    left * right * middle * (pot > 1020) * current.debug,
+    direction
   };
 }
 
@@ -78,9 +123,15 @@ void Hardware::DrawBox(int x, int y, int w, int h, uint16_t color) {
 }
 
 int Hardware::isPressed(int prev, int curr){
-  if(prev == curr) return 0;
-  if(prev > curr) return -1;
-  return 1;
+  return (prev == curr) ? (prev > curr ? -1 : 1) : 0;
+}
+
+int Hardware::IsEncoderTurnedRight() {
+  return current.rotary_direction < 0;
+}
+
+int Hardware::IsEncoderTurnedLeft() {
+  return current.rotary_direction > 0;
 }
 
 int Hardware::IsRightPressed() {  
@@ -101,6 +152,10 @@ int Hardware::IsDebugPressed() {
 
 int Hardware::IsResetPressed() {
   return isPressed(previous.reset, current.reset) == -1;
+}
+
+int Hardware::GetEncoderDelta() {
+  return current.rotary_direction;
 }
 
 int Hardware::HasPotChanged() {
