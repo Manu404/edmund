@@ -1,8 +1,8 @@
 #ifndef BOOTSCREEN_INCLUDED
 #define BOOTSCREEN_INCLUDED
 
-#include "hardware.h"
-#include "game.h"
+#include "../hardware/hardware.h"
+#include "../game.h"
 #include "screen.h"
 
 const unsigned char logo[] PROGMEM = {

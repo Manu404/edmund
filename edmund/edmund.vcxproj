@@ -115,32 +115,25 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="src\arduino folders read me.txt">
-    </None>
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="bootscreen.h" />
-    <ClInclude Include="configScreen.h" />
     <ClInclude Include="edmund.h" />
-    <ClInclude Include="font.h">
-      <SubType>
-      </SubType>
-    </ClInclude>
-    <ClInclude Include="game.h" />
-    <ClInclude Include="hardware.h" />
-    <ClInclude Include="mainscreen.h" />
-    <ClInclude Include="player.h" />
-    <ClInclude Include="rotary.h" />
-    <ClInclude Include="screen.h" />
-    <ClInclude Include="screenmanager.h" />
+    <ClInclude Include="src\game.h" />
+    <ClInclude Include="src\player.h" />
+    <ClInclude Include="src\hardware\hardware.h" />
+    <ClInclude Include="src\hardware\rotary.h" />
+    <ClInclude Include="src\ui\bootscreen.h" />
+    <ClInclude Include="src\ui\configScreen.h" />
+    <ClInclude Include="src\ui\font.h" />
+    <ClInclude Include="src\ui\mainscreen.h" />
+    <ClInclude Include="src\ui\screen.h" />
+    <ClInclude Include="src\ui\screenmanager.h" />
     <ClInclude Include="__vm\.edmund.vsarduino.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="game.cpp" />
-    <ClCompile Include="hardware.cpp" />
-    <ClCompile Include="mainscreen.cpp" />
-    <ClCompile Include="rotary.cpp" />
-    <ClCompile Include="screennmanager.cpp" />
+    <ClCompile Include="src\game.cpp" />
+    <ClCompile Include="src\hardware\hardware.cpp" />
+    <ClCompile Include="src\hardware\rotary.cpp" />
+    <ClCompile Include="src\ui\mainscreen.cpp" />
+    <ClCompile Include="src\ui\screennmanager.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

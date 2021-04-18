@@ -1,9 +1,9 @@
 #ifndef EDMUND_INCLUDED
 #define EDMUND_INCLUDED
 
-#include "./hardware.h"
-#include "./game.h"
-#include "./screenmanager.h"
+#include "./src/hardware/hardware.h"
+#include "./src/game.h"
+#include "./src/ui/screenmanager.h"
 
 class Edmund {
   private:

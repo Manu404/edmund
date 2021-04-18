@@ -5,10 +5,10 @@
 #include <Adafruit_PCD8544.h> 
 #include <Adafruit_MCP23017.h>
 #include <Wire.h>
-
-
+#include <SPI.h>  
 #include "ESPFlash.h"
-#include "game.h"
+
+#include "../game.h"
 
 #define MIN(a,b) (((a)<(b))?(a):(b))
 #define MAX(a,b) (((a)>(b))?(a):(b))

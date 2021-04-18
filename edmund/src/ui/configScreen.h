@@ -1,8 +1,8 @@
 #ifndef CONFIGSCREEN_INCLUDED
 #define CONFIGSCREEN_INCLUDED
 
-#include "hardware.h"
-#include "game.h"
+#include "../hardware/hardware.h"
+#include "../game.h"
 #include "screen.h"
 
 class ConfigScreen : public IScreen

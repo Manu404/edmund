@@ -1,8 +1,8 @@
 #ifndef SCREEN_INCLUDED
 #define SCREEN_INCLUDED
 
-#include "game.h"
-#include "hardware.h"
+#include "../hardware/hardware.h"
+#include "../game.h"
 
 enum ScreenEnum {
   MainScreenEnum = 1,

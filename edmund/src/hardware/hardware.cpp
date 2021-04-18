@@ -1,6 +1,6 @@
+   
 #include "./hardware.h"
-#include <SPI.h>     
-#include "font.h"
+#include "../ui/font.h"
 #include "rotary.h"
 
 // ----------------------------------------------------
