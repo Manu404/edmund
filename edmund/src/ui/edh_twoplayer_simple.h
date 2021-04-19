@@ -19,6 +19,7 @@ namespace Edmund {
       virtual ScreenEnum loop(Device& hardware, Game& game) {
         if (tick < 0 || tick > 2) tick = 0;
 
+        processInputs(hardware, game);
         drawLayout(hardware);
         printPlayersProperties(hardware, game);
         printManaPool(hardware, game);
@@ -53,22 +54,42 @@ namespace Edmund {
 
       void printPlayersProperties(Device& hardware, Game& game) {
         int life = 3, y = 0, x = 0;
-        hardware.PrintIntLarge(life < 100 ? 4 : 0, 10, life, 2);
+        x = life < 100 ? 4 : 0;
+        y = 10;
+        uint16_t color = BLACK;
 
-        hardware.PrintIntLarge(life < 100 ? 60 : 36, 10, life, 2);
+        if (current_player == 0 && current_property == Life_property) {
+          hardware.DrawBox(x - 1, y - 1, 10, 10, color);
+          color = WHITE;
+        }
+        hardware.PrintIntLarge(x, y, life, color, 2);
+        color = BLACK;
+
+        if (current_player == 1 && current_property == Life_property) {
+          hardware.DrawBox(x - 1, y - 1, 10, 10, color);
+          color = WHITE;
+        }
+        hardware.PrintIntLarge(life < 100 ? 60 : 36, 10, life, color, 2);
+        color = BLACK;
 
         for (int row = 0; row < 3; row++) {
-          for (int col = 0; col < 2; col++) {
+          for (int col = 0; col < 2; col++, color = BLACK) {
             x = 29 + (col * 17);
             y = 4 + (row * 8);
+
+            if (col == current_player && (current_property == row || (current_property == Infect_property && row == 2))) {
+              hardware.DrawBox(x - 1, y - 1, 10, 10, color);
+              color = WHITE;
+            }
+
             if (row == 0) {
-              hardware.PrintNumberSmall(x, y, game.GetPlayerProperty(col, (PlayerProperties)(!col)), BLACK, 2);
+              hardware.PrintNumberSmall(x, y, game.GetPlayerProperty(col, (PlayerProperties)(!col)), color, 2);
             }
             else if (row == 1) {
-              hardware.PrintNumberSmall(x, y, game.GetPlayerProperty(col, (PlayerProperties)(col)), BLACK, 2);
+              hardware.PrintNumberSmall(x, y, game.GetPlayerProperty(col, (PlayerProperties)(col)), color, 2);
             }
             else {
-              hardware.PrintNumberSmall(x, y, game.GetPlayerProperty(col, Infect_property), BLACK, 2);
+              hardware.PrintNumberSmall(x, y, game.GetPlayerProperty(col, Infect_property), color, 2);
             }
           }
         }

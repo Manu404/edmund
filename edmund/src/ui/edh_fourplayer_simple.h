@@ -54,7 +54,7 @@ namespace Edmund {
 
       void printPlayersProperties(Device& hardware, Game& game) {
         int life = 3, y = 0, x = 0;
-        hardware.PrintIntLarge(life < 100 ? 4 : 0, 10, life, 2);
+        hardware.PrintIntLarge(life < 100 ? 4 : 0, 10, life, BLACK, 2);
 
         for (int row = 0; row < 3; row++) {
           for (int col = 0; col < 3; col++) {
