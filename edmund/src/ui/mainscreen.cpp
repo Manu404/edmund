@@ -9,7 +9,7 @@ namespace Edmund {
       drawLayout(hardware);
       printPlayersProperties(hardware, game);
       printManaPool(hardware, game);
-      return MainScreenEnum;
+      return GetNavigationId();
     }
 
     void MainScreen::updateNavigationPosition(int position) {

@@ -26,10 +26,12 @@ namespace Edmund {
         if (hardware.IsMiddlePressed() == 1 || ellapsed_ms >= 1000)
           return SimpleFourPlayerEdhScreenEnum;
 
-        return BootScreenEnum;
+        return GetNavigationId();
       }
 
       virtual void updateNavigationPosition(int position) { }
+
+      virtual ScreenEnum GetNavigationId() { return BootScreenEnum; }
     };
   }
 }

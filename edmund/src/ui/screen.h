@@ -20,6 +20,7 @@ namespace Edmund {
           propertyCount = _propertyCount;
         }
         virtual ScreenEnum loop(Device& hardware, Game& game) = 0;
+        virtual ScreenEnum GetNavigationId() = 0;
       protected:
         int current_player;
         int propertyCount;

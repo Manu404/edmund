@@ -15,6 +15,8 @@ namespace Edmund {
     public:
       SimpleFourPlayerScreen() : IScreen(15) { }
 
+      virtual ScreenEnum GetNavigationId() { return SimpleFourPlayerEdhScreenEnum; }
+
       virtual ScreenEnum loop(Device& hardware, Game& game)
       {
         if (tick < 0 || tick > 2) tick = 0;
@@ -26,7 +28,7 @@ namespace Edmund {
         if (hardware.IsMiddlePressed() == 1)
           return MainScreenEnum;
 
-        return SimpleFourPlayerEdhScreenEnum;
+        return GetNavigationId();
       }
 
       void updateNavigationPosition(int position) {

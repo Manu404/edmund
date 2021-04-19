@@ -16,7 +16,7 @@ namespace Edmund {
 
     void loop() {
       device->BeginFrame();
-      screenManager->loopCurrent(*device, *game);
+      screenManager->LoopCurrent(*device, *game);
       game->RefreshEllapsedTime();
       device->EndFrame();
 

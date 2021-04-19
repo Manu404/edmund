@@ -23,6 +23,8 @@ namespace Edmund {
 
         virtual void updateNavigationPosition(int position);
 
+        virtual ScreenEnum GetNavigationId() { return MainScreenEnum; }
+
       public:
         MainScreen() : IScreen(24) { }
         virtual ScreenEnum loop(Device& hardware, Game& game);

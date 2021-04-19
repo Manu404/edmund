@@ -5,27 +5,25 @@
 #include "./simple4playerscreen.h"
 
 namespace Edmund {
-  MainScreen _msInstance = MainScreen();
-  ConfigScreen _cfInstance = ConfigScreen();
-  BootScreen _btInstance = BootScreen();
-  SimpleFourPlayerScreen _simpleFourPlayer = SimpleFourPlayerScreen();
 
   ScreenManager::ScreenManager() {
-    current = &_btInstance;
+    RegisterInstance(new MainScreen());
+    RegisterInstance(new SimpleFourPlayerScreen());
+    RegisterInstance(new ConfigScreen());
+    RegisterInstance(new BootScreen());
+    current = screens[BootScreenEnum];
   }
 
-  void ScreenManager::loopCurrent(Device& hardware, Game& game) {
+  void ScreenManager::LoopCurrent(Device& hardware, Game& game) {
     NavigateTo(current->loop(hardware, game));
   }
 
+  void ScreenManager::RegisterInstance(IScreen* screen) {
+    screens[screen->GetNavigationId()] = screen;
+  }
+
   void ScreenManager::NavigateTo(ScreenEnum screen) {
-    switch (screen) {
-    case MainScreenEnum: current = &_msInstance; break;
-    case SimpleFourPlayerEdhScreenEnum: current = &_simpleFourPlayer; break;
-    case ConfigScreenEnum: current = &_cfInstance; break;
-    case BootScreenEnum: current = &_btInstance; break;
-    default: break;
-    }
+    current = screens[screen];
   }
 }
 

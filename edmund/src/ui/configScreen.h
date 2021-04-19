@@ -17,11 +17,13 @@ namespace Edmund {
 
           if (hardware.IsMiddlePressed() == 1)
             return BootScreenEnum;
-          return ConfigScreenEnum;
+          return GetNavigationId();
         }
         virtual void updateNavigationPosition(int position) {
 
         }
+
+        virtual ScreenEnum GetNavigationId() { return ConfigScreenEnum; }
     };
   }
 }
