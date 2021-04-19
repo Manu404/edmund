@@ -19,7 +19,6 @@
 
 #define SERIAL_SPEED 115200
 
-
 class Hardware : public LcdProvider, public InputProvider
 {
   public:
@@ -32,9 +31,7 @@ class Hardware : public LcdProvider, public InputProvider
     void SaveStateToSpiff(const GameState& state);
     GameState LoadStateFromSpiff();
   private:  
-    // injectable dependencies
     ESPFlash<GameState>* stateArray;
-
     unsigned long frameStart = 0;
     long frameDuration = 0;
     int debug_combination = -1;

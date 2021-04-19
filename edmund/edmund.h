@@ -10,7 +10,7 @@ class Edmund {
     int debug = -1;
     Game* game = new Game();
     Hardware* hardware = new Hardware();
-    ScreenManager* screenManager = new ScreenManager();
+    UI::ScreenManager* screenManager = new UI::ScreenManager();
   public:
     void loop()
     {

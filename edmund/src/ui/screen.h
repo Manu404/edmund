@@ -4,17 +4,19 @@
 #include "../hardware/hardware.h"
 #include "../game.h"
 
-enum ScreenEnum {
-  MainScreenEnum = 1,
-  ConfigScreenEnum = 2,
-  BootScreenEnum = 3
-};
 
-class IScreen
-{
-  public: 
-    virtual ScreenEnum loop(Hardware& hardware, Game& game) = 0;
-};
+namespace UI {
+  enum ScreenEnum {
+    MainScreenEnum = 1,
+    ConfigScreenEnum = 2,
+    BootScreenEnum = 3
+  };
 
+  class IScreen
+  {
+    public:
+      virtual ScreenEnum loop(Hardware& hardware, Game& game) = 0;
+  };
+}
 
 #endif

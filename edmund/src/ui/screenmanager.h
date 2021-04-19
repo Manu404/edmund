@@ -5,13 +5,14 @@
 #include "../game.h"
 #include "screen.h"
 
-class ScreenManager
-{
-  public:
-    ScreenManager();
-    void loopCurrent(Hardware& hardware, Game& game);
-    void NavigateTo(ScreenEnum screen);
-  private:
-    IScreen* current;
-};
+namespace UI {
+  class ScreenManager {
+    public:
+      ScreenManager();
+      void loopCurrent(Hardware& hardware, Game& game);
+      void NavigateTo(ScreenEnum screen);
+    private:
+      IScreen* current;
+  };
+}
 #endif
