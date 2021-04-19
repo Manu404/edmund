@@ -5,26 +5,28 @@
 #include "../game.h"
 #include "screen.h"
 
-namespace UI {
-  class ConfigScreen : public IScreen
-  {
-    private:
-      int debug = -1;
+namespace Edmund {
+  namespace UI {
+    class ConfigScreen : public IScreen
+    {
+      private:
+        int debug = -1;
 
-    public:
-      ConfigScreen() {
+      public:
+        ConfigScreen() {
 
 
-      }
-      virtual ScreenEnum loop(Hardware& hardware, Game& game)
-      {
-        //if (hardware.IsDebugPressed() == 1);
+        }
+        virtual ScreenEnum loop(Hardware& hardware, Game& game)
+        {
+          //if (hardware.IsDebugPressed() == 1);
 
-        if (hardware.IsMiddlePressed() == 1)
-          return BootScreenEnum;
-        return ConfigScreenEnum;
-      }
-  };
+          if (hardware.IsMiddlePressed() == 1)
+            return BootScreenEnum;
+          return ConfigScreenEnum;
+        }
+    };
+  }
 }
 
 #endif

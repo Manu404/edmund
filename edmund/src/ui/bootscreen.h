@@ -6,27 +6,29 @@
 #include "./resources/bootscreen_logo.h"
 #include "./screen.h"
 
-namespace UI {
-  class BootScreen : public IScreen
-  {
-  private:
-    int tick = 0;
-    int symbol = 0;
-  public:
-    BootScreen() {
-
-    }
-    virtual ScreenEnum loop(Hardware& hardware, Game& game)
+namespace Edmund {
+  namespace UI {
+    class BootScreen : public IScreen
     {
-      if (tick == 20) tick = 0;
+    private:
+      int tick = 0;
+      int symbol = 0;
+    public:
+      BootScreen() {
 
-      tick += 1;
-      hardware.DrawScreen(Resources::BootLogo);
+      }
+      virtual ScreenEnum loop(Hardware& hardware, Game& game)
+      {
+        if (tick == 20) tick = 0;
 
-      if (hardware.IsMiddlePressed() == 1 || tick == 20)
-        return MainScreenEnum;
-      return BootScreenEnum;
-    }
-  };
+        tick += 1;
+        hardware.DrawScreen(Resources::BootLogo);
+
+        if (hardware.IsMiddlePressed() == 1 || tick == 20)
+          return MainScreenEnum;
+        return BootScreenEnum;
+      }
+    };
+  }
 }
 #endif

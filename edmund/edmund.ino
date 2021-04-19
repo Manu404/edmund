@@ -2,12 +2,12 @@
 
 #include "./edmund.h"
 
-Edmund ed;
+Edmund::EntryPoint ep;
 
 void setup() {
-  ed.setup();
+  ep.setup();
   }
 
 void loop() {  
-  ed.loop();
+  ep.loop();
  }
