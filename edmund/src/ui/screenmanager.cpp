@@ -3,6 +3,7 @@
 #include "./configscreen.h"
 #include "./bootscreen.h"
 #include "./simple4playerscreen.h"
+#include "./simple2playeredhscreen.h"
 
 namespace Edmund {
 
@@ -11,6 +12,7 @@ namespace Edmund {
     RegisterInstance(new SimpleFourPlayerScreen());
     RegisterInstance(new ConfigScreen());
     RegisterInstance(new BootScreen());
+    RegisterInstance(new SimpleTwoPlayerEdhScreen());
     current = screens[BootScreenEnum];
   }
 

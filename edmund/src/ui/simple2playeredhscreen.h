@@ -1,20 +1,20 @@
-#ifndef SIMPLEFOURPLAYER_INCLUDED
-#define SIMPLEFOURPLAYER_INCLUDED
+#ifndef SIMPLETWOPLAYER_INCLUDED
+#define SIMPLETWOPLAYER_INCLUDED
 
-#include "./resources/4playersimple_layout.h"
+#include "./resources/2playersimple_layout.h"
 #include "./screen.h"
 
 namespace Edmund {
   namespace UI {
-    class SimpleFourPlayerScreen : public IScreen
+    class SimpleTwoPlayerEdhScreen : public IScreen
     {
     private:
       int tick = 0;
       int symbol = 0;
     public:
-      SimpleFourPlayerScreen() : IScreen(15) { }
+      SimpleTwoPlayerEdhScreen() : IScreen(15) { }
 
-      virtual ScreenEnum GetNavigationId() { return SimpleFourPlayerEdhScreenEnum; }
+      virtual ScreenEnum GetNavigationId() { return SimpleTwoPlayerEdhScreenEnum; }
 
       virtual ScreenEnum loop(Device& hardware, Game& game)
       {
@@ -55,10 +55,12 @@ namespace Edmund {
         int life = 3, y = 0, x = 0;
         hardware.PrintIntLarge(life < 100 ? 4 : 0, 10, life, 2);
 
-        for (int row = 0; row < 3; row++) {
-          for (int col = 0; col < 3; col++) {
-            x = 37 + (col * 11) + (col > 0);
-            y = 8 + (row * 7);
+        hardware.PrintIntLarge(life < 100 ? 4 : 40, 10, life, 2);
+
+        for (int row = 0; row < 2; row++) {
+          for (int col = 0; col < 2; col++) {
+            x = 29 + (col * 17);
+            y = 4 + (row * 8);
             if (row == 0) {
               hardware.PrintNumberSmall(x, y, game.GetPlayerProperty(0, (PlayerProperties)(col)), BLACK, 2);
             }
@@ -73,7 +75,7 @@ namespace Edmund {
       }
 
       void drawLayout(Device& hardware) {
-        hardware.DrawScreen(Resources::simple4PlayerLayout);
+        hardware.DrawScreen(Resources::twoplayerlayout);
       }
 
       void printManaPool(Device& hardware, Game& game) {

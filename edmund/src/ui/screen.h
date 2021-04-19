@@ -10,7 +10,8 @@ namespace Edmund {
       MainScreenEnum = 1,
       ConfigScreenEnum = 2,
       BootScreenEnum = 3,
-      SimpleFourPlayerEdhScreenEnum = 4
+      SimpleFourPlayerEdhScreenEnum = 4,
+      SimpleTwoPlayerEdhScreenEnum
     };
 
     class IScreen

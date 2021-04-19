@@ -137,6 +137,7 @@
     <ClInclude Include="src\ui\screen.h" />
     <ClInclude Include="src\ui\screenmanager.h" />
     <ClInclude Include="src\ui\simple4playerscreen.h" />
+    <ClInclude Include="src\ui\simple2playeredhscreen.h" />
     <ClInclude Include="__vm\.edmund.vsarduino.h" />
   </ItemGroup>
   <ItemGroup>
