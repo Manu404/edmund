@@ -55,7 +55,7 @@ namespace Edmund {
         int life = 3, y = 0, x = 0;
         hardware.PrintIntLarge(life < 100 ? 4 : 0, 10, life, 2);
 
-        hardware.PrintIntLarge(life < 100 ? 4 : 40, 10, life, 2);
+        hardware.PrintIntLarge(life < 100 ? 60 : 36, 10, life, 2);
 
         for (int row = 0; row < 2; row++) {
           for (int col = 0; col < 2; col++) {
