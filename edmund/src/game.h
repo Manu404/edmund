@@ -18,9 +18,12 @@ namespace Edmund {
       void Reset();
       const GameState GetGameState();
       void LoadGameState(GameState newState);
+      void RefreshEllapsedTime();
     private:
       String space = "";
       GameState state;
+      int ellapsed_time;
+      int last_time;
   };
 }
 #endif

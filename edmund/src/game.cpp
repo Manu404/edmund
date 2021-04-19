@@ -2,6 +2,7 @@
  
 namespace Edmund {
   Game::Game() {
+    ellapsed_time = 0;
   }
 
   void Game::UpdatePlayerProperty(int delta, int player, PlayerProperties property) {
@@ -62,5 +63,12 @@ namespace Edmund {
   }
   void Game::LoadGameState(GameState newState) {
     state = newState;
+  }
+
+  void Game::RefreshEllapsedTime() {
+    int current = millis();
+    if(last_time != 0)
+      ellapsed_time += current - last_time;
+    last_time = current;
   }
 }

@@ -13,18 +13,18 @@ namespace Edmund {
     Hardware::Device* device = new Hardware::Device();
     UI::ScreenManager* screenManager = new UI::ScreenManager();
   public:
-    void loop()
-    {
+
+    void loop() {
       device->BeginFrame();
       screenManager->loopCurrent(*device, *game);
+      game->RefreshEllapsedTime();
       device->EndFrame();
 
       if (device->IsResetPressed() == 1)
         game->Reset();
     }
 
-    void setup()
-    {
+    void setup() {
       device->Initialize();
       game->LoadGameState(device->LoadStateFromSpiff());
     }
