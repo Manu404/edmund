@@ -1,7 +1,7 @@
 #ifndef SIMPLEFOURPLAYER_INCLUDED
 #define SIMPLEFOURPLAYER_INCLUDED
 
-#include "./resources/4playersimple_layout.h"
+#include "./resources/edh_fourplayersimple_layout.h"
 #include "./screen.h"
 
 namespace Edmund {

@@ -1,7 +1,7 @@
 #ifndef SIMPLETWOPLAYER_INCLUDED
 #define SIMPLETWOPLAYER_INCLUDED
 
-#include "./resources/2playersimple_layout.h"
+#include "./resources/edh_twoplayersimple_layout.h"
 #include "./screen.h"
 
 namespace Edmund {

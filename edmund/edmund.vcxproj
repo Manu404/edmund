@@ -127,17 +127,17 @@
     <ClInclude Include="src\hardware\rotary.h" />
     <ClInclude Include="src\ui\bootscreen.h" />
     <ClInclude Include="src\ui\configScreen.h" />
-    <ClInclude Include="src\ui\resources\2playersimple_layout.h" />
-    <ClInclude Include="src\ui\resources\4playersimple_layout.h" />
+    <ClInclude Include="src\ui\resources\edh_twoplayersimple_layout.h" />
+    <ClInclude Include="src\ui\resources\edh_fourplayersimple_layout.h" />
     <ClInclude Include="src\ui\resources\font.h" />
     <ClInclude Include="src\ui\resources\bootscreen_logo.h" />
-    <ClInclude Include="src\ui\resources\mainscreen_layout.h" />
-    <ClInclude Include="src\ui\mainscreen.h" />
+    <ClInclude Include="src\ui\resources\edh_fourplayercomplete_layout.h" />
+    <ClInclude Include="src\ui\edh_fourplayer_complete.h" />
     <ClInclude Include="src\ui\resources\mana_symbols.h" />
     <ClInclude Include="src\ui\screen.h" />
     <ClInclude Include="src\ui\screenmanager.h" />
-    <ClInclude Include="src\ui\simple4playerscreen.h" />
-    <ClInclude Include="src\ui\simple2playeredhscreen.h" />
+    <ClInclude Include="src\ui\edh_fourplayer_simple.h" />
+    <ClInclude Include="src\ui\edh_twoplayer_simple.h" />
     <ClInclude Include="__vm\.edmund.vsarduino.h" />
   </ItemGroup>
   <ItemGroup>
@@ -147,7 +147,7 @@
     <ClCompile Include="src\hardware\lcd_provider.cpp" />
     <ClCompile Include="src\hardware\mcp_provider.cpp" />
     <ClCompile Include="src\hardware\rotary.cpp" />
-    <ClCompile Include="src\ui\mainscreen.cpp" />
+    <ClCompile Include="src\ui\edh_fourplayer_complete.cpp" />
     <ClCompile Include="src\ui\screenmanager.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

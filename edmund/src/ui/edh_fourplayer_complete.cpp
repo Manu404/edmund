@@ -1,5 +1,5 @@
-#include "mainscreen.h"
-#include "./resources/mainscreen_layout.h"
+#include "edh_fourplayer_complete.h"
+#include "./resources/edh_fourplayercomplete_layout.h"
 
 namespace Edmund {
   namespace UI {

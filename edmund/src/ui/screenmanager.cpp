@@ -1,9 +1,9 @@
 #include "./screenmanager.h"
-#include "./mainscreen.h"
 #include "./configscreen.h"
 #include "./bootscreen.h"
-#include "./simple4playerscreen.h"
-#include "./simple2playeredhscreen.h"
+#include "./edh_twoplayer_simple.h"
+#include "./edh_fourplayer_simple.h"
+#include "./edh_fourplayer_complete.h"
 
 namespace Edmund {
 
