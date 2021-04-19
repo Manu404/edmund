@@ -59,7 +59,6 @@ public:
     state = R_START;
   }
 protected:
-  unsigned char state;
   unsigned char a;
   unsigned char b;
   virtual void refreshPinState() = 0;  
@@ -69,6 +68,8 @@ protected:
     state = ttable[state & 0xf][pinstate];
     return state & 0x30;
   }
+private:
+  unsigned char state;
 };
 
 class RotaryOnMcp : RotaryDecoder

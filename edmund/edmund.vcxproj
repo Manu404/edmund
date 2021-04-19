@@ -117,6 +117,8 @@
   <ItemGroup>
     <ClInclude Include="edmund.h" />
     <ClInclude Include="src\game.h" />
+    <ClInclude Include="src\hardware\input_provider.h" />
+    <ClInclude Include="src\hardware\lcd_provider.h" />
     <ClInclude Include="src\hardware\mcp_provider.h" />
     <ClInclude Include="src\player.h" />
     <ClInclude Include="src\hardware\hardware.h" />
@@ -133,6 +135,9 @@
   <ItemGroup>
     <ClCompile Include="src\game.cpp" />
     <ClCompile Include="src\hardware\hardware.cpp" />
+    <ClCompile Include="src\hardware\input_provider.cpp" />
+    <ClCompile Include="src\hardware\lcd_provider.cpp" />
+    <ClCompile Include="src\hardware\mcp_provider.cpp" />
     <ClCompile Include="src\hardware\rotary.cpp" />
     <ClCompile Include="src\ui\mainscreen.cpp" />
     <ClCompile Include="src\ui\screenmanager.cpp" />
