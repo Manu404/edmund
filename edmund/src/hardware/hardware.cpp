@@ -1,23 +1,13 @@
-   
 #include "./hardware.h"
 #include "../ui/font.h"
 #include "rotary.h"
 
 // ----------------------------------------------------
-McpProvider* global_mcp;
-Rotary rotary = Rotary(5, 6);
-int global_encoder_value = 0;
+RotaryOnMcp* rotary;
 
 void rte() {
-  if (!global_mcp) return;
-  if (!global_mcp->IsReady()) return;
-  unsigned char result = rotary.process(global_mcp->digitalRead(1), global_mcp->digitalRead(2));
-  if (result == DIR_CW) {
-    global_encoder_value++;
-  }
-  else if (result == DIR_CCW) {
-    global_encoder_value--;
-  }
+  if (!(rotary && rotary->IsReady())) return;
+    rotary->RefreshValue();
 }
 // ---------------------------------------------------- 
 
@@ -25,25 +15,19 @@ Hardware::Hardware():
   stateArray{ new ESPFlash<GameState>("/currentGame") },
   lcd{ new Adafruit_PCD8544(D0, D1, D3, D4, D2) },
   mcp_provider{ new McpProvider() },
-  pinMapping{ PinMapping() },
-  wire{ TwoWire() }{
+  pinMapping{ PinMapping() }{
 }
 
-Hardware::Hardware(Adafruit_PCD8544* _lcd, McpProvider* _mcp, ESPFlash<GameState>* _stateArray, PinMapping _mapping, TwoWire _wire) :
+Hardware::Hardware(Adafruit_PCD8544* _lcd, McpProvider* _mcp, ESPFlash<GameState>* _stateArray, PinMapping _mapping) :
   stateArray(_stateArray),
   lcd(_lcd),
-  mcp_provider{ _mcp },
-  pinMapping(_mapping),
-  wire(_wire) {
+  mcp_provider(_mcp),
+  pinMapping(_mapping){
 }
 
 void Hardware::Initialize(){
   Serial.begin(SERIAL_SPEED);  
   Serial.println("init.");
-
-  attachInterrupt(0, rte, CHANGE);
-  global_mcp = mcp_provider;
-
   initScreen();
   initInputs();  
 }
@@ -52,13 +36,17 @@ void Hardware::initInputs(){
   mcp_provider->Initialize(D5, D6);
   mcp_provider->setupInterruptPinMode(pinMapping.DT, INPUT, CHANGE);
   mcp_provider->setupInterruptPinMode(pinMapping.CLK, INPUT, CHANGE);
+
   pinMode(pinMapping.pot, INPUT);
+
+  attachInterrupt(0, rte, CHANGE);
+  rotary = new RotaryOnMcp(mcp_provider, pinMapping.DT, pinMapping.CLK);
 }
 
 // https://lastminuteengineers.com/rotary-encoder-arduino-tutorial/
 UIState Hardware::getState(){ 
 
-  current_encoder_value = global_encoder_value;
+  current_encoder_value = rotary->GetValue();
   int direction = previous_encoder_value - current_encoder_value;
   previous_encoder_value = current_encoder_value;
 

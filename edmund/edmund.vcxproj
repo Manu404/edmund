@@ -117,12 +117,14 @@
   <ItemGroup>
     <ClInclude Include="edmund.h" />
     <ClInclude Include="src\game.h" />
+    <ClInclude Include="src\hardware\mcp_provider.h" />
     <ClInclude Include="src\player.h" />
     <ClInclude Include="src\hardware\hardware.h" />
     <ClInclude Include="src\hardware\rotary.h" />
     <ClInclude Include="src\ui\bootscreen.h" />
     <ClInclude Include="src\ui\configScreen.h" />
     <ClInclude Include="src\ui\font.h" />
+    <ClInclude Include="src\ui\layouts\mainscreen_layout.h" />
     <ClInclude Include="src\ui\mainscreen.h" />
     <ClInclude Include="src\ui\screen.h" />
     <ClInclude Include="src\ui\screenmanager.h" />
@@ -133,7 +135,7 @@
     <ClCompile Include="src\hardware\hardware.cpp" />
     <ClCompile Include="src\hardware\rotary.cpp" />
     <ClCompile Include="src\ui\mainscreen.cpp" />
-    <ClCompile Include="src\ui\screennmanager.cpp" />
+    <ClCompile Include="src\ui\screenmanager.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
