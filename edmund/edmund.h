@@ -10,8 +10,8 @@ namespace Edmund {
   private:
     int debug = -1;
     Game* game = new Game();
-    Edmund::Hardware::Device* device = new Edmund::Hardware::Device();
-    Edmund::UI::ScreenManager* screenManager = new Edmund::UI::ScreenManager();
+    Hardware::Device* device = new Hardware::Device();
+    UI::ScreenManager* screenManager = new UI::ScreenManager();
   public:
     void loop()
     {
