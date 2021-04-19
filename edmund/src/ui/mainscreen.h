@@ -5,8 +5,6 @@
 
 namespace Edmund {
   namespace UI {
-    using namespace Edmund::Hardware;
-
     class MainScreen : public IScreen 
     {
       private:

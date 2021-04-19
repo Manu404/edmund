@@ -6,8 +6,6 @@
 
 namespace Edmund {
   namespace UI {
-    using namespace Edmund::Hardware;
-
     class BootScreen : public IScreen
     {
     private:

@@ -3,8 +3,6 @@
 
 namespace Edmund {
   namespace UI {
-    using namespace Edmund::Hardware;
-
     MainScreen::MainScreen() {
 
     }

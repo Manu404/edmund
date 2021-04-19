@@ -123,7 +123,7 @@
     <ClInclude Include="src\mana.h" />
     <ClInclude Include="src\model.h" />
     <ClInclude Include="src\player.h" />
-    <ClInclude Include="src\hardware\hardware.h" />
+    <ClInclude Include="src\hardware\device.h" />
     <ClInclude Include="src\hardware\rotary.h" />
     <ClInclude Include="src\ui\bootscreen.h" />
     <ClInclude Include="src\ui\configScreen.h" />
@@ -138,7 +138,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\game.cpp" />
-    <ClCompile Include="src\hardware\hardware.cpp" />
+    <ClCompile Include="src\hardware\device.cpp" />
     <ClCompile Include="src\hardware\input_provider.cpp" />
     <ClCompile Include="src\hardware\lcd_provider.cpp" />
     <ClCompile Include="src\hardware\mcp_provider.cpp" />

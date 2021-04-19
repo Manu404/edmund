@@ -1,7 +1,7 @@
 #ifndef EDMUND_INCLUDED
 #define EDMUND_INCLUDED
 
-#include "./src/hardware/hardware.h"
+#include "./src/hardware/device.h"
 #include "./src/ui/screenmanager.h"
 #include "./src/game.h"
 
@@ -10,8 +10,8 @@ namespace Edmund {
   private:
     int debug = -1;
     Game* game = new Game();
-    Hardware::Device* device = new Hardware::Device();
-    UI::ScreenManager* screenManager = new UI::ScreenManager();
+    Device* device = new Device();
+    ScreenManager* screenManager = new ScreenManager();
   public:
 
     void loop() {

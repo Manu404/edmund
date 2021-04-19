@@ -1,7 +1,6 @@
-#include "./hardware.h"
+#include "./device.h"
 
 namespace Edmund {
-  namespace Hardware {
     Device::Device() :LcdProvider(new Adafruit_PCD8544(D0, D1, D3, D4, D2)),
       InputProvider(new McpProvider(), PinMapping()),
       stateArray{ new ESPFlash<GameState>("/currentGame") }{
@@ -40,5 +39,4 @@ namespace Edmund {
     GameState Device::LoadStateFromSpiff() {
       return stateArray->get();
     }
-  }
 }

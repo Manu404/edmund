@@ -17,7 +17,7 @@
 #define SERIAL_SPEED 115200
 
 namespace Edmund {
-  namespace Hardware {
+  using namespace Hardware;
     class Device : public LcdProvider, public InputProvider
     {
     public:
@@ -35,6 +35,5 @@ namespace Edmund {
       long frameDuration = 0;
       int debug_combination = -1;
     };
-  }
 }
 #endif
