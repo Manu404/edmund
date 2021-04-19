@@ -57,18 +57,18 @@ namespace Edmund {
 
         hardware.PrintIntLarge(life < 100 ? 60 : 36, 10, life, 2);
 
-        for (int row = 0; row < 2; row++) {
+        for (int row = 0; row < 3; row++) {
           for (int col = 0; col < 2; col++) {
             x = 29 + (col * 17);
             y = 4 + (row * 8);
             if (row == 0) {
-              hardware.PrintNumberSmall(x, y, game.GetPlayerProperty(0, (PlayerProperties)(col)), BLACK, 2);
+              hardware.PrintNumberSmall(x, y, game.GetPlayerProperty(col, (PlayerProperties)(!col)), BLACK, 2);
             }
             else if (row == 1) {
-              hardware.PrintNumberSmall(x, y, game.GetPlayerProperty(row + 1, Commander_1_property), BLACK, 2);
+              hardware.PrintNumberSmall(x, y, game.GetPlayerProperty(col, (PlayerProperties)(col)), BLACK, 2);
             }
             else {
-              hardware.PrintNumberSmall(x, y, game.GetPlayerProperty(row + 1, Infect_property), BLACK, 2);
+              hardware.PrintNumberSmall(x, y, game.GetPlayerProperty(col, Infect_property), BLACK, 2);
             }
           }
         }
