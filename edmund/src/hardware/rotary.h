@@ -52,44 +52,47 @@ const unsigned char ttable[7][4] = {
 };
 #endif
 
-class RotaryDecoder
-{
-public:
-  RotaryDecoder() {
-    state = R_START;
-  }
-protected:
-  unsigned char a;
-  unsigned char b;
-  virtual void refreshPinState() = 0;  
-  unsigned char getState() {
-    refreshPinState();
-    unsigned char pinstate = (a << 1) | b;
-    state = ttable[state & 0xf][pinstate];
-    return state & 0x30;
-  }
-private:
-  unsigned char state;
-};
+namespace Edmund {
+  namespace Hardware {
+    class RotaryDecoder
+    {
+    public:
+      RotaryDecoder() {
+        state = R_START;
+      }
+    protected:
+      unsigned char a;
+      unsigned char b;
+      virtual void refreshPinState() = 0;
+      unsigned char getState() {
+        refreshPinState();
+        unsigned char pinstate = (a << 1) | b;
+        state = ttable[state & 0xf][pinstate];
+        return state & 0x30;
+      }
+    private:
+      unsigned char state;
+    };
 
-class RotaryOnMcp : RotaryDecoder
-{
-public:
-  RotaryOnMcp(McpProvider* _provider, char _sda, char _sdb) : RotaryDecoder(), provider(_provider) {
-    sda = _sda;
-    sdb = _sdb;
+    class RotaryOnMcp : RotaryDecoder
+    {
+    public:
+      RotaryOnMcp(McpProvider* _provider, char _sda, char _sdb) : RotaryDecoder(), provider(_provider) {
+        sda = _sda;
+        sdb = _sdb;
+      }
+      int IsReady();
+      int GetValue();
+      int RefreshValue();
+    private:
+      McpProvider* provider;
+      int current_value = 0;
+      unsigned char sda;
+      unsigned char sdb;
+    protected:
+      virtual void refreshPinState();
+      unsigned char applyState(unsigned char state);
+    };
   }
-  int IsReady();
-  int GetValue();
-  int RefreshValue();
-private:
-  McpProvider* provider;
-  int current_value = 0;
-  unsigned char sda;
-  unsigned char sdb;
-protected:
-  virtual void refreshPinState();
-  unsigned char applyState(unsigned char state);
-};
-
+}
 #endif

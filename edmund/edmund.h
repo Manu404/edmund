@@ -10,23 +10,23 @@ namespace Edmund {
   private:
     int debug = -1;
     Game* game = new Game();
-    Hardware* hardware = new Hardware();
+    Edmund::Hardware::Device* device = new Edmund::Hardware::Device();
     Edmund::UI::ScreenManager* screenManager = new Edmund::UI::ScreenManager();
   public:
     void loop()
     {
-      hardware->BeginFrame();
-      screenManager->loopCurrent(*hardware, *game);
-      hardware->EndFrame();
+      device->BeginFrame();
+      screenManager->loopCurrent(*device, *game);
+      device->EndFrame();
 
-      if (hardware->IsResetPressed() == 1)
+      if (device->IsResetPressed() == 1)
         game->Reset();
     }
 
     void setup()
     {
-      hardware->Initialize();
-      game->LoadGameState(hardware->LoadStateFromSpiff());
+      device->Initialize();
+      game->LoadGameState(device->LoadStateFromSpiff());
     }
   };
 }

@@ -6,6 +6,8 @@
 
 namespace Edmund {
   namespace UI {
+    using namespace Edmund::Hardware;
+
     enum ScreenEnum {
       MainScreenEnum = 1,
       ConfigScreenEnum = 2,
@@ -15,7 +17,7 @@ namespace Edmund {
     class IScreen
     {
       public:
-        virtual ScreenEnum loop(Hardware& hardware, Game& game) = 0;
+        virtual ScreenEnum loop(Edmund::Hardware::Device& hardware, Game& game) = 0;
     };
   }
 }

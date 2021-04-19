@@ -3,11 +3,13 @@
 
 namespace Edmund {
   namespace UI {
+    using namespace Edmund::Hardware;
+
     MainScreen::MainScreen() {
 
     }
 
-    ScreenEnum MainScreen::loop(Hardware& hardware, Game& game) {
+    ScreenEnum MainScreen::loop(Device& hardware, Game& game) {
       processInputs(hardware, game);
       drawLayout(hardware);
       printPlayersProperties(hardware, game);
@@ -15,7 +17,7 @@ namespace Edmund {
       return MainScreenEnum;
     }
 
-    void MainScreen::processInputs(Hardware& hardware, Game& game) {
+    void MainScreen::processInputs(Device& hardware, Game& game) {
       if (hardware.HasPotChanged())
         updateNavigationPosition(hardware.GetPositionFromPot((game.GetPlayerCount() * (game.GetPropertyCount() - 1)) + game.GetManaTypeCount()));
 
@@ -60,7 +62,7 @@ namespace Edmund {
       current_property = Infect_property;
     }
 
-    void MainScreen::printPlayersProperties(Hardware& hardware, Game& game) {
+    void MainScreen::printPlayersProperties(Device& hardware, Game& game) {
       int y = 0, x = 0;
       int life_column = Life_property, infect_column = Infect_property;
       uint16_t color = BLACK;
@@ -100,11 +102,11 @@ namespace Edmund {
       }
     }
 
-    void MainScreen::drawLayout(Hardware& hardware) {
+    void MainScreen::drawLayout(Device& hardware) {
       hardware.DrawScreen(Resources::MainScreenLayout);
     }
 
-    void MainScreen::printManaPool(Game& game, Hardware& hardware) {
+    void MainScreen::printManaPool(Game& game, Device& hardware) {
       int y = 0, x = 0;
       uint16_t color = BLACK;
       x = col_size + head_col_size + (4 * col_size) + col_margin + mana_head_col_size;

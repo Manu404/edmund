@@ -7,17 +7,15 @@
 
 namespace Edmund {
   namespace UI {
+    using namespace Edmund::Hardware;
+
     class ConfigScreen : public IScreen
     {
       private:
         int debug = -1;
-
       public:
-        ConfigScreen() {
-
-
-        }
-        virtual ScreenEnum loop(Hardware& hardware, Game& game)
+        ConfigScreen() { }
+        virtual ScreenEnum loop(Device& hardware, Game& game)
         {
           //if (hardware.IsDebugPressed() == 1);
 

@@ -8,6 +8,8 @@
 
 namespace Edmund {
   namespace UI {
+    using namespace Edmund::Hardware;
+
     class BootScreen : public IScreen
     {
     private:
@@ -17,7 +19,7 @@ namespace Edmund {
       BootScreen() {
 
       }
-      virtual ScreenEnum loop(Hardware& hardware, Game& game)
+      virtual ScreenEnum loop(Device& hardware, Game& game)
       {
         if (tick == 20) tick = 0;
 

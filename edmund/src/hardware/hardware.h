@@ -19,21 +19,25 @@
 
 #define SERIAL_SPEED 115200
 
-class Hardware : public LcdProvider, public InputProvider
-{
-  public:
-    Hardware();
-    Hardware(Adafruit_PCD8544* lcd, McpProvider* mcp, ESPFlash<GameState>* stateArray, PinMapping mapping);
-    void Initialize();
-    void BeginFrame();
-    void EndFrame();
-    String GetDebugLine();
-    void SaveStateToSpiff(const GameState& state);
-    GameState LoadStateFromSpiff();
-  private:  
-    ESPFlash<GameState>* stateArray;
-    unsigned long frameStart = 0;
-    long frameDuration = 0;
-    int debug_combination = -1;
-};
+namespace Edmund {
+  namespace Hardware {
+    class Device : public LcdProvider, public InputProvider
+    {
+    public:
+      Device();
+      Device(Adafruit_PCD8544* lcd, McpProvider* mcp, ESPFlash<GameState>* stateArray, PinMapping mapping);
+      void Initialize();
+      void BeginFrame();
+      void EndFrame();
+      String GetDebugLine();
+      void SaveStateToSpiff(const GameState& state);
+      GameState LoadStateFromSpiff();
+    private:
+      ESPFlash<GameState>* stateArray;
+      unsigned long frameStart = 0;
+      long frameDuration = 0;
+      int debug_combination = -1;
+    };
+  }
+}
 #endif

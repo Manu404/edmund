@@ -6,6 +6,8 @@
 #include "screen.h"
 namespace Edmund {
   namespace UI {
+    using namespace Edmund::Hardware;
+
     class MainScreen : public IScreen 
     {
       private:
@@ -21,15 +23,15 @@ namespace Edmund {
         int current_player;
         PlayerProperties current_property;
 
-        void printManaPool(Game& game, Hardware& hardware);
+        void printManaPool(Game& game, Device& hardware);
 
-        void printPlayersProperties(Hardware& hardware, Game& game);
-        void drawLayout(Hardware& hardware);
+        void printPlayersProperties(Device& hardware, Game& game);
+        void drawLayout(Device& hardware);
         void updateNavigationPosition(int position);
-        void processInputs(Hardware& hardware, Game& game);
+        void processInputs(Device& hardware, Game& game);
       public:
         MainScreen();
-        virtual ScreenEnum loop(Hardware& hardware, Game& game);
+        virtual ScreenEnum loop(Device& hardware, Game& game);
     };
   }
 }

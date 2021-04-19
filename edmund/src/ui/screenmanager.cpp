@@ -5,6 +5,8 @@
 
 namespace Edmund {
   namespace UI {
+    using namespace Edmund::Hardware;
+
     MainScreen _msInstance = MainScreen();
     ConfigScreen _cfInstance = ConfigScreen();
     BootScreen _btInstance = BootScreen();
@@ -13,7 +15,7 @@ namespace Edmund {
       current = &_btInstance;
     }
 
-    void ScreenManager::loopCurrent(Hardware& hardware, Game& game) {
+    void ScreenManager::loopCurrent(Device& hardware, Game& game) {
       NavigateTo(current->loop(hardware, game));
     }
 
