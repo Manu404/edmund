@@ -1,5 +1,6 @@
 #include "lcd_provider.h"
 #include "../ui/resources/font.h"
+
 namespace Edmund {
   namespace Hardware {
     void LcdProvider::initScreen() {

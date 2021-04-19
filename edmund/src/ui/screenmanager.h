@@ -1,8 +1,6 @@
 #ifndef SCREENMA_INCLUDED
 #define SCREENMA_INCLUDED
 
-#include "../hardware/hardware.h"
-#include "../game.h"
 #include "screen.h"
 
 namespace Edmund {

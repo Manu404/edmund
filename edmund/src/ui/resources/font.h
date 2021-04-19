@@ -1,10 +1,9 @@
-// font.h
-
 #ifndef _font_h
 #define _font_h
 
 // https://glenviewsoftware.com/projects/products/adafonteditor/adafruit-gfx-font-format/
 #include <Adafruit_GFX.h>
+
 namespace Edmund {
   namespace UI {
     namespace Resources {

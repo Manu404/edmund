@@ -1,9 +1,8 @@
 #ifndef MAINSCREEN_INCLUDED
 #define MAINSCREEN_INCLUDED
 
-#include "../hardware/hardware.h"
-#include "../game.h"
 #include "screen.h"
+
 namespace Edmund {
   namespace UI {
     using namespace Edmund::Hardware;

@@ -1,10 +1,11 @@
 #include "./input_provider.h"
+
 namespace Edmund {
   namespace Hardware {
     RotaryOnMcp* InputProvider::RotaryInstance;
 
     void OnRotaryInterupt() {
-      RotaryOnMcp* current_rotary = InputProvider::RotaryInstance;
+      RotaryOnMcp* current_rotary = Edmund::Hardware::InputProvider::RotaryInstance;
       if (!(current_rotary && current_rotary->IsReady())) return;
       current_rotary->RefreshValue();
     }
@@ -17,7 +18,7 @@ namespace Edmund {
       pinMode(pinMapping.pot, INPUT);
 
       attachInterrupt(0, OnRotaryInterupt, CHANGE);
-      InputProvider::RotaryInstance = new RotaryOnMcp(mcp_provider, pinMapping.DT, pinMapping.CLK);
+      Edmund::Hardware::InputProvider::RotaryInstance = new RotaryOnMcp(mcp_provider, pinMapping.DT, pinMapping.CLK);
     }
 
     void InputProvider::refreshInputs() {
@@ -28,7 +29,7 @@ namespace Edmund {
     // https://lastminuteengineers.com/rotary-encoder-arduino-tutorial/
     UIState InputProvider::getState() {
 
-      current_encoder_value = InputProvider::RotaryInstance->GetValue();
+      current_encoder_value = Edmund::Hardware::InputProvider::RotaryInstance->GetValue();
       int direction = previous_encoder_value - current_encoder_value;
       previous_encoder_value = current_encoder_value;
 

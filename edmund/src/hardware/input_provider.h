@@ -2,7 +2,6 @@
 #ifndef INPUTPROVIDER_INCLUDED
 #define INPUTPROVIDER_INCLUDED
 
-#include "mcp_provider.h"
 #include "rotary.h"
 
 #define SERIAL_SPEED 115200

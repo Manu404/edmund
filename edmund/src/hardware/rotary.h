@@ -13,7 +13,6 @@
 #define DIR_CW 0x10 // Clockwise step.
 #define DIR_CCW 0x20 // Anti-clockwise step.
 
-
 //#define HALF_STEP  // Enable this to emit codes twice per step.
 #define R_START 0x0
 

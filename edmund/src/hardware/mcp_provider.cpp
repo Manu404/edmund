@@ -1,9 +1,10 @@
 #include "mcp_provider.h"
+
 namespace Edmund {
   namespace Hardware {
-    void McpProvider::Initialize(uint SDA, uint SDC) {
-      Serial.println(String(SDA) + " - " + String(SDC));
-      wire->begin(SDA, SDC);
+    void McpProvider::Initialize(uint SDA, uint SDB) {
+      Serial.println(String(SDA) + " - " + String(SDB));
+      wire->begin(SDA, SDB);
       current_mcp->begin(wire);
       current_mcp->setupInterrupts(true, false, LOW);
       ready = 1;

@@ -1,4 +1,5 @@
 #include "rotary.h"
+
 namespace Edmund {
   namespace Hardware {
     int RotaryOnMcp::IsReady() {

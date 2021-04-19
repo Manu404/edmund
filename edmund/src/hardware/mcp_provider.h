@@ -5,6 +5,7 @@
 #include <Arduino.h>
 #include <Adafruit_MCP23017.h>
 #include <Wire.h>
+
 namespace Edmund {
   namespace Hardware {
     class McpProvider {
@@ -13,7 +14,7 @@ namespace Edmund {
       int ready = 0;
     public:
       McpProvider() : current_mcp{ new Adafruit_MCP23017() }, wire{ new TwoWire() }  {  }
-      void Initialize(uint SDA, uint SDC);
+      void Initialize(uint SDA, uint SDB);
       int IsReady();
       void pinMode(int pin, int mode);
       void setupInterruptPinMode(uint pin, int mode, int interupt_mode);

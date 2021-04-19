@@ -121,6 +121,7 @@
     <ClInclude Include="src\hardware\lcd_provider.h" />
     <ClInclude Include="src\hardware\mcp_provider.h" />
     <ClInclude Include="src\mana.h" />
+    <ClInclude Include="src\model.h" />
     <ClInclude Include="src\player.h" />
     <ClInclude Include="src\hardware\hardware.h" />
     <ClInclude Include="src\hardware\rotary.h" />

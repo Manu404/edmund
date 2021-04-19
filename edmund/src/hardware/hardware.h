@@ -1,13 +1,10 @@
 #ifndef HARDWARE_INCLUDED
 #define HARDWARE_INCLUDED
 
-#include <Adafruit_GFX.h> 
-#include <Adafruit_PCD8544.h> 
 #include <SPI.h>  
 #include "ESPFlash.h"
 
-#include "../game.h"
-#include "mcp_provider.h"
+#include "../model.h"
 #include "lcd_provider.h"
 #include "input_provider.h"
 

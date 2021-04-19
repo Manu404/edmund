@@ -1,8 +1,6 @@
 #ifndef BOOTSCREEN_INCLUDED
 #define BOOTSCREEN_INCLUDED
 
-#include "../hardware/hardware.h"
-#include "../game.h"
 #include "./resources/bootscreen_logo.h"
 #include "./screen.h"
 

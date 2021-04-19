@@ -2,15 +2,9 @@
 #define GAME_INCLUDED
 
 #include <Arduino.h>
-#include "player.h"
-#include "mana.h"
+#include "model.h"
 
 namespace Edmund {
-  class GameState {
-    public:
-      Player Players[PLAYER_COUNT];
-      ManaPoolState ManaPool;
-  };
 
   class Game
   {

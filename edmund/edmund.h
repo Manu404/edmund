@@ -2,8 +2,8 @@
 #define EDMUND_INCLUDED
 
 #include "./src/hardware/hardware.h"
-#include "./src/game.h"
 #include "./src/ui/screenmanager.h"
+#include "./src/game.h"
 
 namespace Edmund {
   class EntryPoint {
