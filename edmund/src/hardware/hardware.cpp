@@ -2,15 +2,6 @@
 #include "../ui/font.h"
 #include "rotary.h"
 
-// ----------------------------------------------------
-RotaryOnMcp* rotary;
-
-void rte() {
-  if (!(rotary && rotary->IsReady())) return;
-    rotary->RefreshValue();
-}
-// ---------------------------------------------------- 
-
 Hardware::Hardware():
   stateArray{ new ESPFlash<GameState>("/currentGame") },
   lcd{ new Adafruit_PCD8544(D0, D1, D3, D4, D2) },
@@ -32,6 +23,15 @@ void Hardware::Initialize(){
   initInputs();  
 }
 
+// ----------------------------------------------------------------------------------
+//  INPUTS
+// ----------------------------------------------------------------------------------
+void OnRotaryInterupt() {
+  RotaryOnMcp* current_rotary = Hardware::rotary;
+  if (!(current_rotary && current_rotary->IsReady())) return;
+  current_rotary->RefreshValue();
+}
+
 void Hardware::initInputs(){  
   mcp_provider->Initialize(D5, D6);
   mcp_provider->setupInterruptPinMode(pinMapping.DT, INPUT, CHANGE);
@@ -39,7 +39,7 @@ void Hardware::initInputs(){
 
   pinMode(pinMapping.pot, INPUT);
 
-  attachInterrupt(0, rte, CHANGE);
+  attachInterrupt(0, OnRotaryInterupt, CHANGE);
   rotary = new RotaryOnMcp(mcp_provider, pinMapping.DT, pinMapping.CLK);
 }
 
@@ -65,47 +65,6 @@ UIState Hardware::getState(){
     left * right * middle * (pot > 1020) * current.debug,
     direction
   };
-}
-
-void Hardware::initScreen(){
-  lcd->begin();
-  lcd->setContrast(0x7f);
-  lcd->setBias(0x7f);
-}
-
-void Hardware::Print(String m){
-  lcd->print(m);
-}
-
-void Hardware::PrintLine(String m){
-  lcd->println(m);
-}
-
-void Hardware::PrintSymbol(int x_pos, int y_pos, const uint8_t *logo){
-  lcd->drawBitmap(x_pos * 9, y_pos * 10, logo, 9, 10, BLACK);
-}
-
-void Hardware::PrintSmallNumeric(int x_pos, int y_pos, int value, uint16_t color, int length) {
-  int char_w = 4, char_h = 5;
-  int digitsShift = 0, currentValue = 0, maxRange = 3;
-  int debug = value == 42;
-  for (int i = 1; i <= maxRange; i++) {
-    int p = pow(10, i);
-    currentValue = (value % p) / (p / 10);
-    value = value - currentValue;
-    if ((length - i) < 0) continue;
-    if (!(currentValue == 0 && i == 3)) // don't print on leading 0 for hundred
-      lcd->drawBitmap(x_pos + (char_w * ((length - digitsShift) - 1)) - (i < 3 && length == 3), y_pos, numericFont[currentValue], char_w, char_h, color);
-    digitsShift += 1;
-  }
-}
-
-void Hardware::DrawScreen(const uint8_t* logo) {
-  lcd->drawBitmap(0, 0, logo, 84, 48, BLACK);
-}
-
-void Hardware::DrawBox(int x, int y, int w, int h, uint16_t color) {
-  lcd->fillRect(x, y, w, h, color);
 }
 
 int Hardware::isPressed(int prev, int curr){
@@ -162,6 +121,51 @@ String Hardware::GetDebugLine(){
   return String(current.left) + String(current.middle) + String(current.right) + "|" + String(current.pot) + "|" + String(frameDuration) + "ms.";
 }
 
+// ----------------------------------------------------------------------------------
+//  LCD
+// ----------------------------------------------------------------------------------
+
+void Hardware::initScreen() {
+  lcd->begin();
+  lcd->setContrast(0x7f);
+  lcd->setBias(0x7f);
+}
+
+void Hardware::Print(String m) {
+  lcd->print(m);
+}
+
+void Hardware::PrintLine(String m) {
+  lcd->println(m);
+}
+
+void Hardware::PrintSymbol(int x_pos, int y_pos, const uint8_t* logo) {
+  lcd->drawBitmap(x_pos * 9, y_pos * 10, logo, 9, 10, BLACK);
+}
+
+void Hardware::PrintSmallNumeric(int x_pos, int y_pos, int value, uint16_t color, int length) {
+  int char_w = 4, char_h = 5;
+  int digitsShift = 0, currentValue = 0, maxRange = 3;
+  int debug = value == 42;
+  for (int i = 1; i <= maxRange; i++) {
+    int p = pow(10, i);
+    currentValue = (value % p) / (p / 10);
+    value = value - currentValue;
+    if ((length - i) < 0) continue;
+    if (!(currentValue == 0 && i == 3)) // don't print on leading 0 for hundred
+      lcd->drawBitmap(x_pos + (char_w * ((length - digitsShift) - 1)) - (i < 3 && length == 3), y_pos, numericFont[currentValue], char_w, char_h, color);
+    digitsShift += 1;
+  }
+}
+
+void Hardware::DrawScreen(const uint8_t* logo) {
+  lcd->drawBitmap(0, 0, logo, 84, 48, BLACK);
+}
+
+void Hardware::DrawBox(int x, int y, int w, int h, uint16_t color) {
+  lcd->fillRect(x, y, w, h, color);
+}
+
 void Hardware::clear(){
   lcd->clearDisplay();
 }
@@ -182,6 +186,10 @@ void Hardware::EndFrame() {
   if(frameDuration < FRAME_DURATION_MS)
     delay(FRAME_DURATION_MS - frameDuration);
 }
+
+// ----------------------------------------------------------------------------------
+//  SPIFF
+// ----------------------------------------------------------------------------------
 
 void Hardware::SaveStateToSpiff(const GameState& state){
   stateArray->set(state);

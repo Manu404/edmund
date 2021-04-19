@@ -65,12 +65,15 @@ class Hardware
     String GetDebugLine();
     void SaveStateToSpiff(const GameState& state);
     GameState LoadStateFromSpiff();
+    static RotaryOnMcp* GetRotaryForInterupt();
+    static RotaryOnMcp* rotary;
   private:  
     // injectable dependencies
     ESPFlash<GameState>* stateArray;
     Adafruit_PCD8544* lcd;
     PinMapping pinMapping;
     McpProvider* mcp_provider;
+
 
     UIState current, previous;
     int debug_combination = -1;

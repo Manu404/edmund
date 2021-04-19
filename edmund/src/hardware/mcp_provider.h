@@ -5,8 +5,6 @@
 #include <Adafruit_MCP23017.h>
 #include <Wire.h>
 
-
-
 class McpProvider {
   Adafruit_MCP23017* current_mcp;
   TwoWire* wire;
