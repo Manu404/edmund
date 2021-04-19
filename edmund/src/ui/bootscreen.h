@@ -9,23 +9,27 @@ namespace Edmund {
     class BootScreen : public IScreen
     {
     private:
-      int tick = 0;
-      int symbol = 0;
+      int ellapsed_ms = 0, last_tick = 0, current = 0;
     public:
-      BootScreen() {
+      BootScreen() : IScreen(15) { }
 
-      }
       virtual ScreenEnum loop(Device& hardware, Game& game)
       {
-        if (tick == 20) tick = 0;
+        //if (ellapsed_ms < 0 || ellapsed_ms > 1000) ellapsed_ms = 0;
 
-        tick += 1;
+        current = millis();
+        ellapsed_ms += current - last_tick;
+        last_tick = current;
+
         hardware.DrawScreen(Resources::BootLogo);
 
-        if (hardware.IsMiddlePressed() == 1 || tick == 20)
-          return MainScreenEnum;
+        if (hardware.IsMiddlePressed() == 1 || ellapsed_ms >= 1000)
+          return SimpleFourPlayerEdhScreenEnum;
+
         return BootScreenEnum;
       }
+
+      virtual void updateNavigationPosition(int position) { }
     };
   }
 }

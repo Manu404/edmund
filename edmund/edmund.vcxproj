@@ -127,6 +127,8 @@
     <ClInclude Include="src\hardware\rotary.h" />
     <ClInclude Include="src\ui\bootscreen.h" />
     <ClInclude Include="src\ui\configScreen.h" />
+    <ClInclude Include="src\ui\resources\2playersimple_layout.h" />
+    <ClInclude Include="src\ui\resources\4playersimple_layout.h" />
     <ClInclude Include="src\ui\resources\font.h" />
     <ClInclude Include="src\ui\resources\bootscreen_logo.h" />
     <ClInclude Include="src\ui\resources\mainscreen_layout.h" />
@@ -134,6 +136,7 @@
     <ClInclude Include="src\ui\resources\mana_symbols.h" />
     <ClInclude Include="src\ui\screen.h" />
     <ClInclude Include="src\ui\screenmanager.h" />
+    <ClInclude Include="src\ui\simple4playerscreen.h" />
     <ClInclude Include="__vm\.edmund.vsarduino.h" />
   </ItemGroup>
   <ItemGroup>

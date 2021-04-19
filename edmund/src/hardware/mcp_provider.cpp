@@ -2,6 +2,7 @@
 
 namespace Edmund {
   namespace Hardware {
+
     void McpProvider::Initialize(uint SDA, uint SDB) {
       Serial.println(String(SDA) + " - " + String(SDB));
       wire->begin(SDA, SDB);
@@ -22,6 +23,7 @@ namespace Edmund {
       current_mcp->pinMode(pin, interupt_mode);
     }
     int McpProvider::digitalRead(int pin) {
+      if (!ready) return 0;
       return current_mcp->digitalRead(pin);
     }
   }

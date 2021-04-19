@@ -21,10 +21,10 @@ namespace Edmund {
       lcd->drawBitmap(x_pos * 9, y_pos * 10, logo, 9, 10, BLACK);
     }
 
-    void LcdProvider::PrintSmallNumeric(int x_pos, int y_pos, int value, uint16_t color, int length) {
+    void LcdProvider::PrintNumberSmall(int x_pos, int y_pos, int value, uint16_t color, int length) {
       int char_w = 4, char_h = 5;
       int digitsShift = 0, currentValue = 0, maxRange = 3;
-      int debug = value == 42;
+
       for (int i = 1; i <= maxRange; i++) {
         int p = pow(10, i);
         currentValue = (value % p) / (p / 10);

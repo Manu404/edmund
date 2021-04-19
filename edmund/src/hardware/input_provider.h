@@ -14,6 +14,7 @@ namespace Edmund {
       int pot = A0;
       int CLK = 1;
       int DT = 2;
+      int SW = 3;
     };
 
     struct UIState {

@@ -33,7 +33,7 @@ namespace Edmund {
       int direction = previous_encoder_value - current_encoder_value;
       previous_encoder_value = current_encoder_value;
 
-      int middle = 0;
+      int middle = mcp_provider->digitalRead(pinMapping.SW);
       float pot = analogRead(pinMapping.pot);
       int left = 0;
       int right = 0;
@@ -91,6 +91,7 @@ namespace Edmund {
     }
 
     float InputProvider::GetPositionFromPot(float scale) {
+      if (scale == 0) return 0;
       // log, resistor biased +5 top
       return (1024 * exp(log(((float)current.pot / 1024)))) / (1024 / scale);
     }

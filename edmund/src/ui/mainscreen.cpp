@@ -3,36 +3,13 @@
 
 namespace Edmund {
   namespace UI {
-    MainScreen::MainScreen() {
-
-    }
 
     ScreenEnum MainScreen::loop(Device& hardware, Game& game) {
       processInputs(hardware, game);
       drawLayout(hardware);
       printPlayersProperties(hardware, game);
-      printManaPool(game, hardware);
+      printManaPool(hardware, game);
       return MainScreenEnum;
-    }
-
-    void MainScreen::processInputs(Device& hardware, Game& game) {
-      if (hardware.HasPotChanged())
-        updateNavigationPosition(hardware.GetPositionFromPot((game.GetPlayerCount() * (game.GetPropertyCount() - 1)) + game.GetManaTypeCount()));
-
-      if (hardware.IsRightPressed() == 1)
-        game.UpdatePlayerProperty(1, current_player, current_property);
-      if (hardware.IsLeftPressed() == 1)
-        game.UpdatePlayerProperty(-1, current_player, current_property);
-
-      if (hardware.GetEncoderDelta() != 0)
-        game.UpdatePlayerProperty(hardware.GetEncoderDelta(), current_player, current_property);
-
-      if (hardware.IsRightPressed() == 1 || hardware.IsLeftPressed())
-        hardware.SaveStateToSpiff(game.GetGameState());
-
-      //if (hardware.IsDebugPressed() == 1)
-      //if (hardware.IsResetPressed() == 1)
-      //  game.Reset();
     }
 
     void MainScreen::updateNavigationPosition(int position) {
@@ -87,14 +64,14 @@ namespace Edmund {
 
           // print player property
           if (col < life_column - 1) {
-            hardware.PrintSmallNumeric(x, y, game.GetPlayerProperty(row, (PlayerProperties)(col)), color, 2);
+            hardware.PrintNumberSmall(x, y, game.GetPlayerProperty(row, (PlayerProperties)(col)), color, 2);
           }
           else if (col == life_column) {
             int life = game.GetPlayerProperty(row, Life_property);
-            hardware.PrintSmallNumeric(x + col_margin, y, life, color, life > 99 ? 3 : 2);
+            hardware.PrintNumberSmall(x + col_margin, y, life, color, life > 99 ? 3 : 2);
           }
           else if (col == infect_column) {
-            hardware.PrintSmallNumeric(x, y, game.GetPlayerProperty(row, Infect_property), color, 2);
+            hardware.PrintNumberSmall(x, y, game.GetPlayerProperty(row, Infect_property), color, 2);
           }
         }
       }
@@ -104,7 +81,7 @@ namespace Edmund {
       hardware.DrawScreen(Resources::MainScreenLayout);
     }
 
-    void MainScreen::printManaPool(Game& game, Device& hardware) {
+    void MainScreen::printManaPool(Device& hardware, Game& game) {
       int y = 0, x = 0;
       uint16_t color = BLACK;
       x = col_size + head_col_size + (4 * col_size) + col_margin + mana_head_col_size;
@@ -114,7 +91,7 @@ namespace Edmund {
           hardware.DrawBox(MAX(x - col_margin, 0), (y - 1), (col_size + 1), (row_size - 1), color);
           color = WHITE;
         }
-        hardware.PrintSmallNumeric(x, y, game.GetPlayerProperty(0, (PlayerProperties)(W_MANA_property + i)), color, 2);
+        hardware.PrintNumberSmall(x, y, game.GetPlayerProperty(0, (PlayerProperties)(W_MANA_property + i)), color, 2);
       }
     }
   }
