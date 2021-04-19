@@ -29,7 +29,7 @@ void LcdProvider::PrintSmallNumeric(int x_pos, int y_pos, int value, uint16_t co
     value = value - currentValue;
     if ((length - i) < 0) continue;
     if (!(currentValue == 0 && i == 3)) // don't print on leading 0 for hundred
-      lcd->drawBitmap(x_pos + (char_w * ((length - digitsShift) - 1)) - (i < 3 && length == 3), y_pos, Resources::numericFont[currentValue], char_w, char_h, color);
+      lcd->drawBitmap(x_pos + (char_w * ((length - digitsShift) - 1)) - (i < 3 && length == 3), y_pos, Edmund::UI::Resources::numericFont[currentValue], char_w, char_h, color);
     digitsShift += 1;
   }
 }
