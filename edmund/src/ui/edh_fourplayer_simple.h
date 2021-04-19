@@ -6,18 +6,18 @@
 
 namespace Edmund {
   namespace UI {
-    class SimpleFourPlayerScreen : public IScreen
+    class SimpleFourPlayerEdhScreen : public DefaultPropertyNavigationScreen
     {
     private:
       int tick = 0;
       int symbol = 0;
+
     public:
-      SimpleFourPlayerScreen() : IScreen(15) { }
+      SimpleFourPlayerEdhScreen() : DefaultPropertyNavigationScreen(16) { }
 
       virtual ScreenEnum GetNavigationId() { return SimpleFourPlayerEdhScreenEnum; }
 
-      virtual ScreenEnum loop(Device& hardware, Game& game)
-      {
+      virtual ScreenEnum loop(Device& hardware, Game& game) {
         if (tick < 0 || tick > 2) tick = 0;
 
         drawLayout(hardware);
@@ -30,6 +30,7 @@ namespace Edmund {
         return GetNavigationId();
       }
 
+    protected:
       void updateNavigationPosition(int position) {
         if (position < 6) {
           current_player = 0;

@@ -8,10 +8,10 @@
 namespace Edmund {
 
   ScreenManager::ScreenManager() {
-    RegisterInstance(new MainScreen());
-    RegisterInstance(new SimpleFourPlayerScreen());
     RegisterInstance(new ConfigScreen());
     RegisterInstance(new BootScreen());
+    RegisterInstance(new CompleteFourPlayerEdhScreen());
+    RegisterInstance(new SimpleFourPlayerEdhScreen());
     RegisterInstance(new SimpleTwoPlayerEdhScreen());
     current = screens[BootScreenEnum];
   }

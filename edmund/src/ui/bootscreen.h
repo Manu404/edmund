@@ -11,7 +11,7 @@ namespace Edmund {
     private:
       int ellapsed_ms = 0, last_tick = 0, current = 0;
     public:
-      BootScreen() : IScreen(15) { }
+      BootScreen() : IScreen() { }
 
       virtual ScreenEnum loop(Device& hardware, Game& game)
       {
@@ -29,7 +29,7 @@ namespace Edmund {
         return GetNavigationId();
       }
 
-      virtual void updateNavigationPosition(int position) { }
+      virtual void processInputs(Device& hardware, Game& game) { ; }
 
       virtual ScreenEnum GetNavigationId() { return BootScreenEnum; }
     };

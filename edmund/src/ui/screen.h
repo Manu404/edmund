@@ -17,11 +17,19 @@ namespace Edmund {
     class IScreen
     {
       public:
-        IScreen(int _propertyCount) {
-          propertyCount = _propertyCount;
+        IScreen() {
         }
         virtual ScreenEnum loop(Device& hardware, Game& game) = 0;
         virtual ScreenEnum GetNavigationId() = 0;
+      protected:
+        virtual void processInputs(Device& hardware, Game& game) = 0;
+    };
+
+    class DefaultPropertyNavigationScreen : public IScreen {
+      public:
+        DefaultPropertyNavigationScreen(int _propertyCount) : IScreen() {
+          propertyCount = _propertyCount;
+        }
       protected:
         int current_player;
         int propertyCount;
@@ -42,7 +50,6 @@ namespace Edmund {
           if (hardware.IsRightPressed() == 1 || hardware.IsLeftPressed())
             hardware.SaveStateToSpiff(game.GetGameState());
         }
-
         virtual void updateNavigationPosition(int position) = 0;
     };
   }

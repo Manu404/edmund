@@ -10,7 +10,8 @@ namespace Edmund {
       private:
         int debug = -1;
       public:
-        ConfigScreen() : IScreen(1) { }
+        ConfigScreen() : IScreen() { }
+
         virtual ScreenEnum loop(Device& hardware, Game& game)
         {
           //if (hardware.IsDebugPressed() == 1);
@@ -19,13 +20,11 @@ namespace Edmund {
             return BootScreenEnum;
           return GetNavigationId();
         }
-        virtual void updateNavigationPosition(int position) {
 
-        }
+        virtual void processInputs(Device& hardware, Game& game) { ; }
 
         virtual ScreenEnum GetNavigationId() { return ConfigScreenEnum; }
     };
   }
 }
-
 #endif

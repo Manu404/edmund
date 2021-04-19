@@ -147,7 +147,6 @@
     <ClCompile Include="src\hardware\lcd_provider.cpp" />
     <ClCompile Include="src\hardware\mcp_provider.cpp" />
     <ClCompile Include="src\hardware\rotary.cpp" />
-    <ClCompile Include="src\ui\edh_fourplayer_complete.cpp" />
     <ClCompile Include="src\ui\screenmanager.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
