@@ -27,18 +27,21 @@ namespace Edmund {
     }
 
     // https://lastminuteengineers.com/rotary-encoder-arduino-tutorial/
-    UIState InputProvider::getState() {
+    InputState InputProvider::getState() {
 
       current_encoder_value = Edmund::Hardware::InputProvider::RotaryInstance->GetValue();
       int direction = previous_encoder_value - current_encoder_value;
       previous_encoder_value = current_encoder_value;
 
-      int middle = mcp_provider->digitalRead(pinMapping.SW);
+      int rotary_switch = mcp_provider->digitalRead(pinMapping.SW);
+
+      int middle = 0;
       float pot = analogRead(pinMapping.pot);
       int left = 0;
       int right = 0;
 
-      return UIState
+
+      return InputState
       {
         right,
         middle,
@@ -46,7 +49,8 @@ namespace Edmund {
         pot,
         left * right,
         left * right * middle * (pot > 1020) * current.debug,
-        direction
+        direction,
+        rotary_switch
       };
     }
 
@@ -72,6 +76,10 @@ namespace Edmund {
 
     int InputProvider::IsMiddlePressed() {
       return isPressed(previous.middle, current.middle) == -1;
+    }
+
+    int InputProvider::IsRotarySwitchPressed() {
+      return previous.rotary_switch > current.rotary_switch;
     }
 
     int InputProvider::IsDebugPressed() {

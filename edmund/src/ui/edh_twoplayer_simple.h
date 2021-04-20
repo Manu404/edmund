@@ -17,8 +17,8 @@ namespace Edmund {
         printPlayersProperties(hardware, game);
         printManaPool(hardware, game);
 
-        if (hardware.IsMiddlePressed() == 1)
-          return CompleteFourPlayerEdhScreenEnum;
+        if (hardware.IsMiddlePressed() || hardware.IsRotarySwitchPressed())
+          return HomeMenuScreenEnum;
 
         return GetNavigationId();
       }

@@ -27,6 +27,7 @@ namespace Edmund {
     void setup() {
       device->Initialize();
       game->LoadGameState(device->LoadStateFromSpiff());
+      screenManager->NavigateTo(HomeMenuScreenEnum);
     }
   };
 }

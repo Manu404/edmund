@@ -127,12 +127,14 @@
     <ClInclude Include="src\hardware\rotary.h" />
     <ClInclude Include="src\ui\bootscreen.h" />
     <ClInclude Include="src\ui\configScreen.h" />
+    <ClInclude Include="src\ui\homemenu_screen.h" />
     <ClInclude Include="src\ui\resources\edh_twoplayersimple_layout.h" />
     <ClInclude Include="src\ui\resources\edh_fourplayersimple_layout.h" />
     <ClInclude Include="src\ui\resources\font.h" />
     <ClInclude Include="src\ui\resources\bootscreen_logo.h" />
     <ClInclude Include="src\ui\resources\edh_fourplayercomplete_layout.h" />
     <ClInclude Include="src\ui\edh_fourplayer_complete.h" />
+    <ClInclude Include="src\ui\resources\home_logo.h" />
     <ClInclude Include="src\ui\resources\mana_symbols.h" />
     <ClInclude Include="src\ui\screen.h" />
     <ClInclude Include="src\ui\screenmanager.h" />

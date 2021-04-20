@@ -6,15 +6,16 @@ namespace Edmund {
       return provider && provider->IsReady();
     }
 
-    int RotaryOnMcp::GetValue() {
+    double RotaryOnMcp::GetValue() {
       return current_value;
     }
 
-    int RotaryOnMcp::RefreshValue() {
+    double RotaryOnMcp::RefreshValue() {
       return applyState(getState());
     }
 
-    unsigned char RotaryOnMcp::applyState(unsigned char state) {
+    double RotaryOnMcp::applyState(unsigned char state) {
+
       if (state == DIR_CW)
         current_value++;
       else if (state == DIR_CCW)

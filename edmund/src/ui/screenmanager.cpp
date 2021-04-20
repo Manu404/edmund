@@ -4,6 +4,7 @@
 #include "./edh_twoplayer_simple.h"
 #include "./edh_fourplayer_simple.h"
 #include "./edh_fourplayer_complete.h"
+#include "./homemenu_screen.h"
 
 namespace Edmund {
 
@@ -13,7 +14,7 @@ namespace Edmund {
     RegisterInstance(new CompleteFourPlayerEdhScreen());
     RegisterInstance(new SimpleFourPlayerEdhScreen());
     RegisterInstance(new SimpleTwoPlayerEdhScreen());
-    current = screens[BootScreenEnum];
+    RegisterInstance(new HomeScreen());
   }
 
   void ScreenManager::LoopCurrent(Device& hardware, Game& game) {

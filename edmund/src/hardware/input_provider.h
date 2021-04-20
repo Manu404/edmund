@@ -17,7 +17,7 @@ namespace Edmund {
       int SW = 3;
     };
 
-    struct UIState {
+    struct InputState {
       int right;
       int middle;
       int left;
@@ -25,6 +25,7 @@ namespace Edmund {
       int debug;
       int reset;
       int rotary_direction;
+      int rotary_switch;
     };
 
     class InputProvider
@@ -40,6 +41,7 @@ namespace Edmund {
       int IsResetPressed();
       int IsEncoderTurnedRight();
       int IsEncoderTurnedLeft();
+      int IsRotarySwitchPressed();
       int HasPotChanged();
       float GetPositionFromPot(float scale);
 
@@ -51,12 +53,12 @@ namespace Edmund {
       PinMapping pinMapping;
       McpProvider* mcp_provider;
 
-      UIState current, previous;
+      InputState current, previous;
       int debug_combination = -1;
-      int previous_encoder_value = 0, current_encoder_value = 0;
+      double previous_encoder_value = 0, current_encoder_value = 0;
 
       int isPressed(int prev, int curr);
-      UIState getState();
+      InputState getState();
     };
   }
 }

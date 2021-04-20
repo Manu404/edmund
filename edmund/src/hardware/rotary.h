@@ -81,16 +81,16 @@ namespace Edmund {
         sdb = _sdb;
       }
       int IsReady();
-      int GetValue();
-      int RefreshValue();
+      double GetValue();
+      double RefreshValue();
     private:
       McpProvider* provider;
-      int current_value = 0;
+      double current_value = 0;
       unsigned char sda;
       unsigned char sdb;
     protected:
       virtual void refreshPinState();
-      unsigned char applyState(unsigned char state);
+      double applyState(unsigned char state);
     };
   }
 }

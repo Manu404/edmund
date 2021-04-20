@@ -13,7 +13,7 @@ namespace Edmund {
       void RegisterInstance(IScreen* screen);
     private:
       IScreen* current;
-      IScreen* screens[4];
+      IScreen* screens[6];
   };
 }
 #endif

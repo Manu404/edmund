@@ -5,6 +5,7 @@
 #include <Adafruit_GFX.h> 
 #include <Adafruit_PCD8544.h> 
 #include <Fonts/FreeMonoBold9pt7b.h>
+#include <Fonts/TomThumb.h>
 #include "../ui/resources/font.h"
 
 #define TARGET_FPS 120
@@ -32,13 +33,18 @@ namespace Edmund {
           int p = pow(10, i);
           currentValue = (remainingValue / p);
           remainingValue %= p;
-          if (currentValue > 10 || (currentValue == 0 && decimal_shift == 0 && i >= length)) {
-            Serial.println(currentValue);
+          if (currentValue > 10 || (currentValue == 0 && decimal_shift == 0 && i >= length))
             continue;
-          }
           lcd->drawChar(x + (decimal_shift * 8), y + 10, (char)(currentValue + ((int)'0')), color, !color, 1);
           decimal_shift += 1;
         }
+      }
+
+      void PrintMenuOption(int x, int y, String m) {
+        lcd->println(m);
+        lcd->setFont(&TomThumb);
+        lcd->setCursor(x, y);
+        lcd->println(m);
       }
 
     protected:

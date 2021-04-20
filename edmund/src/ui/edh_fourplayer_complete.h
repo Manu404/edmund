@@ -16,6 +16,10 @@ namespace Edmund {
           drawLayout(hardware);
           printPlayersProperties(hardware, game);
           printManaPool(hardware, game);
+
+          if (hardware.IsMiddlePressed() || hardware.IsRotarySwitchPressed())
+            return HomeMenuScreenEnum;
+
           return GetNavigationId();
         }
 
