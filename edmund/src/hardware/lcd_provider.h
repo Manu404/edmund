@@ -27,14 +27,16 @@ namespace Edmund {
       void PrintIntLarge(int x, int y, u_int value, uint16_t color, int length) {
         lcd->setFont(&FreeMonoBold9pt7b);
         int remainingValue = value, currentValue = 0, decimal_shift = 0;
-        for (int i = 5; remainingValue > 0; i--) // 16bits int, 5 digits max
+        for (int i = 5; remainingValue >= 0 && i >= 0; i--) // 16bits int, 5 digits max
         {
           int p = pow(10, i);
           currentValue = (remainingValue / p);
           remainingValue %= p;
-          if (currentValue > 10 || (currentValue == 0 && i >= length && decimal_shift == 0))
+          if (currentValue > 10 || (currentValue == 0 && decimal_shift == 0 && i >= length)) {
+            Serial.println(currentValue);
             continue;
-          lcd->drawChar(x + (decimal_shift * 9), y + 10, (char)(currentValue + ((int)'0')), color, !color, 1);
+          }
+          lcd->drawChar(x + (decimal_shift * 8), y + 10, (char)(currentValue + ((int)'0')), color, !color, 1);
           decimal_shift += 1;
         }
       }
