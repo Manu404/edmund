@@ -13,7 +13,7 @@ namespace Edmund {
       int symbol = 0;
 
     public:
-      SimpleFourPlayerEdhScreen() : DefaultPropertyNavigationScreen(16) { }
+      SimpleFourPlayerEdhScreen() : DefaultPropertyNavigationScreen(14) { }
 
       virtual ScreenEnum GetNavigationId() { return SimpleFourPlayerEdhScreenEnum; }
 
@@ -25,30 +25,33 @@ namespace Edmund {
         printManaPool(hardware, game);
 
         if (hardware.IsMiddlePressed() == 1)
-          return MainScreenEnum;
+          return CompleteFourPlayerEdhScreenEnum;
 
         return GetNavigationId();
       }
 
     protected:
       void updateNavigationPosition(int position) {
-        if (position < 6) {
-          current_player = 0;
-          current_property = (PlayerProperties)(6 + (position % 6));
-          return;
-        }
-        position -= 6;
+        //if (position <= 5) {
+        //  current_player = 0;
+        //  current_property = (PlayerProperties)(6 + (position % 6));
+        //  return;
+        //}
+        //position -= 5;
 
-        if (position == 1) {
-          current_player = 0;
-          current_property = Life_property;
-          return;
-        }
-        position -= 1;
+        //if (position == 1) {
+        //  current_player = 0;
+        //  current_property = Life_property;
+        //  return;
+        //}
+        //position -= 1;
 
-        int prop = (position / 3);
-        current_property = prop > 0 ? (prop == 1 ? Commander_1_property : Commander_2_property) : Infect_property;
-        current_player = position % 3;
+        //if (position <= 5) {
+        //  current_player = position % 2 == 1;
+        //  int prop = (position / 2);
+        //  current_property = prop == 2 ? (PlayerProperties)(!current_player) : Infect_property;
+        //  return;
+        //}
         return;
       }
 

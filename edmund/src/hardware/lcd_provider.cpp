@@ -5,8 +5,9 @@ namespace Edmund {
   namespace Hardware {
     void LcdProvider::initScreen() {
       lcd->begin();
-      lcd->setContrast(0x7f);
-      lcd->setBias(0x7f);
+      lcd->setRotation(2);
+      lcd->setContrast(60);
+      lcd->setBias(4);
     }
 
     void LcdProvider::Print(String m) {
@@ -42,6 +43,10 @@ namespace Edmund {
 
     void LcdProvider::DrawBox(int x, int y, int w, int h, uint16_t color) {
       lcd->fillRect(x, y, w, h, color);
+    }
+
+    void LcdProvider::DrawBorder(int x, int y, int w, int h, uint16_t color) {
+      lcd->drawRect(x, y, w, h, color);
     }
 
     void LcdProvider::clear() {

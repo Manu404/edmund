@@ -19,7 +19,7 @@ namespace Edmund {
           return GetNavigationId();
         }
 
-        virtual ScreenEnum GetNavigationId() { return MainScreenEnum; }
+        virtual ScreenEnum GetNavigationId() { return CompleteFourPlayerEdhScreenEnum; }
 
       private:
         int debug = -1;

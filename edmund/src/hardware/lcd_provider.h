@@ -5,6 +5,7 @@
 #include <Adafruit_GFX.h> 
 #include <Adafruit_PCD8544.h> 
 #include <Fonts/FreeMonoBold9pt7b.h>
+#include "../ui/resources/font.h"
 
 #define TARGET_FPS 120
 #define FRAME_DURATION_MS 1000 / TARGET_FPS
@@ -21,6 +22,7 @@ namespace Edmund {
       void PrintNumberSmall(int x_pos, int y_pos, int value, uint16_t color, int length);
       void DrawScreen(const uint8_t* screen);
       void DrawBox(int x, int y, int w, int h, uint16_t color);
+      void DrawBorder(int x, int y, int w, int h, uint16_t color);
 
       void PrintIntLarge(int x, int y, u_int value, uint16_t color, int length) {
         lcd->setFont(&FreeMonoBold9pt7b);
@@ -32,7 +34,7 @@ namespace Edmund {
           remainingValue %= p;
           if (currentValue > 10 || (currentValue == 0 && i >= length && decimal_shift == 0))
             continue;
-          lcd->drawChar(x + (decimal_shift * 8), y + 10, (char)(currentValue + ((int)'0')), color, !color, 1);
+          lcd->drawChar(x + (decimal_shift * 9), y + 10, (char)(currentValue + ((int)'0')), color, !color, 1);
           decimal_shift += 1;
         }
       }

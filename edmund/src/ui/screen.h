@@ -7,7 +7,7 @@
 namespace Edmund {
   namespace UI {
     enum ScreenEnum {
-      MainScreenEnum = 1,
+      CompleteFourPlayerEdhScreenEnum = 1,
       ConfigScreenEnum = 2,
       BootScreenEnum = 3,
       SimpleFourPlayerEdhScreenEnum = 4,
@@ -31,6 +31,7 @@ namespace Edmund {
           propertyCount = _propertyCount;
         }
       protected:
+        int readOnlySelection = 0;
         int current_player;
         int propertyCount;
         PlayerProperties current_property;
@@ -38,6 +39,8 @@ namespace Edmund {
         void processInputs(Device& hardware, Game& game) {
           if (hardware.HasPotChanged())
             updateNavigationPosition(hardware.GetPositionFromPot(propertyCount));
+
+          if (readOnlySelection) return;
 
           if (hardware.IsRightPressed() == 1)
             game.UpdatePlayerProperty(1, current_player, current_property);
