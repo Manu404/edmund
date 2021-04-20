@@ -24,6 +24,7 @@ namespace Edmund {
       void DrawScreen(const uint8_t* screen);
       void DrawBox(int x, int y, int w, int h, uint16_t color);
       void DrawBorder(int x, int y, int w, int h, uint16_t color);
+      void DrawScreen(const uint8_t* logo, int x);
 
       void PrintIntLarge(int x, int y, u_int value, uint16_t color, int length) {
         lcd->setFont(&FreeMonoBold9pt7b);

@@ -41,6 +41,10 @@ namespace Edmund {
       lcd->drawBitmap(0, 0, logo, 84, 48, BLACK);
     }
 
+    void LcdProvider::DrawScreen(const uint8_t* logo, int x) {
+      lcd->drawBitmap(x, 0, logo, 84, 48, BLACK);
+    }
+
     void LcdProvider::DrawBox(int x, int y, int w, int h, uint16_t color) {
       lcd->fillRect(x, y, w, h, color);
     }
