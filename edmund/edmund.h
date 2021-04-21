@@ -8,7 +8,7 @@
 namespace Edmund {
   class EntryPoint {
   private:
-    int debug = 1;
+    int debug = -1;
     Game* game = new Game();
     Device* device = new Device();
     ScreenManager* screenManager = new ScreenManager();

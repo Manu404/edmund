@@ -53,6 +53,20 @@ namespace Edmund {
         lcd->fillScreen(color);
       }
 
+      void DrawCentreString(const String& buf, int x, int y)
+      {
+        int16_t x1, y1;
+        uint16_t w, h;
+        lcd->setFont(&TomThumb);
+        lcd->getTextBounds(buf, 0, y, &x1, &y1, &w, &h); //calc width of new string
+        lcd->setCursor(x - (w / 2), y);
+        lcd->setTextColor(WHITE);
+        lcd->print(buf);
+      }
+
+      int GetScreenWidth() { return 84; }
+      int GetScreenHeigt() { return 48; }
+
     protected:
       void initScreen();
       void clear();
