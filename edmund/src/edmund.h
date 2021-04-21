@@ -1,9 +1,9 @@
 #ifndef EDMUND_INCLUDED
 #define EDMUND_INCLUDED
 
-#include "./src/hardware/device.h"
-#include "./src/ui/screenmanager.h"
-#include "./src/game.h"
+#include "./hardware/device.h"
+#include "./ui/screenmanager.h"
+#include "./game.h"
 
 namespace Edmund {
   class EntryPoint {

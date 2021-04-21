@@ -1,6 +1,4 @@
-#include <Adafruit_MCP23017.h>
-
-#include "./edmund.h"
+#include "./src/edmund.h"
 
 Edmund::EntryPoint ep;
 

@@ -115,7 +115,7 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="edmund.h" />
+    <ClInclude Include="src\edmund.h" />
     <ClInclude Include="src\game.h" />
     <ClInclude Include="src\hardware\input_provider.h" />
     <ClInclude Include="src\hardware\lcd_provider.h" />
