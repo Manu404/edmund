@@ -9,7 +9,7 @@
 #include "../ui/resources/font.h"
 
 #define TARGET_FPS 120
-#define FRAME_DURATION_MS 1000 / TARGET_FPS
+#define FRAME_DURATION_MS (1000 / TARGET_FPS)
 
 namespace Edmund {
   namespace Hardware {
@@ -25,6 +25,7 @@ namespace Edmund {
       void DrawBox(int x, int y, int w, int h, uint16_t color);
       void DrawBorder(int x, int y, int w, int h, uint16_t color);
       void DrawScreen(const uint8_t* logo, int x);
+      void DrawLogo(int x, int y, int w, int h, const uint8_t* logo);
 
       void PrintIntLarge(int x, int y, u_int value, uint16_t color, int length) {
         lcd->setFont(&FreeMonoBold9pt7b);
@@ -46,6 +47,10 @@ namespace Edmund {
         lcd->setFont(&TomThumb);
         lcd->setCursor(x, y);
         lcd->println(m);
+      }
+
+      void fill(uint16_t color) {
+        lcd->fillScreen(color);
       }
 
     protected:

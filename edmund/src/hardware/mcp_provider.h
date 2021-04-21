@@ -19,6 +19,11 @@ namespace Edmund {
       void pinMode(int pin, int mode);
       void setupInterruptPinMode(uint pin, int mode, int interupt_mode);
       int digitalRead(int pin);
+
+      uint16_t GetRegisters() {
+        if (!ready) return 0;
+        return current_mcp->readGPIOAB();
+      }
     };
   }
 }

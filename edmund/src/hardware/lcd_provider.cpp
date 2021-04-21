@@ -5,9 +5,11 @@ namespace Edmund {
   namespace Hardware {
     void LcdProvider::initScreen() {
       lcd->begin();
+      lcd->initDisplay();
       lcd->setRotation(2);
-      lcd->setContrast(60);
+      lcd->setContrast(64);
       lcd->setBias(4);
+      SPI.setClockDivider(1);
     }
 
     void LcdProvider::Print(String m) {
@@ -43,6 +45,10 @@ namespace Edmund {
 
     void LcdProvider::DrawScreen(const uint8_t* logo, int x) {
       lcd->drawBitmap(x, 0, logo, 84, 48, BLACK);
+    }    
+    
+    void LcdProvider::DrawLogo(int x, int y, int w, int h, const uint8_t* logo) {
+      lcd->drawBitmap(x, y, logo, w, h, BLACK);
     }
 
     void LcdProvider::DrawBox(int x, int y, int w, int h, uint16_t color) {
@@ -54,6 +60,7 @@ namespace Edmund {
     }
 
     void LcdProvider::clear() {
+      //fill(BLACK);
       lcd->clearDisplay();
     }
 

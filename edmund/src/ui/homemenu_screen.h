@@ -7,69 +7,90 @@
 namespace Edmund {
   namespace UI {
 
+    class HomeScreenMenuOption {
+      public:
+        HomeScreenMenuOption(ScreenEnum screen, const uint8_t* logo, int w, int h) {
+          _logo = logo;
+          _screen = screen;
+          _h = h;
+          _w = w;
+        }
+        const uint8_t* GetIcon() { return _logo; }
+        ScreenEnum GetScreenEnum() { return _screen; }
+        int GetWidth() { return _w; }
+        int GetHeigt() { return _h; }
+      private:
+        const uint8_t* _logo;
+        int _h, _w;
+        ScreenEnum _screen;
+    };
+
     class HomeScreen : public IScreen
     {
     private:
       int debug = -1;
+      HomeScreenMenuOption* options[5];
     public:
-      HomeScreen() : IScreen() { }
+      virtual ScreenEnum GetNavigationId() { return HomeMenuScreenEnum; }
+      HomeScreen() : IScreen() {
+        //int w = 52, h = 31;
+        int w = 84, h = 48;
+        options[0] = new HomeScreenMenuOption(HomeMenuScreenEnum, Resources::home_logo_icon, w, h);
+        options[1] = new HomeScreenMenuOption(ConfigScreenEnum, Resources::config_icon, w, h);
+        options[2] = new HomeScreenMenuOption(SimpleTwoPlayerEdhScreenEnum, Resources::two_player_icon, w, h);
+        options[3] = new HomeScreenMenuOption(SimpleFourPlayerEdhScreenEnum, Resources::four_player_icon, w, h);
+        options[4] = new HomeScreenMenuOption(CompleteFourPlayerEdhScreenEnum, Resources::four_player_icon, w, h);
+      }
 
-      int newSelection = 0;
-      int lastSelection = 0;
-      int requestNavigation = 0;
-      long value, x_delta = 0;
-      int direction;
-
+      int newSelection, currentSelection;
+      int requestNavigation;
+      long value, x_delta;
+      int direction, currentFrame;
+      int frameSkip = 5;
 
       virtual ScreenEnum loop(Device& hardware, Game& game)
       {
         processInputs(hardware, game);
 
-        if (newSelection != lastSelection) {
-          x_delta += (direction * 5);
-          drawLogo(hardware, (84 * (direction * -1)) + (x_delta), newSelection);
+        if (newSelection != currentSelection) {
+          x_delta += (direction * (frameSkip * 6)) * ((currentFrame % frameSkip) == 0);
+          x_delta = abs(x_delta) > 0 ? abs(x_delta) > 84 ? (84 * direction) : x_delta : 0;
+          currentFrame += 1;
+          drawOptionIcon(hardware, newSelection, (84 * (direction * -1)) + x_delta);
         }
 
-        drawLogo(hardware, x_delta, lastSelection);
+        drawOptionIcon(hardware, currentSelection, x_delta);
+        //drawOptionIcon(hardware, currentSelection, x_delta + direction);
 
         if (abs(x_delta) >= 84) {
-          lastSelection = newSelection;
+          currentSelection = newSelection;
           x_delta = 0;
+          currentFrame = 0;
         }
         
-        if (newSelection == lastSelection)
-          if (requestNavigation) {
-            switch (newSelection) {
-            case 1: return CompleteFourPlayerEdhScreenEnum;
-            case 2: return SimpleTwoPlayerEdhScreenEnum;
-            case 3: return ConfigScreenEnum;
-            default: break;
-            }
-          }
+        if (newSelection == currentSelection)
+          if (requestNavigation) 
+            return options[currentSelection]->GetScreenEnum();
+
+        hardware.PrintNumberSmall(40, 0, frameSkip, WHITE, 2);
 
         return GetNavigationId();
       }
 
-      void drawLogo(Edmund::Device& hardware, int delta, int selection)
+      void drawOptionIcon(Device& hardware, int selection, int delta)
       {
-        switch (selection) {
-          case 0: hardware.DrawScreen(Resources::home_logo, delta); break;
-          case 1: hardware.DrawScreen(Resources::four_player_icon,delta); break;
-          case 2: hardware.DrawScreen(Resources::two_player_icon, delta); break;
-          case 3: hardware.DrawScreen(Resources::config_icon, delta); break;
-          default: break;
-        }
+        hardware.DrawLogo(delta, 0, options[selection]->GetWidth(), options[selection]->GetHeigt(), options[selection]->GetIcon());
       }
 
       virtual void processInputs(Device& hardware, Game& game) { 
-        if (newSelection != lastSelection) return; // if in animation
+        if (newSelection != currentSelection) return; // if in animation
         direction = hardware.GetEncoderDelta();
+        frameSkip = hardware.GetPositionFromPot(10) + 1;
         value += direction;
-        newSelection = (abs(value) % 3) + (value != 0);
+        newSelection = (abs(value) % 4) + (value != 0);
         requestNavigation = hardware.IsMiddlePressed() || hardware.IsRotarySwitchPressed();
       }
 
-      virtual ScreenEnum GetNavigationId() { return HomeMenuScreenEnum; }
     };
   }
 }

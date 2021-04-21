@@ -17,8 +17,8 @@ namespace Edmund {
 
       pinMode(pinMapping.pot, INPUT);
 
-      attachInterrupt(0, OnRotaryInterupt, CHANGE);
       Edmund::Hardware::InputProvider::RotaryInstance = new RotaryOnMcp(mcp_provider, pinMapping.DT, pinMapping.CLK);
+      attachInterrupt(D7, OnRotaryInterupt, CHANGE);
     }
 
     void InputProvider::refreshInputs() {
@@ -39,7 +39,6 @@ namespace Edmund {
       float pot = analogRead(pinMapping.pot);
       int left = 0;
       int right = 0;
-
 
       return InputState
       {

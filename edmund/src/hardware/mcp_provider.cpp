@@ -6,7 +6,9 @@ namespace Edmund {
     void McpProvider::Initialize(uint SDA, uint SDB) {
       Serial.println(String(SDA) + " - " + String(SDB));
       wire->begin(SDA, SDB);
+      wire->setClock(800000);
       current_mcp->begin(wire);
+      current_mcp->readGPIOAB();
       current_mcp->setupInterrupts(true, false, LOW);
       ready = 1;
     }
@@ -20,7 +22,7 @@ namespace Edmund {
     }
     void McpProvider::setupInterruptPinMode(uint pin, int mode, int interupt_mode) {
       current_mcp->pinMode(pin, mode);
-      current_mcp->pinMode(pin, interupt_mode);
+      current_mcp->setupInterruptPin(pin, interupt_mode);
     }
     int McpProvider::digitalRead(int pin) {
       if (!ready) return 0;
