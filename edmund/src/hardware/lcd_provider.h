@@ -26,44 +26,8 @@ namespace Edmund {
       void DrawBorder(int x, int y, int w, int h, uint16_t color);
       void DrawScreen(const uint8_t* logo, int x);
       void DrawLogo(int x, int y, int w, int h, const uint8_t* logo);
-
-      void PrintIntLarge(int x, int y, u_int value, uint16_t color, int length) {
-        lcd->setFont(&FreeMonoBold9pt7b);
-        int remainingValue = value, currentValue = 0, decimal_shift = 0;
-        for (int i = 5; remainingValue >= 0 && i >= 0; i--) // 16bits int, 5 digits max
-        {
-          int p = pow(10, i);
-          currentValue = (remainingValue / p);
-          remainingValue %= p;
-          if (currentValue > 10 || (currentValue == 0 && decimal_shift == 0 && i >= length))
-            continue;
-          lcd->drawChar(x + (decimal_shift * 8), y + 10, (char)(currentValue + ((int)'0')), color, !color, 1);
-          decimal_shift += 1;
-        }
-      }
-
-      void PrintMenuOption(int x, int y, String m) {
-        lcd->println(m);
-        lcd->setFont(&TomThumb);
-        lcd->setCursor(x, y);
-        lcd->println(m);
-      }
-
-      void fill(uint16_t color) {
-        lcd->fillScreen(color);
-      }
-
-      void DrawCentreString(const String& buf, int x, int y)
-      {
-        int16_t x1, y1;
-        uint16_t w, h;
-        lcd->setFont(&TomThumb);
-        lcd->getTextBounds(buf, 0, y, &x1, &y1, &w, &h); //calc width of new string
-        lcd->setCursor(x - (w / 2), y);
-        lcd->setTextColor(WHITE);
-        lcd->print(buf);
-      }
-
+      void PrintIntLarge(int x, int y, u_int value, uint16_t color, int length);
+      void PrintLineCentered(const String& buf, int x, int y, uint16_t color);
       int GetScreenWidth() { return 84; }
       int GetScreenHeigt() { return 48; }
 

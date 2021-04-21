@@ -5,7 +5,7 @@ namespace Edmund {
   // DC = D1
   // CLK = D2
   // DIN = D3
-  // RST D4
+  // RST = D4
     Device::Device() :LcdProvider(new Adafruit_PCD8544(D2, D3, D1, D0, D4)),
       InputProvider(new McpProvider(), PinMapping()),
       stateArray{ new ESPFlash<GameState>("/currentGame") }{
@@ -30,15 +30,10 @@ namespace Edmund {
     }
 
     void Device::EndFrame() {
-      display();
-      /*
+      display();      
       do
         frameDuration = (millis() - frameStart);
-      while (frameDuration < FRAME_DURATION_MS);*/
-
-      frameDuration = (millis() - frameStart);
-      if (frameDuration < FRAME_DURATION_MS)
-        delay(FRAME_DURATION_MS - frameDuration);
+      while (frameDuration < FRAME_DURATION_MS);
       refreshInputs();
     }
 

@@ -24,7 +24,7 @@ namespace Edmund {
         hardware.DrawScreen(Resources::BootLogo);
 
         if (hardware.IsMiddlePressed() == 1 || ellapsed_ms >= 1000)
-          return SimpleTwoPlayerEdhScreenEnum;
+          return HomeMenuScreenEnum;
 
         return GetNavigationId();
       }

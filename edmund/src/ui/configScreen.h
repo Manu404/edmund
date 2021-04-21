@@ -14,8 +14,6 @@ namespace Edmund {
 
         virtual ScreenEnum loop(Device& hardware, Game& game)
         {
-          //if (hardware.IsDebugPressed() == 1);
-
           if (hardware.IsMiddlePressed() == 1)
             return BootScreenEnum;
           return GetNavigationId();

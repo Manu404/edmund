@@ -26,7 +26,6 @@ namespace Edmund {
       void Initialize();
       void BeginFrame();
       void EndFrame();
-      String GetDebugLine();
       void SaveStateToSpiff(const GameState& state);
       GameState LoadStateFromSpiff();
     private:

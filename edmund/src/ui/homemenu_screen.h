@@ -9,21 +9,16 @@ namespace Edmund {
 
     class HomeScreenMenuOption {
       public:
-        HomeScreenMenuOption(ScreenEnum screen, String caption, const uint8_t* logo, int w, int h) {
-          _logo = logo;
-          _screen = screen;
-          _h = h;
-          _w = w;
-          _caption = caption;
-        }
-        const uint8_t* GetIcon() { return _logo; }
+        HomeScreenMenuOption(ScreenEnum screen, String caption, const uint8_t* logo, int w, int h) 
+          : _icon(logo), _screen(screen), _h(h), _w(w), _caption(caption) { }
+        const uint8_t* GetIcon() { return _icon; }
         ScreenEnum GetScreenEnum() { return _screen; }
-        int GetWidth() { return _w; }
-        int GetHeigt() { return _h; }
+        int GetIconWidth() { return _w; }
+        int GetIconHeight() { return _h; }
         String GetCaption() { return _caption; }
       private:
-        const uint8_t* _logo;
         int _h, _w;
+        const uint8_t* _icon;
         ScreenEnum _screen;
         String _caption;
     };
@@ -31,11 +26,10 @@ namespace Edmund {
     class HomeScreen : public IScreen
     {
     private:
-      int debug = 0;
       HomeScreenMenuOption* options[5];
       int newSelection, currentSelection;
       int requestNavigation;
-      long value, x_delta;
+      long rotaryValue, x_delta;
       int direction, currentFrame;
       int frameSkip = 3;
       int screenWidth = 0;
@@ -43,6 +37,7 @@ namespace Edmund {
 
     public:
       virtual ScreenEnum GetNavigationId() { return HomeMenuScreenEnum; }
+
       HomeScreen() : IScreen() {
         //int w = 52, h = 31;
         int w = 84, h = 48;
@@ -78,27 +73,23 @@ namespace Edmund {
         if (newSelection == currentSelection)
           if (requestNavigation) 
             return options[currentSelection]->GetScreenEnum();
-
-        //hardware.PrintNumberSmall(40, 0, frameSkip, WHITE, 2);
-
         return GetNavigationId();
       }
 
       void drawOptionIcon(Device& hardware, int selection, int delta)
       {
-        hardware.DrawLogo(delta, 0, options[selection]->GetWidth(), options[selection]->GetHeigt(), options[selection]->GetIcon());
-        hardware.DrawCentreString(options[selection]->GetCaption(), (screenWidth / 2) + delta, 45);
+        hardware.DrawLogo(delta, 0, options[selection]->GetIconWidth(), options[selection]->GetIconHeight(), options[selection]->GetIcon());
+        hardware.PrintLineCentered(options[selection]->GetCaption(), (screenWidth / 2) + delta, 45, WHITE);
       }
 
       virtual void processInputs(Device& hardware, Game& game) { 
         if (newSelection != currentSelection) return;
         direction = hardware.GetEncoderDelta();
         frameSkip = hardware.GetPositionFromPot(10) + 1;
-        value += direction;
-        newSelection = (abs(value) % optionCount) + (value != 0);
+        rotaryValue += direction;
+        newSelection = (abs(rotaryValue) % optionCount) + (rotaryValue != 0);
         requestNavigation = hardware.IsMiddlePressed() || hardware.IsRotarySwitchPressed();
       }
-
     };
   }
 }

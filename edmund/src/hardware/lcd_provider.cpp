@@ -20,6 +20,32 @@ namespace Edmund {
       lcd->println(m);
     }
 
+    void LcdProvider::PrintIntLarge(int x, int y, u_int value, uint16_t color, int length) {
+      lcd->setFont(&FreeMonoBold9pt7b);
+      int remainingValue = value, currentValue = 0, decimal_shift = 0;
+      for (int i = 5; remainingValue >= 0 && i >= 0; i--) // 16bits int, 5 digits max
+      {
+        int p = pow(10, i);
+        currentValue = (remainingValue / p);
+        remainingValue %= p;
+        if (currentValue > 10 || (currentValue == 0 && decimal_shift == 0 && i >= length))
+          continue;
+        lcd->drawChar(x + (decimal_shift * 8), y + 10, (char)(currentValue + ((int)'0')), color, !color, 1);
+        decimal_shift += 1;
+      }
+    }
+
+    void LcdProvider::PrintLineCentered(const String& buf, int x, int y, uint16_t color)
+    {
+      int16_t x1, y1;
+      uint16_t w, h;
+      lcd->setFont(&TomThumb);
+      lcd->getTextBounds(buf, 0, y, &x1, &y1, &w, &h);
+      lcd->setCursor(x - (w / 2), y);
+      lcd->setTextColor(color);
+      lcd->print(buf);
+    }
+
     void LcdProvider::PrintSymbol(int x_pos, int y_pos, const uint8_t* logo) {
       lcd->drawBitmap(x_pos * 9, y_pos * 10, logo, 9, 10, BLACK);
     }

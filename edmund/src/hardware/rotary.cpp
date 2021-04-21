@@ -48,7 +48,6 @@ namespace Edmund {
       refreshPinState();
       unsigned char pinstate = (a << 1) | b;
       state = ttable[state & 0xf][pinstate];
-      Serial.println(pinstate);
       return state & 0x30;
     }
 
