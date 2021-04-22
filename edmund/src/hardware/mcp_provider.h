@@ -14,11 +14,11 @@ namespace Edmund {
       int ready = 0;
     public:
       McpProvider() : current_mcp{ new Adafruit_MCP23017() }, wire{ new TwoWire() }  {  }
-      void Initialize(uint SDA, uint SDB);
+      void Initialize(byte SDA, byte SDB);
       int IsReady();
-      void pinMode(int pin, int mode);
-      void setupInterruptPinMode(uint pin, int mode, int interupt_mode);
-      int digitalRead(int pin);
+      void pinMode(byte pin, byte mode);
+      void setupInterruptPinMode(byte pin, byte mode, byte interupt_mode);
+      int digitalRead(byte pin);
 
       uint16_t GetRegisters() {
         if (!ready) return 0;

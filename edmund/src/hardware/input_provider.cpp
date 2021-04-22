@@ -15,6 +15,10 @@ namespace Edmund {
       mcp_provider->setupInterruptPinMode(pinMapping.DT, INPUT, CHANGE);
       mcp_provider->setupInterruptPinMode(pinMapping.CLK, INPUT, CHANGE);
 
+      mcp_provider->pinMode(pinMapping.left, INPUT);
+      mcp_provider->pinMode(pinMapping.middle, INPUT);
+      mcp_provider->pinMode(pinMapping.right, INPUT);
+
       pinMode(pinMapping.pot, INPUT);
 
       Edmund::Hardware::InputProvider::RotaryInstance = new RotaryOnMcp(mcp_provider, pinMapping.DT, pinMapping.CLK);
@@ -33,12 +37,12 @@ namespace Edmund {
       int direction = previous_encoder_value - current_encoder_value;
       previous_encoder_value = current_encoder_value;
 
-      int rotary_switch = mcp_provider->digitalRead(pinMapping.SW);
+      byte rotary_switch = mcp_provider->digitalRead(pinMapping.SW);
+      byte middle = mcp_provider->digitalRead(pinMapping.middle);
+      byte left = mcp_provider->digitalRead(pinMapping.left);
+      byte right = mcp_provider->digitalRead(pinMapping.right);
 
-      int middle = 0;
-      float pot = analogRead(pinMapping.pot);
-      int left = 0;
-      int right = 0;
+      int pot = analogRead(pinMapping.pot);
 
       return InputState
       {
@@ -54,7 +58,7 @@ namespace Edmund {
     }
 
     int InputProvider::isPressed(int prev, int curr) {
-      return (prev == curr) ? (prev > curr ? -1 : 1) : 0;
+      return (prev != curr) ? (prev > curr ? -1 : 1) : 0;
     }
 
     int InputProvider::IsEncoderTurnedRight() {

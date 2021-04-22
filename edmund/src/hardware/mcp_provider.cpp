@@ -3,7 +3,7 @@
 namespace Edmund {
   namespace Hardware {
 
-    void McpProvider::Initialize(uint SDA, uint SDB) {
+    void McpProvider::Initialize(byte SDA, byte SDB) {
       Serial.println(String(SDA) + " - " + String(SDB));
       wire->begin(SDA, SDB);
       wire->setClock(800000);
@@ -17,14 +17,14 @@ namespace Edmund {
       return ready;
     }
 
-    void McpProvider::pinMode(int pin, int mode) {
+    void McpProvider::pinMode(byte pin, byte mode) {
       current_mcp->pinMode(pin, mode);
     }
-    void McpProvider::setupInterruptPinMode(uint pin, int mode, int interupt_mode) {
+    void McpProvider::setupInterruptPinMode(byte pin, byte mode, byte interupt_mode) {
       current_mcp->pinMode(pin, mode);
       current_mcp->setupInterruptPin(pin, interupt_mode);
     }
-    int McpProvider::digitalRead(int pin) {
+    int McpProvider::digitalRead(byte pin) {
       if (!ready) return 0;
       return current_mcp->digitalRead(pin);
     }

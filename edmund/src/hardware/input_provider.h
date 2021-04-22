@@ -5,27 +5,30 @@
 #include "rotary.h"
 
 #define SERIAL_SPEED 115200
+#define GPB 8
+#define GPA 0
+
 namespace Edmund {
   namespace Hardware {
     struct PinMapping {
-      int right = 1;
-      int middle = 3;
-      int left = 2;
+      byte right = GPB + 0;
+      byte middle = GPB + 2;
+      byte left = GPB + 1;
       int pot = A0;
-      int CLK = 1;
-      int DT = 2;
-      int SW = 3;
+      byte CLK = GPA + 1;
+      byte DT = GPA + 2;
+      byte SW = GPA + 3;
     };
 
     struct InputState {
-      int right;
-      int middle;
-      int left;
+      byte right;
+      byte middle;
+      byte left;
       int pot;
-      int debug;
-      int reset;
+      byte debug;
+      byte reset;
       int rotary_direction;
-      int rotary_switch;
+      byte rotary_switch;
     };
 
     class InputProvider
