@@ -9,7 +9,7 @@ namespace Edmund {
     class SimpleFourPlayerEdhScreen : public DefaultPropertyNavigationScreen
     {
     public:
-      SimpleFourPlayerEdhScreen() : DefaultPropertyNavigationScreen(15) { }
+      SimpleFourPlayerEdhScreen() : DefaultPropertyNavigationScreen(16) { }
 
       virtual ScreenEnum GetNavigationId() { return SimpleFourPlayerEdhScreenEnum; }
 
@@ -55,7 +55,6 @@ namespace Edmund {
             current_player = 0;
             current_property = ((PlayerProperties)((position % 3) + 1));
           }
-          readOnlySelection = prop == 1;
           return;
         }
       }
@@ -69,18 +68,18 @@ namespace Edmund {
         y = 10;
         if (current_player == 0 && current_property == Life_property)
           hardware.DrawBox(9, 22, 11, 2, WHITE);
-        hardware.PrintIntLarge(x, y, life, color, 2);
+        hardware.PrintNumberLarge(x, y, life, color, 2);
 
         for (int row = 0; row < 3; row++) {
           for (int col = 0; col < 3; col++) {
-            color = 
-            x = 37 + (col * 11) + (col > 0);
+            color = BLACK;
+            x = 37 + (col * 12);
             y = 8 + (row * 7);
 
             if ((row == 0 && col + 1 == current_property)
             || (row == 1 && current_player == (col + 1) && current_property == Commander_1_property)
             || (row == 2 && current_player == (col + 1) && current_property == Infect_property)) {
-              hardware.DrawBox(x - 1, y - 1, 11, 7, BLACK);
+              hardware.DrawBox(x - 1, y - 1, 12, 7, BLACK);
               color = WHITE;
             }
 
@@ -110,7 +109,7 @@ namespace Edmund {
             hardware.DrawBox(x - 1, (y - 1), 11, 7, color);
             color = WHITE;
           }
-          hardware.PrintNumberSmall(x, y, game.GetPlayerProperty(0, (PlayerProperties)(W_MANA_property + i)), BLACK, 2);
+          hardware.PrintNumberSmall(x, y, game.GetPlayerProperty(0, (PlayerProperties)(W_MANA_property + i)), color, 2);
         }
       }
     };

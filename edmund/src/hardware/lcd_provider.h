@@ -26,7 +26,7 @@ namespace Edmund {
       void DrawBorder(int x, int y, int w, int h, uint16_t color);
       void DrawScreen(const uint8_t* logo, int x);
       void DrawLogo(int x, int y, int w, int h, const uint8_t* logo);
-      void PrintIntLarge(int x, int y, u_int value, uint16_t color, int length);
+      void PrintNumberLarge(int x, int y, u_int value, uint16_t color, int length);
       void PrintLineCentered(const String& buf, int x, int y, uint16_t color);
       int GetScreenWidth() { return 84; }
       int GetScreenHeigt() { return 48; }

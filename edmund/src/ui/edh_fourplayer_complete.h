@@ -9,7 +9,7 @@ namespace Edmund {
     class CompleteFourPlayerEdhScreen : public DefaultPropertyNavigationScreen
     {
       public:
-        CompleteFourPlayerEdhScreen() : DefaultPropertyNavigationScreen(24) { }
+        CompleteFourPlayerEdhScreen() : DefaultPropertyNavigationScreen(25) { }
 
         ScreenEnum loop(Device& hardware, Game& game) {
           processInputs(hardware, game);

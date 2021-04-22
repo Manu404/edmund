@@ -20,7 +20,7 @@ namespace Edmund {
       lcd->println(m);
     }
 
-    void LcdProvider::PrintIntLarge(int x, int y, u_int value, uint16_t color, int length) {
+    void LcdProvider::PrintNumberLarge(int x, int y, u_int value, uint16_t color, int length) {
       lcd->setFont(&FreeMonoBold9pt7b);
       int remainingValue = value, currentValue = 0, decimal_shift = 0;
       for (int i = 5; remainingValue >= 0 && i >= 0; i--) // 16bits int, 5 digits max
