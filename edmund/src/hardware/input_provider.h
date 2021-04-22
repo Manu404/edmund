@@ -56,7 +56,7 @@ namespace Edmund {
       PinMapping pinMapping;
       McpProvider* mcp_provider;
 
-      InputState current, previous;
+      InputState current, previous, bounced;
       int debug_combination = -1;
       double previous_encoder_value = 0, current_encoder_value = 0;
 

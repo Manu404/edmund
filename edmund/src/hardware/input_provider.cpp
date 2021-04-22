@@ -42,13 +42,18 @@ namespace Edmund {
       byte left = mcp_provider->digitalRead(pinMapping.left);
       byte right = mcp_provider->digitalRead(pinMapping.right);
 
+      // dummy workaround ~ issue related to breadboard
+      bounced.middle = middle > 0 ? bounced.middle + 1 : 0;
+      bounced.left = left > 0 ? bounced.middle + 1 : 0;
+      bounced.right = right > 0 ? bounced.middle + 1 : 0;
+
       int pot = analogRead(pinMapping.pot);
 
       return InputState
       {
-        right,
-        middle,
-        left,
+        bounced.right > 3,
+        bounced.middle > 3,
+        bounced.left > 3,
         pot,
         left * right,
         left * right * middle * (pot > 1020) * current.debug,
@@ -58,7 +63,7 @@ namespace Edmund {
     }
 
     int InputProvider::isPressed(int prev, int curr) {
-      return (prev != curr) ? (prev > curr ? -1 : 1) : 0;
+      return (prev != curr) ? (prev > curr ? 1 : -1) : 0;
     }
 
     int InputProvider::IsEncoderTurnedRight() {
@@ -70,15 +75,15 @@ namespace Edmund {
     }
 
     int InputProvider::IsRightPressed() {
-      return isPressed(previous.right, current.right) == -1;
+      return isPressed(previous.right, current.right) == 1;
     }
 
     int InputProvider::IsLeftPressed() {
-      return isPressed(previous.left, current.left) == -1;
+      return isPressed(previous.left, current.left) == 1;
     }
 
     int InputProvider::IsMiddlePressed() {
-      return isPressed(previous.middle, current.middle) == -1;
+      return isPressed(previous.middle, current.middle) == 1;
     }
 
     int InputProvider::IsRotarySwitchPressed() {
@@ -86,11 +91,11 @@ namespace Edmund {
     }
 
     int InputProvider::IsDebugPressed() {
-      return isPressed(previous.debug, current.debug) == -1;
+      return isPressed(previous.debug, current.debug) == 1;
     }
 
     int InputProvider::IsResetPressed() {
-      return isPressed(previous.reset, current.reset) == -1;
+      return isPressed(previous.reset, current.reset) == 1;
     }
 
     int InputProvider::GetEncoderDelta() {
