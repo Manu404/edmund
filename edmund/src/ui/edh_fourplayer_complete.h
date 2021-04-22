@@ -53,9 +53,11 @@ namespace Edmund {
 
           if (position < 12) {
             current_player = (position / 3);
-            current_property = (PlayerProperties)(position % 3);
+            int target_player = (position % 3);
+            current_property = (PlayerProperties)(target_player + (target_player >= current_player));
             return;
           }
+
           position -= 12;
           current_player = position;
           current_property = Infect_property;
@@ -68,6 +70,8 @@ namespace Edmund {
 
           for (int row = 0; row < 4; row++) {
             for (int col = 0; col < 6; col++, color = BLACK) {
+              if (col == row && col < life_column) continue;
+
               // compute property position
               if (col != 5) {
                 x = col_size + head_col_size + (col * col_size) + col_margin;
@@ -78,7 +82,6 @@ namespace Edmund {
                 y = row_size + (4 * row_size) + row_margin;
               }
               if (col == life_column) x = 0;
-              if (col >= row && col < life_column) x += col_size;
 
               // print selection box
               if (row == current_player && col == current_property) {
@@ -87,7 +90,7 @@ namespace Edmund {
               }
 
               // print player property
-              if (col < life_column - 1) {
+              if (col < life_column) {
                 hardware.PrintNumberSmall(x, y, game.GetPlayerProperty(row, (PlayerProperties)(col)), color, 2);
               }
               else if (col == life_column) {

@@ -8,17 +8,13 @@ namespace Edmund {
   namespace UI {
     class SimpleFourPlayerEdhScreen : public DefaultPropertyNavigationScreen
     {
-    private:
-      int tick = 0;
-      int symbol = 0;
-
     public:
-      SimpleFourPlayerEdhScreen() : DefaultPropertyNavigationScreen(14) { }
+      SimpleFourPlayerEdhScreen() : DefaultPropertyNavigationScreen(15) { }
 
       virtual ScreenEnum GetNavigationId() { return SimpleFourPlayerEdhScreenEnum; }
 
       virtual ScreenEnum loop(Device& hardware, Game& game) {
-        if (tick < 0 || tick > 2) tick = 0;
+        processInputs(hardware, game);
 
         drawLayout(hardware);
         printPlayersProperties(hardware, game);
@@ -32,45 +28,70 @@ namespace Edmund {
 
     protected:
       void updateNavigationPosition(int position) {
-        //if (position <= 5) {
-        //  current_player = 0;
-        //  current_property = (PlayerProperties)(6 + (position % 6));
-        //  return;
-        //}
-        //position -= 5;
+        if (position < 6) {
+          current_property = (PlayerProperties)(X_MANA_property - (position % 6));
+          return;
+        }
+        position -= 6;
 
-        //if (position == 1) {
-        //  current_player = 0;
-        //  current_property = Life_property;
-        //  return;
-        //}
-        //position -= 1;
+        if (position < 1) {
+          current_player = position;
+          current_property = Life_property;
+          return;
+        }
+        position -= 1;
 
-        //if (position <= 5) {
-        //  current_player = position % 2 == 1;
-        //  int prop = (position / 2);
-        //  current_property = prop == 2 ? (PlayerProperties)(!current_player) : Infect_property;
-        //  return;
-        //}
-        return;
+        if (position < 9) {
+          int prop = position / 3;
+          if (prop == 2) {
+            current_player = (position % 3) + 1;
+            current_property = Infect_property;
+          }
+          else if (prop == 1) {
+            current_player = (position % 3) + 1;
+            current_property = Commander_1_property;
+          }
+          else {
+            current_player = 0;
+            current_property = ((PlayerProperties)((position % 3) + 1));
+          }
+          readOnlySelection = prop == 1;
+          return;
+        }
       }
 
       void printPlayersProperties(Device& hardware, Game& game) {
-        int life = 3, y = 0, x = 0;
-        hardware.PrintIntLarge(life < 100 ? 4 : 0, 10, life, BLACK, 2);
+        int y = 0, x = 0;
+        uint16_t color = WHITE;
+
+        int life = game.GetPlayerProperty(0, Life_property);
+        x = life < 100 ? 5 : 0;
+        y = 10;
+        if (current_player == 0 && current_property == Life_property)
+          hardware.DrawBox(9, 22, 11, 2, WHITE);
+        hardware.PrintIntLarge(x, y, life, color, 2);
 
         for (int row = 0; row < 3; row++) {
           for (int col = 0; col < 3; col++) {
+            color = 
             x = 37 + (col * 11) + (col > 0);
             y = 8 + (row * 7);
+
+            if ((row == 0 && col + 1 == current_property)
+            || (row == 1 && current_player == (col + 1) && current_property == Commander_1_property)
+            || (row == 2 && current_player == (col + 1) && current_property == Infect_property)) {
+              hardware.DrawBox(x - 1, y - 1, 11, 7, BLACK);
+              color = WHITE;
+            }
+
             if (row == 0) {
-              hardware.PrintNumberSmall(x, y, game.GetPlayerProperty(0, (PlayerProperties)(col)), BLACK, 2);
+              hardware.PrintNumberSmall(x, y, game.GetPlayerProperty(0, (PlayerProperties)(col + 1)), color, 2);
             }
             else if (row == 1) {
-              hardware.PrintNumberSmall(x, y, game.GetPlayerProperty(row + 1, Commander_1_property), BLACK, 2);
+              hardware.PrintNumberSmall(x, y, game.GetPlayerProperty(col + 1, Commander_1_property), color, 2);
             }
             else {
-              hardware.PrintNumberSmall(x, y, game.GetPlayerProperty(row + 1, Infect_property), BLACK, 2);
+              hardware.PrintNumberSmall(x, y, game.GetPlayerProperty(col + 1, Infect_property), color, 2);
             }
           }
         }
@@ -85,6 +106,10 @@ namespace Edmund {
         uint16_t color = BLACK;
         for (int i = 0; i < MANA_TYPE_COUNT; i++, color = BLACK) {
           x = 3 + (i * 14);
+          if (current_player == 0 && (current_property - 6) == i) {
+            hardware.DrawBox(x - 1, (y - 1), 11, 7, color);
+            color = WHITE;
+          }
           hardware.PrintNumberSmall(x, y, game.GetPlayerProperty(0, (PlayerProperties)(W_MANA_property + i)), BLACK, 2);
         }
       }

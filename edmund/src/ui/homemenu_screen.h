@@ -26,7 +26,7 @@ namespace Edmund {
     class HomeScreen : public IScreen
     {
     private:
-      HomeScreenMenuOption* options[5];
+      HomeScreenMenuOption* options[6];
       int newSelection, currentSelection;
       int requestNavigation;
       long rotaryValue, x_delta;
@@ -46,6 +46,7 @@ namespace Edmund {
         options[2] = new HomeScreenMenuOption(SimpleTwoPlayerEdhScreenEnum, "2 pl. (basic)", Resources::two_player_icon, w, h);
         options[3] = new HomeScreenMenuOption(SimpleFourPlayerEdhScreenEnum, "4 pl. (basic)", Resources::four_player_icon, w, h);
         options[4] = new HomeScreenMenuOption(CompleteFourPlayerEdhScreenEnum, "4 pl. (full)", Resources::four_player_icon, w, h);
+        options[5] = new HomeScreenMenuOption(ConfigScreenEnum, "Diagnostic", Resources::diag_icon, w, h);
         optionCount = (sizeof(options) / sizeof(HomeScreenMenuOption*)) - 1;
       }
 
