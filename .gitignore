@@ -1,10 +1,11 @@
 /edmund/__vm
 /edmund/Debug
-/edmund/.vs
 /edmund/edmund.vcxproj.filters
 /edmund/edmund.vcxproj.user
 /edmund/Release
 /output
-/.vscode
 /bin
 /abn
+/scripts/abn
+/scripts/bin
+/edmund/.vs

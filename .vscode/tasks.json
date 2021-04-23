@@ -1,0 +1,27 @@
+{
+    // See https://go.microsoft.com/fwlink/?LinkId=733558
+    // for the documentation about the tasks.json format
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "install_cli",
+            "type": "shell",
+            "command": "sh ../scripts/install_cli.sh"
+        },
+        {
+            "label": "install_deps",
+            "type": "shell",
+            "command": "sh ../scripts/install_dependencies.sh"
+        },
+        {
+            "label": "abn_build",
+            "type": "shell",
+            "command": "sh ../scripts/build.sh"
+        },
+        {
+            "label": "abn_upload",
+            "type": "shell",
+            "command": "sh ../scripts/upload.sh"
+        }
+    ]
+}
