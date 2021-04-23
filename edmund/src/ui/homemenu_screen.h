@@ -31,7 +31,7 @@ namespace Edmund {
       int requestNavigation;
       long rotaryValue, x_delta;
       int direction, currentFrame;
-      int frameSkip = 3;
+      int frameSkip = 1;
       int screenWidth = 0;
       int optionCount = 0;
 
@@ -86,7 +86,7 @@ namespace Edmund {
       virtual void processInputs(Device& hardware, Game& game) { 
         if (newSelection != currentSelection) return;
         direction = hardware.GetEncoderDelta();
-        frameSkip = hardware.GetPositionFromPot(10) + 1;
+        //frameSkip = hardware.GetPositionFromPot(10) + 1;
         rotaryValue += direction;
         newSelection = (abs(rotaryValue) % optionCount) + (rotaryValue != 0);
         requestNavigation = hardware.IsMiddlePressed() || hardware.IsRotarySwitchPressed();

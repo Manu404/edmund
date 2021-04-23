@@ -4,7 +4,7 @@ namespace Edmund {
   namespace Hardware {
     RotaryOnMcp* InputProvider::RotaryInstance;
 
-    void OnRotaryInterupt() {
+    void ICACHE_RAM_ATTR OnRotaryInterupt() {
       RotaryOnMcp* current_rotary = Edmund::Hardware::InputProvider::RotaryInstance;
       if (!(current_rotary && current_rotary->IsReady())) return;
       current_rotary->RefreshValue();
