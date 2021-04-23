@@ -2,7 +2,7 @@
 #define HARDWARE_INCLUDED
 
 #include <SPI.h>  
-#include "ESPFlash.h"
+#include <ESPFlash.h>
 
 #include "../model.h"
 #include "lcd_provider.h"

@@ -13,7 +13,7 @@ namespace Edmund {
     switch (property) {
     case 0:
     case 1:
-    case 2:
+    case 2: 
     case 3: state.Players[player].ApplyDeltaToCommanderDamages(delta, (int)property);  break;
     case 4: state.Players[player].ApplyDeltaToLife(delta); break;
     case 5: state.Players[player].ApplyDeltaToInfect(delta); break;

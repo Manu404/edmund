@@ -1,0 +1,1 @@
+./abn upload -i ./output/edmund.ino.bin -b esp8266:esp8266:nodemcuv2:xtal=80 -p COM3 --verbose
