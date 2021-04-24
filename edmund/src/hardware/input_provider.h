@@ -51,6 +51,7 @@ namespace Edmund {
     protected:
       void initInputs();
       void refreshInputs();
+      void updateInputs();
 
     private:
       PinMapping pinMapping;

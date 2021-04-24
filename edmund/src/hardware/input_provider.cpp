@@ -5,6 +5,7 @@ namespace Edmund {
     RotaryOnMcp* InputProvider::RotaryInstance;
 
     void ICACHE_RAM_ATTR OnRotaryInterupt() {
+      Serial.println('.');
       RotaryOnMcp* current_rotary = Edmund::Hardware::InputProvider::RotaryInstance;
       if (!(current_rotary && current_rotary->IsReady())) return;
       current_rotary->RefreshValue();
@@ -22,32 +23,39 @@ namespace Edmund {
       pinMode(pinMapping.pot, INPUT);
 
       Edmund::Hardware::InputProvider::RotaryInstance = new RotaryOnMcp(mcp_provider, pinMapping.DT, pinMapping.CLK);
-      attachInterrupt(D7, OnRotaryInterupt, CHANGE);
+      attachInterrupt(D8, OnRotaryInterupt, CHANGE);
     }
 
-    void InputProvider::refreshInputs() {
-      previous = current;
+    void InputProvider::refreshInputs() {      
       current = getState();
+    }
+
+    void InputProvider::updateInputs() {
+      previous = current;
     }
 
     // https://lastminuteengineers.com/rotary-encoder-arduino-tutorial/
     InputState InputProvider::getState() {
 
-      current_encoder_value = Edmund::Hardware::InputProvider::RotaryInstance->GetValue();
+      /*current_encoder_value = Edmund::Hardware::InputProvider::RotaryInstance->GetValue();
       int direction = previous_encoder_value - current_encoder_value;
-      previous_encoder_value = current_encoder_value;
+      previous_encoder_value = current_encoder_value;*/
 
-      byte rotary_switch = mcp_provider->digitalRead(pinMapping.SW);
-      byte middle = mcp_provider->digitalRead(pinMapping.middle);
-      byte left = mcp_provider->digitalRead(pinMapping.left);
-      byte right = mcp_provider->digitalRead(pinMapping.right);
+      int direction = 0;
+      //byte rotary_switch = mcp_provider->digitalRead(pinMapping.SW);
+      //byte middle = mcp_provider->digitalRead(pinMapping.middle);
+      //byte left = mcp_provider->digitalRead(pinMapping.left);
+      //byte right = mcp_provider->digitalRead(pinMapping.right);
+
+      byte rotary_switch = 0, middle = 0, left = 0, right = 0;
 
       // dummy workaround ~ issue related to breadboard
       bounced.middle = middle > 0 ? bounced.middle + 1 : 0;
       bounced.left = left > 0 ? bounced.middle + 1 : 0;
       bounced.right = right > 0 ? bounced.middle + 1 : 0;
 
-      int pot = analogRead(pinMapping.pot);
+      //int pot = analogRead(pinMapping.pot);
+      int pot = 0;
 
       return InputState
       {

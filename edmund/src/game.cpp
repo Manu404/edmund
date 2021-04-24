@@ -66,9 +66,9 @@ namespace Edmund {
   }
 
   void Game::RefreshEllapsedTime() {
-    int current = millis();
-    if(last_time != 0)
-      ellapsed_time += current - last_time;
-    last_time = current;
+    //int current = millis();
+    //if(last_time != 0)
+    //  ellapsed_time += current - last_time;
+    //last_time = current;
   }
 }

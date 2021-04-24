@@ -1,11 +1,12 @@
-#include "./src/edmund.h"
+  #include "./src/edmund.h"
+  
+  Edmund::EntryPoint ep;
 
-Edmund::EntryPoint ep;
-
-void setup() {
-  ep.setup();
-  }
-
-void loop() {  
-  ep.loop();
- }
+  
+  void setup() {
+    ep.setup();
+    }
+  
+  void loop() {  
+    ep.loop();
+   }

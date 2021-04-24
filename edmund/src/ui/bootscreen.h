@@ -9,7 +9,7 @@ namespace Edmund {
     class BootScreen : public IScreen
     {
     private:
-      int ellapsed_ms = 0, last_tick = 0, current = 0;
+      unsigned long ellapsed_ms = 0, last_tick = 0, current = 0;
     public:
       BootScreen() : IScreen() { }
 

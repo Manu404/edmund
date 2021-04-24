@@ -1,0 +1,19 @@
+mousetrack on
+defmousetrack on
+
+screen -t mon "htop"
+
+split -v
+focus
+screen -t build
+stuff "bash ./init_dev.sh^M" 
+
+split
+focus 
+screen -t editor "vim"
+focus
+ 
+split
+focus
+screen -t s4
+#focus

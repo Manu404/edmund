@@ -1,15 +1,17 @@
 #include "lcd_provider.h"
 #include "../ui/resources/font.h"
-
+int is_init = 0;
 namespace Edmund {
   namespace Hardware {
     void LcdProvider::initScreen() {
+      if (is_init == 1) return;
       lcd->begin();
       lcd->initDisplay();
       lcd->setRotation(2);
       lcd->setContrast(64);
       lcd->setBias(4);
       SPI.setClockDivider(1);
+      is_init = 1;
     }
 
     void LcdProvider::Print(String m) {

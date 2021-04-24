@@ -25,15 +25,15 @@ namespace Edmund {
     }
 
     void Device::BeginFrame() {
-      clear();
+      clear();      
       frameStart = millis();
     }
 
     void Device::EndFrame() {
       display();      
-      do
-        frameDuration = (millis() - frameStart);
-      while (frameDuration < FRAME_DURATION_MS);
+      if (frameDuration < FRAME_DURATION_MS)
+        delay((millis() - frameStart));
+      updateInputs();
       refreshInputs();
     }
 

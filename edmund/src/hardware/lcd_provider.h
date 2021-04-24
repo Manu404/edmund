@@ -8,7 +8,7 @@
 #include <Fonts/TomThumb.h>
 #include "../ui/resources/font.h"
 
-#define TARGET_FPS 120
+#define TARGET_FPS 30
 #define FRAME_DURATION_MS (1000 / TARGET_FPS)
 
 namespace Edmund {
