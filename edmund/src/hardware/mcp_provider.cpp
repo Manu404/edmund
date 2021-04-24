@@ -4,7 +4,6 @@ namespace Edmund {
   namespace Hardware {
 
     void McpProvider::Initialize(byte SDA, byte SDB) {
-      Serial.println(String(SDA) + " - " + String(SDB));
       wire->begin(SDA, SDB);
       wire->setClock(800000);
       current_mcp->begin(wire);

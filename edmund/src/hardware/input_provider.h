@@ -10,6 +10,8 @@
 
 namespace Edmund {
   namespace Hardware {
+    extern volatile bool interrupt; 
+
     struct PinMapping {
       byte right = GPB + 0;
       byte middle = GPB + 2;
@@ -47,6 +49,7 @@ namespace Edmund {
       int IsRotarySwitchPressed();
       int HasPotChanged();
       float GetPositionFromPot(float scale);
+      byte IsActive();
 
     protected:
       void initInputs();

@@ -4,7 +4,10 @@ namespace Edmund {
   namespace Hardware {
     RotaryOnMcp* InputProvider::RotaryInstance;
 
+    volatile bool interrupt = false;
+
     void ICACHE_RAM_ATTR OnRotaryInterupt() {
+      interrupt = true;
       Serial.println('.');
       RotaryOnMcp* current_rotary = Edmund::Hardware::InputProvider::RotaryInstance;
       if (!(current_rotary && current_rotary->IsReady())) return;
@@ -23,7 +26,7 @@ namespace Edmund {
       pinMode(pinMapping.pot, INPUT);
 
       Edmund::Hardware::InputProvider::RotaryInstance = new RotaryOnMcp(mcp_provider, pinMapping.DT, pinMapping.CLK);
-      attachInterrupt(D8, OnRotaryInterupt, CHANGE);
+      attachInterrupt(D7, OnRotaryInterupt, CHANGE);
     }
 
     void InputProvider::refreshInputs() {      
@@ -36,26 +39,23 @@ namespace Edmund {
 
     // https://lastminuteengineers.com/rotary-encoder-arduino-tutorial/
     InputState InputProvider::getState() {
-
-      /*current_encoder_value = Edmund::Hardware::InputProvider::RotaryInstance->GetValue();
+      current_encoder_value = Edmund::Hardware::InputProvider::RotaryInstance->GetValue();
       int direction = previous_encoder_value - current_encoder_value;
-      previous_encoder_value = current_encoder_value;*/
+      previous_encoder_value = current_encoder_value;
 
-      int direction = 0;
-      //byte rotary_switch = mcp_provider->digitalRead(pinMapping.SW);
-      //byte middle = mcp_provider->digitalRead(pinMapping.middle);
-      //byte left = mcp_provider->digitalRead(pinMapping.left);
-      //byte right = mcp_provider->digitalRead(pinMapping.right);
+      byte rotary_switch = mcp_provider->digitalRead(pinMapping.SW);
+      byte middle = mcp_provider->digitalRead(pinMapping.middle);
+      byte left = mcp_provider->digitalRead(pinMapping.left);
+      byte right = mcp_provider->digitalRead(pinMapping.right);
 
-      byte rotary_switch = 0, middle = 0, left = 0, right = 0;
+      //byte rotary_switch = 0, middle = 0, left = 0, right = 0;
 
       // dummy workaround ~ issue related to breadboard
       bounced.middle = middle > 0 ? bounced.middle + 1 : 0;
       bounced.left = left > 0 ? bounced.middle + 1 : 0;
       bounced.right = right > 0 ? bounced.middle + 1 : 0;
 
-      //int pot = analogRead(pinMapping.pot);
-      int pot = 0;
+      int pot = analogRead(pinMapping.pot);
 
       return InputState
       {
@@ -63,8 +63,8 @@ namespace Edmund {
         bounced.middle > 3,
         bounced.left > 3,
         pot,
-        left * right,
-        left * right * middle * (pot > 1020) * current.debug,
+        (byte)(left * right),
+        (byte)(left * right * middle * (pot > 1020) * current.debug),
         direction,
         rotary_switch
       };
@@ -118,6 +118,15 @@ namespace Edmund {
       if (scale == 0) return 0;
       // log, resistor biased +5 top
       return (1024 * exp(log(((float)current.pot / 1024)))) / (1024 / scale);
+    }
+
+    byte InputProvider::IsActive(){
+      return  previous.rotary_direction != current.rotary_direction ||
+        (abs(previous.pot - current.pot) > 50)||
+        previous.middle != current.middle ||
+        previous.left != current.left ||
+        previous.right != current.right ||
+        previous.rotary_switch != current.rotary_switch;
     }
   }
 }

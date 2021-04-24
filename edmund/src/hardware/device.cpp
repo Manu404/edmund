@@ -18,6 +18,7 @@ namespace Edmund {
     }
 
     void Device::Initialize() {
+      detachInterrupt(D7);
       Serial.begin(SERIAL_SPEED);
       Serial.println("init.");
       initScreen();

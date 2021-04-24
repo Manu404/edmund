@@ -1,6 +1,8 @@
 #ifndef EDMUND_INCLUDED
 #define EDMUND_INCLUDED
 
+#define SLEEP_TICK_LIMIT 200
+
 #include "./hardware/device.h"
 #include "./ui/screen_manager.h"
 #include "./game.h"
@@ -22,12 +24,12 @@ void wakeup(void) {
 
 void light_sleep(){
   //wifi_station_disconnect(); //not needed
-  uint32_t sleep_time_in_ms = 2000;
+  uint32_t sleep_time_in_ms = 1000;
   wifi_set_opmode(NULL_MODE);
   wifi_set_sleep_type(LIGHT_SLEEP_T);
   wifi_fpm_set_sleep_type(LIGHT_SLEEP_T);
   wifi_fpm_open();
-  gpio_pin_wakeup_enable(GPIO_ID_PIN(D7), GPIO_PIN_INTR_LOLEVEL);
+  //gpio_pin_wakeup_enable(GPIO_ID_PIN(D7), GPIO_PIN_INTR_LOLEVEL);
   wifi_fpm_set_wakeup_cb(wakeup);
   wifi_fpm_do_sleep(sleep_time_in_ms * 1000);
   delay(sleep_time_in_ms + 1);
@@ -40,16 +42,17 @@ namespace Edmund {
     Game* game = new Game();
     Device* device = new Device();
     ScreenManager* screenManager = new ScreenManager();
-    int lastFrameDuration, lastFrame, currentFrame;
+    int lastFrameDuration, lastFrame, currentFrame, sleepTick = 0;
 
   public:
 
     void loop() {
       if (needReset == 1) {
         device->Initialize();
-        game->LoadGameState(device->LoadStateFromSpiff());
+        //game->LoadGameState(device->LoadStateFromSpiff());
         screenManager->NavigateTo(HomeMenuScreenEnum);
         needReset = 0;
+        interrupt = false;
       }
       device->BeginFrame();
       screenManager->LoopCurrent(*device, *game);
@@ -61,18 +64,25 @@ namespace Edmund {
       if (device->IsResetPressed() == 1)
         game->Reset();
 
-      Serial.println("+");
+      if(device->IsActive() || interrupt)
+        sleepTick = 0;
+      else 
+        sleepTick += 1;
 
-      light_sleep();
+      if(sleepTick > SLEEP_TICK_LIMIT || interrupt){        
+        light_sleep();
+      }
+      else {
+            Serial.println("+");
+      }
     }
 
     void setup() {
       device->Initialize();
-      game->LoadGameState(device->LoadStateFromSpiff());
+      //game->LoadGameState(device->LoadStateFromSpiff());
       screenManager->NavigateTo(HomeMenuScreenEnum);
       WiFi.mode(WIFI_STA);
-      pinMode(D8, INPUT);
-      Serial.print("setup done");
+      Serial.println("setup");
     }
 
     void displayDebug(Device* hardware) {

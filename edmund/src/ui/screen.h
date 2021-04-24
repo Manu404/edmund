@@ -51,8 +51,8 @@ namespace Edmund {
           if (hardware.GetEncoderDelta() != 0)
             game.UpdatePlayerProperty(hardware.GetEncoderDelta(), current_player, current_property);
 
-          if (hardware.IsRightPressed() == 1 || hardware.IsLeftPressed())
-            hardware.SaveStateToSpiff(game.GetGameState());
+          //if (hardware.IsRightPressed() == 1 || hardware.IsLeftPressed())
+          //  hardware.SaveStateToSpiff(game.GetGameState());
         }
         virtual void updateNavigationPosition(int position) = 0;
     };
