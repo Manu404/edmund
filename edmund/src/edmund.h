@@ -2,7 +2,7 @@
 #define EDMUND_INCLUDED
 
 #include "./hardware/device.h"
-#include "./ui/screenmanager.h"
+#include "./ui/screen_manager.h"
 #include "./game.h"
 #include <ESP8266WiFi.h>
 
