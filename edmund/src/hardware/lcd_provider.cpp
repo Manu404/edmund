@@ -18,6 +18,11 @@ namespace Edmund {
       lcd->print(m);
     }
 
+    void LcdProvider::Print(String m, int x, int y) {
+      lcd->setCursor(x, y);
+      this->Print(m);
+    }
+
     void LcdProvider::PrintLine(String m) {
       lcd->println(m);
     }

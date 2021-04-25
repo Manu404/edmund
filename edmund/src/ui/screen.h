@@ -32,7 +32,7 @@ namespace Edmund {
           propertyCount = _propertyCount;
         }
       protected:
-        int readOnlySelection = 0;
+        bool readOnlySelection = false;
         int current_player;
         int propertyCount;
         PlayerProperties current_property;
@@ -43,13 +43,19 @@ namespace Edmund {
 
           if (readOnlySelection) return;
 
-          if (hardware.IsRightPressed() == 1)
-            game.UpdatePlayerPropertyValue(current_player, current_property, 1);
-          if (hardware.IsLeftPressed() == 1)
-            game.UpdatePlayerPropertyValue(current_player, current_property, -1);
+          //if (hardware.IsRightPressed() == 1)
+          //  game.UpdatePlayerPropertyValue(current_player, current_property, 1);
+          //if (hardware.IsLeftPressed() == 1)
+          //  game.UpdatePlayerPropertyValue(current_player, current_property, -1);
 
           if (hardware.GetEncoderDelta() != 0)
             game.UpdatePlayerPropertyValue(current_player, current_property, hardware.GetEncoderDelta());
+
+          if (hardware.IsLeftPressed())
+            game.EmptyManaPool();
+
+          Serial.print("K - ");
+          Serial.println(hardware.IsLeftPressed());
 
           //if (hardware.IsRightPressed() == 1 || hardware.IsLeftPressed())
           //  hardware.SaveStateToSpiff(game.GetGameState());

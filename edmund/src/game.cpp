@@ -46,23 +46,33 @@ namespace Edmund {
     default: return -1;
     }
   }
+
   byte Game::GetPropertyCount() {
     return PROPERTY_COUNT;
   }
+
   byte Game::GetPlayerCount() {
     return PLAYER_COUNT;
   }
+
   byte Game::GetManaTypeCount() {
     return MANA_TYPE_COUNT;
   }
+
   void Game::Reset() {
     state = GameState();
   }
+
   const GameState Game::GetGameState() {
     return state;
   }
+
   void Game::LoadGameState(GameState newState) {
     state = newState;
+  }
+
+  void Game::EmptyManaPool() {
+    state.ManaPool.Empty();
   }
 
   void Game::RefreshEllapsedTime() {

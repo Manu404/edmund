@@ -17,7 +17,8 @@ namespace Edmund {
     {
     public:
       LcdProvider(Adafruit_PCD8544* _lcd) : lcd(_lcd) { }
-      void Print(String m);
+      void Print(String m); 
+      void Print(String m, int x, int y);
       void PrintLine(String m);
       void PrintSymbol(int x_pos, int y_pos, const uint8_t* logo);
       void PrintNumberSmall(int x_pos, int y_pos, int value, uint16_t color, int length);

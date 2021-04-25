@@ -14,12 +14,18 @@ namespace Edmund {
 
         virtual ScreenEnum loop(Device& hardware, Game& game)
         {
+          hardware.Print("L to reset", 7, 7);          
+          
+          if (hardware.IsLeftPressed())
+            game.Reset();
+
           if (hardware.IsMiddlePressed() == 1)
             return BootScreenEnum;
+
           return GetNavigationId();
         }
 
-        virtual void processInputs(Device& hardware, Game& game) { ; }
+        virtual void processInputs(Device& hardware, Game& game) { }
 
         virtual ScreenEnum GetNavigationId() { return ConfigScreenEnum; }
     };

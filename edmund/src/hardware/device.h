@@ -29,16 +29,17 @@ namespace Edmund {
       Device(Adafruit_PCD8544* lcd, McpProvider* mcp, ESPFlash<GameState>* stateArray, PinMapping mapping);
       void Initialize();
       void BeginFrame();
-      void EndFrame();
-      void WaitRemainingFrameTime();
-      void SaveStateToSpiff(const GameState& state);
+      void EndFrame(const GameState& game);
+      void SaveStateToSpiff(const GameState& game);
       GameState LoadStateFromSpiff();
-      void EnsureSleep();
     private:
       void startLightSleep();
+      void ensureSleep(const GameState& game);
+      void waitRemainingFrameTime();
       ESPFlash<GameState>* stateArray;
       unsigned long frameStart = 0, frameDuration = 0;
       int debug_combination = -1, sleepTick = 0;
+      bool sleeping = false;
     };
 }
 #endif

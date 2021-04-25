@@ -55,8 +55,8 @@ namespace Edmund {
 
       // dummy workaround ~ issue related to breadboard
       bounced.middle = middle > 0 ? bounced.middle + 1 : 0;
-      bounced.left = left > 0 ? bounced.middle + 1 : 0;
-      bounced.right = right > 0 ? bounced.middle + 1 : 0;
+      bounced.left = left > 0 ? bounced.left + 1 : 0;
+      bounced.right = right > 0 ? bounced.right + 1 : 0;
 
       int pot = analogRead(pinMapping.pot);
 

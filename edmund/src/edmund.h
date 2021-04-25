@@ -20,15 +20,13 @@ namespace Edmund {
       device->BeginFrame();
       
       screenManager->LoopCurrent(*device, *game);
+
       game->RefreshEllapsedTime();
       
       if (debug)
         displayDebug(device);
       
-      if (device->IsResetPressed())
-        game->Reset();
-
-      device->EndFrame();
+      device->EndFrame(game->GetGameState());
     }
 
     void setup() {

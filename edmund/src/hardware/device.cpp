@@ -38,30 +38,37 @@ namespace Edmund {
       this->LcdProvider::beginFrame();
     }
 
-    void Device::EndFrame() {
+    void Device::EndFrame(const GameState& game) {
       this->InputProvider::endFrame();
       this->LcdProvider::endFrame();
 
-      WaitRemainingFrameTime();
-      EnsureSleep();
+      waitRemainingFrameTime();
+      ensureSleep(game);
     }
 
-    void Device::WaitRemainingFrameTime() {
+    void Device::waitRemainingFrameTime() {
       frameDuration = millis() - frameStart;
       if (frameDuration < FRAME_DURATION_MS)
         delay(FRAME_DURATION_MS - frameDuration);
     }
 
-    void Device::EnsureSleep() {
+    void Device::ensureSleep(const GameState& game) {
       if (getInputStatus() == INPUT_Active || rotaryInterruptTriggered == true)
       {
         sleepTick = 0;
         rotaryInterruptTriggered = false;
+        sleeping = false;
       }
       else
         sleepTick += 1;
 
       if (sleepTick > SLEEP_TICK_LIMIT) {
+        if (!sleeping)
+        {
+          SaveStateToSpiff(game);
+          Serial.println("save");
+        }
+        sleeping = true;
         Serial.print("z");
         startLightSleep();
       }
@@ -69,8 +76,8 @@ namespace Edmund {
         Serial.print("+");
     }
 
-    void Device::SaveStateToSpiff(const GameState& state) {
-      stateArray->set(state);
+    void Device::SaveStateToSpiff(const GameState& game) {
+      stateArray->set(game);
     }
 
     GameState Device::LoadStateFromSpiff() {
