@@ -7,14 +7,15 @@ namespace Edmund {
     volatile bool interrupt = false;
 
     void ICACHE_RAM_ATTR OnRotaryInterupt() {
-      interrupt = true;
-      Serial.println('.');
+      //if(!interrupt) interrupt = true;
+      Serial.print('.');
       RotaryOnMcp* current_rotary = Edmund::Hardware::InputProvider::RotaryInstance;
       if (!(current_rotary && current_rotary->IsReady())) return;
       current_rotary->RefreshValue();
     }
 
     void InputProvider::initInputs() {
+      //detachInterrupt(D7);
       mcp_provider->Initialize(D5, D6);
       mcp_provider->setupInterruptPinMode(pinMapping.DT, INPUT, CHANGE);
       mcp_provider->setupInterruptPinMode(pinMapping.CLK, INPUT, CHANGE);
@@ -23,18 +24,19 @@ namespace Edmund {
       mcp_provider->pinMode(pinMapping.middle, INPUT);
       mcp_provider->pinMode(pinMapping.right, INPUT);
 
-      pinMode(pinMapping.pot, INPUT);
+      pinMode(pinMapping.pot, INPUT_PULLUP);
 
       Edmund::Hardware::InputProvider::RotaryInstance = new RotaryOnMcp(mcp_provider, pinMapping.DT, pinMapping.CLK);
+      //pinMode(D7, INPUT);
       attachInterrupt(D7, OnRotaryInterupt, CHANGE);
     }
 
-    void InputProvider::refreshInputs() {      
+    void InputProvider::refreshInputs() {  
+      previous = current;    
       current = getState();
     }
 
     void InputProvider::updateInputs() {
-      previous = current;
     }
 
     // https://lastminuteengineers.com/rotary-encoder-arduino-tutorial/
@@ -55,7 +57,8 @@ namespace Edmund {
       bounced.left = left > 0 ? bounced.middle + 1 : 0;
       bounced.right = right > 0 ? bounced.middle + 1 : 0;
 
-      int pot = analogRead(pinMapping.pot);
+      //int pot = analogRead(pinMapping.pot);
+      int pot = 1;
 
       return InputState
       {
@@ -121,8 +124,7 @@ namespace Edmund {
     }
 
     byte InputProvider::IsActive(){
-      return  previous.rotary_direction != current.rotary_direction ||
-        (abs(previous.pot - current.pot) > 50)||
+      return previous.rotary_direction != current.rotary_direction ||
         previous.middle != current.middle ||
         previous.left != current.left ||
         previous.right != current.right ||

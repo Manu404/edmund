@@ -18,7 +18,6 @@ namespace Edmund {
     }
 
     void Device::Initialize() {
-      detachInterrupt(D7);
       Serial.begin(SERIAL_SPEED);
       Serial.println("init.");
       initScreen();
@@ -26,16 +25,17 @@ namespace Edmund {
     }
 
     void Device::BeginFrame() {
-      clear();      
       frameStart = millis();
+      clear();      
+      refreshInputs();
     }
 
     void Device::EndFrame() {
-      display();      
-      if (frameDuration < FRAME_DURATION_MS)
-        delay((millis() - frameStart));
+      display();     
+      // frameDuration = millis() - frameStart; 
+      // if (frameDuration < FRAME_DURATION_MS)
+      //   delay(FRAME_DURATION_MS - frameDuration);
       updateInputs();
-      refreshInputs();
     }
 
     void Device::SaveStateToSpiff(const GameState& state) {

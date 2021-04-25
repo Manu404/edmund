@@ -19,7 +19,7 @@ int needReset = 0;
 
 void wakeup(void) {
   needReset = 1;
-  Serial.println("-");
+  Serial.print("-");
 }
 
 void light_sleep(){
@@ -42,57 +42,61 @@ namespace Edmund {
     Game* game = new Game();
     Device* device = new Device();
     ScreenManager* screenManager = new ScreenManager();
-    int lastFrameDuration, lastFrame, currentFrame, sleepTick = 0;
+    unsigned long lastFrameDuration = 0, lastFrame = 0, currentFrame = 0, sleepTick = 0;
 
   public:
 
     void loop() {
-      if (needReset == 1) {
-        device->Initialize();
-        //game->LoadGameState(device->LoadStateFromSpiff());
-        screenManager->NavigateTo(HomeMenuScreenEnum);
-        needReset = 0;
-        interrupt = false;
-      }
+      // if (needReset == 1) {
+      //   device->Initialize();
+      //   //game->LoadGameState(device->LoadStateFromSpiff());
+      //   //screenManager->NavigateTo(HomeMenuScreenEnum);
+      //   needReset = 0;
+      // }
+
       device->BeginFrame();
       screenManager->LoopCurrent(*device, *game);
       game->RefreshEllapsedTime();
-      if (debug)
+      if (debug == 1)
         displayDebug(device);
       device->EndFrame();
 
       if (device->IsResetPressed() == 1)
         game->Reset();
 
-      if(device->IsActive() || interrupt)
-        sleepTick = 0;
-      else 
-        sleepTick += 1;
+      // if(device->IsActive() == 1 || interrupt == true)
+      // {
+      //   sleepTick = 0;
+      //   interrupt = false;
+      // }
+      // else 
+      //   sleepTick += 1;
 
-      if(sleepTick > SLEEP_TICK_LIMIT || interrupt){        
-        light_sleep();
-      }
-      else {
-            Serial.println("+");
-      }
+      // if(sleepTick > SLEEP_TICK_LIMIT){        
+      //   //light_sleep();
+      // }
+      // else {
+      //   Serial.print("+");
+      // }
+      Serial.print("+");
     }
 
     void setup() {
       device->Initialize();
-      //game->LoadGameState(device->LoadStateFromSpiff());
+      game->LoadGameState(device->LoadStateFromSpiff());
       screenManager->NavigateTo(HomeMenuScreenEnum);
-      WiFi.mode(WIFI_STA);
+      //WiFi.mode(WIFI_STA);
       Serial.println("setup");
     }
 
     void displayDebug(Device* hardware) {
       if (!hardware) return;
-      currentFrame = millis();
-      lastFrameDuration = currentFrame - lastFrame;
-      lastFrame = currentFrame;
+      // currentFrame = millis();
+      // lastFrameDuration = currentFrame - lastFrame;
+      // lastFrame = currentFrame;
       hardware->DrawBox(0, 0, 20, 6, BLACK);
       hardware->PrintNumberSmall(0, 0, lastFrameDuration, WHITE, 3);
-      hardware->PrintNumberSmall(10, 0, round(1000 / (lastFrameDuration != 0 ? lastFrameDuration : 1)), WHITE, 3);
+      //hardware->PrintNumberSmall(10, 0, round(1000 / (lastFrameDuration != 0 ? lastFrameDuration : 1)), WHITE, 3);
     }
   };
 }
