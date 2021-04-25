@@ -63,7 +63,7 @@ namespace Edmund {
         int y = 0, x = 0;
         uint16_t color = WHITE;
 
-        int life = game.GetPlayerProperty(0, Life_property);
+        int life = game.GetPlayerPropertyValue(0, Life_property);
         x = life < 100 ? 5 : 0;
         y = 10;
         if (current_player == 0 && current_property == Life_property)
@@ -84,13 +84,13 @@ namespace Edmund {
             }
 
             if (row == 0) {
-              hardware.PrintNumberSmall(x, y, game.GetPlayerProperty(0, (PlayerProperties)(col + 1)), color, 2);
+              hardware.PrintNumberSmall(x, y, game.GetPlayerPropertyValue(0, (PlayerProperties)(col + 1)), color, 2);
             }
             else if (row == 1) {
-              hardware.PrintNumberSmall(x, y, game.GetPlayerProperty(col + 1, Commander_1_property), color, 2);
+              hardware.PrintNumberSmall(x, y, game.GetPlayerPropertyValue(col + 1, Commander_1_property), color, 2);
             }
             else {
-              hardware.PrintNumberSmall(x, y, game.GetPlayerProperty(col + 1, Infect_property), color, 2);
+              hardware.PrintNumberSmall(x, y, game.GetPlayerPropertyValue(col + 1, Infect_property), color, 2);
             }
           }
         }
@@ -109,7 +109,7 @@ namespace Edmund {
             hardware.DrawBox(x - 1, (y - 1), 11, 7, color);
             color = WHITE;
           }
-          hardware.PrintNumberSmall(x, y, game.GetPlayerProperty(0, (PlayerProperties)(W_MANA_property + i)), color, 2);
+          hardware.PrintNumberSmall(x, y, game.GetPlayerPropertyValue(0, (PlayerProperties)(W_MANA_property + i)), color, 2);
         }
       }
     };

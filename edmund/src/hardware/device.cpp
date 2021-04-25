@@ -33,25 +33,23 @@ namespace Edmund {
 
     void Device::BeginFrame() {
       frameStart = millis();
-      clear();    
+
       this->InputProvider::beginFrame();
+      this->LcdProvider::beginFrame();
     }
 
     void Device::EndFrame() {
-      display();     
-       frameDuration = millis() - frameStart; 
-       if (frameDuration < FRAME_DURATION_MS)
-         delay(FRAME_DURATION_MS - frameDuration);
       this->InputProvider::endFrame();
-       EnsureSleep();
+      this->LcdProvider::endFrame();
+
+      WaitRemainingFrameTime();
+      EnsureSleep();
     }
 
-    void Device::SaveStateToSpiff(const GameState& state) {
-      stateArray->set(state);
-    }
-
-    GameState Device::LoadStateFromSpiff() {
-      return stateArray->get();
+    void Device::WaitRemainingFrameTime() {
+      frameDuration = millis() - frameStart;
+      if (frameDuration < FRAME_DURATION_MS)
+        delay(FRAME_DURATION_MS - frameDuration);
     }
 
     void Device::EnsureSleep() {
@@ -65,14 +63,22 @@ namespace Edmund {
 
       if (sleepTick > SLEEP_TICK_LIMIT) {
         Serial.print("z");
-        light_sleep();
+        startLightSleep();
       }
       else
         Serial.print("+");
     }
 
-    void Device::light_sleep() {
-      uint32_t sleep_time_in_ms = 1000;
+    void Device::SaveStateToSpiff(const GameState& state) {
+      stateArray->set(state);
+    }
+
+    GameState Device::LoadStateFromSpiff() {
+      return stateArray->get();
+    }
+
+    void Device::startLightSleep() {
+      uint32_t sleep_time_in_ms = SLEEP_TIME;
       wifi_set_opmode(NULL_MODE);
       wifi_set_sleep_type(LIGHT_SLEEP_T);
       wifi_fpm_set_sleep_type(LIGHT_SLEEP_T);

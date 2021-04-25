@@ -35,6 +35,14 @@ namespace Edmund {
       void initScreen();
       void clear();
       void display();
+
+      void beginFrame() {
+        clear();
+      }
+
+      void endFrame() {
+        display();
+      }
     private:
       Adafruit_PCD8544* lcd;
     };

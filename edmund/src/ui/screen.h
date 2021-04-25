@@ -44,12 +44,12 @@ namespace Edmund {
           if (readOnlySelection) return;
 
           if (hardware.IsRightPressed() == 1)
-            game.UpdatePlayerProperty(1, current_player, current_property);
+            game.UpdatePlayerPropertyValue(current_player, current_property, 1);
           if (hardware.IsLeftPressed() == 1)
-            game.UpdatePlayerProperty(-1, current_player, current_property);
+            game.UpdatePlayerPropertyValue(current_player, current_property, -1);
 
           if (hardware.GetEncoderDelta() != 0)
-            game.UpdatePlayerProperty(hardware.GetEncoderDelta(), current_player, current_property);
+            game.UpdatePlayerPropertyValue(current_player, current_property, hardware.GetEncoderDelta());
 
           //if (hardware.IsRightPressed() == 1 || hardware.IsLeftPressed())
           //  hardware.SaveStateToSpiff(game.GetGameState());

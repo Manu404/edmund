@@ -29,11 +29,21 @@ namespace Edmund {
       attachInterrupt(D7, OnRotaryInterupt, CHANGE);
     }
 
-    void InputProvider::refreshInputs() {  
-      current = getState();
+    void InputProvider::beginFrame() {
+      refreshInputs();
     }
 
-    InputState InputProvider::getState() {
+    void InputProvider::endFrame() {
+      refreshInputStatus();
+      previous = current;
+    }
+
+    void InputProvider::refreshInputs() {  
+      current = readCurrentState();
+    }
+
+    InputState InputProvider::readCurrentState() {
+
       current_encoder_value = Edmund::Hardware::InputProvider::RotaryInstance->GetValue();
       int encoder_delta = previous_encoder_value - current_encoder_value;
       previous_encoder_value = current_encoder_value;
@@ -63,47 +73,57 @@ namespace Edmund {
       };
     }
 
-    int InputProvider::isPressed(int prev, int curr) {
-      return (prev != curr) ? (prev > curr ? 1 : -1) : 0;
+    byte InputProvider::refreshInputStatus() {
+      int computedStatus = (previous.encoder_delta != current.encoder_delta ||
+        isPotActive() ||
+        previous.middle != current.middle ||
+        previous.left != current.left ||
+        previous.right != current.right ||
+        previous.encoder_switch != current.encoder_switch); // + isDisabled;
+      status = (InputStatus)(computedStatus);
     }
 
-    int InputProvider::IsEncoderTurnedRight() {
-      return current.rotary_delta < 0;
+    byte InputProvider::getButtonState(byte prev, byte curr) {
+      return (prev != curr) ? (prev > curr ? 1 : 2) : 0;
     }
 
-    int InputProvider::IsEncoderTurnedLeft() {
-      return current.rotary_delta > 0;
+    bool InputProvider::IsEncoderTurnedRight() {
+      return current.encoder_delta < 0;
     }
 
-    int InputProvider::IsRightPressed() {
-      return isPressed(previous.right, current.right) == 1;
+    bool InputProvider::IsEncoderTurnedLeft() {
+      return current.encoder_delta > 0;
     }
 
-    int InputProvider::IsLeftPressed() {
-      return isPressed(previous.left, current.left) == 1;
+    bool InputProvider::IsRightPressed() {
+      return getButtonState(previous.right, current.right) == 1;
     }
 
-    int InputProvider::IsMiddlePressed() {
-      return isPressed(previous.middle, current.middle) == 1;
+    bool InputProvider::IsLeftPressed() {
+      return getButtonState(previous.left, current.left) == 1;
     }
 
-    int InputProvider::IsRotarySwitchPressed() {
-      return previous.rotary_switch > current.rotary_switch;
+    bool InputProvider::IsMiddlePressed() {
+      return getButtonState(previous.middle, current.middle) == 1;
     }
 
-    int InputProvider::IsDebugPressed() {
-      return isPressed(previous.debug, current.debug) == 1;
+    bool InputProvider::IsRotarySwitchPressed() {
+      return previous.encoder_switch > current.encoder_switch;
     }
 
-    int InputProvider::IsResetPressed() {
-      return isPressed(previous.reset, current.reset) == 1;
+    bool InputProvider::IsDebugPressed() {
+      return getButtonState(previous.debug, current.debug) == 1;
+    }
+
+    bool InputProvider::IsResetPressed() {
+      return getButtonState(previous.reset, current.reset) == 1;
     }
 
     int InputProvider::GetEncoderDelta() {
-      return current.rotary_delta;
+      return current.encoder_delta;
     }
 
-    int InputProvider::HasPotChanged() {
+    bool InputProvider::HasPotChanged() {
       return previous.pot != current.pot;
     }
 
@@ -121,14 +141,5 @@ namespace Edmund {
       return abs(getPositionFromValue(POT_ACTIVE_SCALE, previous.pot) - getPositionFromValue(POT_ACTIVE_SCALE, current.pot)) > POT_ACTIVE_SENSITIVITY;
     }
 
-    byte InputProvider::refreshInputStatus(){
-      int computedStatus = (previous.rotary_delta != current.rotary_delta ||
-        isPotActive() ||
-        previous.middle != current.middle ||
-        previous.left != current.left ||
-        previous.right != current.right ||
-        previous.rotary_switch != current.rotary_switch); // + isDesabled;
-      status = (InputStatus)(computedStatus);
-    }
   }
 }

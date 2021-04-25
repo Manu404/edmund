@@ -24,8 +24,8 @@ namespace Edmund {
   {
     private:
       int life;
-      int commanderDamages[PLAYER_COUNT];
-      int infect;
+      unsigned int commanderDamages[PLAYER_COUNT];
+      unsigned int infect;
 
     public:
       Player() {
@@ -36,7 +36,6 @@ namespace Edmund {
       }
 
       void ApplyDeltaToLife(int delta) {
-        if (delta > 1 || delta < -1 || (delta < 0 && life == 0)) return;
         life += delta;
       }
 
@@ -44,22 +43,25 @@ namespace Edmund {
         return life;
       }
 
-      void ApplyDeltaToCommanderDamages(int delta, int target) {
-        if (delta > 1 || delta < -1 || (delta < 0 && commanderDamages[target] == 0) || (target < 0 || target > PLAYER_COUNT)) return;
-        commanderDamages[target] += delta;
+      void ApplyDeltaToCommanderDamages(int delta, byte target) {
+        if (target < 0 || target > PLAYER_COUNT) return;
+        if (delta < 0 && abs(delta) >= commanderDamages[target]) commanderDamages[target] = 0;
+        else commanderDamages[target] += delta;
       }
 
-      int GetCommanderDamages(int target) {
+      unsigned int GetCommanderDamages(byte target) {
         if ((target < 0 || target > PLAYER_COUNT)) return 0;
         return commanderDamages[target];
       }
 
       void ApplyDeltaToInfect(int delta) {
-        if (delta > 1 || delta < -1 || (delta < 0 && infect == 0)) return;
-        infect += delta;
+        if ((delta < 0 && abs(delta) >= infect)) 
+          infect = 0;
+        else 
+          infect += delta;
       }
 
-      int GetInfect() {
+      unsigned int GetInfect() {
         return infect;
       }
   };

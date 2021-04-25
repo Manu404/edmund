@@ -5,7 +5,7 @@ namespace Edmund {
     ellapsed_time = 0;
   }
 
-  void Game::UpdatePlayerProperty(int delta, int player, PlayerProperties property) {
+  void Game::UpdatePlayerPropertyValue(byte player, PlayerProperties property, int delta) {
     if (delta == 0) return;
     if (player < 0 || player > GetPlayerCount()) return;
     if (property < 0 || property > GetPropertyCount() + GetManaTypeCount()) return;
@@ -14,7 +14,7 @@ namespace Edmund {
     case 0:
     case 1:
     case 2: 
-    case 3: state.Players[player].ApplyDeltaToCommanderDamages(delta, (int)property);  break;
+    case 3: state.Players[player].ApplyDeltaToCommanderDamages(delta, (byte)property);  break;
     case 4: state.Players[player].ApplyDeltaToLife(delta); break;
     case 5: state.Players[player].ApplyDeltaToInfect(delta); break;
     case 6:
@@ -27,14 +27,14 @@ namespace Edmund {
     }
   }
 
-  int Game::GetPlayerProperty(int player, PlayerProperties property) {
+  int Game::GetPlayerPropertyValue(byte player, PlayerProperties property) {
     if (player < 0 || player > GetPlayerCount() || property < 0 || property > GetPropertyCount() + GetManaTypeCount()) return -1;
 
     switch (property) {
     case 0:
     case 1:
     case 2:
-    case 3: return state.Players[player].GetCommanderDamages((int)property);
+    case 3: return state.Players[player].GetCommanderDamages((byte)property);
     case 4: return state.Players[player].GetLife();
     case 5: return state.Players[player].GetInfect();
     case 6:
@@ -46,13 +46,13 @@ namespace Edmund {
     default: return -1;
     }
   }
-  int Game::GetPropertyCount() {
+  byte Game::GetPropertyCount() {
     return PROPERTY_COUNT;
   }
-  int Game::GetPlayerCount() {
+  byte Game::GetPlayerCount() {
     return PLAYER_COUNT;
   }
-  int Game::GetManaTypeCount() {
+  byte Game::GetManaTypeCount() {
     return MANA_TYPE_COUNT;
   }
   void Game::Reset() {

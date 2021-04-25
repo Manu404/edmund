@@ -15,28 +15,28 @@ namespace Edmund {
 
   class ManaPoolState {
   private:
-    int pool[MANA_TYPE_COUNT];
+    unsigned int pool[MANA_TYPE_COUNT];
   public:
 
     ManaPoolState() {
       Empty();
     }
 
-    int GetManaPoolContent(ManaType type) {
+    unsigned int GetManaPoolContent(ManaType type) {
       return pool[type];
     }
 
-    int ApplyDeltaToManaPoolContent(ManaType type, int delta) {
-      pool[type] += delta;
-      if (pool[type] < 0) pool[type] = 0;
+    void ApplyDeltaToManaPoolContent(ManaType type, int delta) {
+      if (delta < 0 && abs(delta) >= pool[type]) pool[type] = 0;
+      else pool[type] += delta;
     }
 
-    int* GetManaPoolContent() {
+    unsigned int* GetManaPoolContent() {
       return pool;
     }
 
     void Empty() {
-      for (int i = 0; i < MANA_TYPE_COUNT; pool[i] = 0, i++);
+      for (byte i = 0; i < MANA_TYPE_COUNT; pool[i] = 0, i++);
     }
   };
 }

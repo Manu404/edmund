@@ -8,7 +8,7 @@
 namespace Edmund {
   class EntryPoint {
   private:
-    int debug = -1;
+    bool debug = false;
     Game* game = new Game();
     Device* device = new Device();
     ScreenManager* screenManager = new ScreenManager();
@@ -22,10 +22,10 @@ namespace Edmund {
       screenManager->LoopCurrent(*device, *game);
       game->RefreshEllapsedTime();
       
-      if (debug == 1)
+      if (debug)
         displayDebug(device);
       
-      if (device->IsResetPressed() == 1)
+      if (device->IsResetPressed())
         game->Reset();
 
       device->EndFrame();

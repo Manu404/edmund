@@ -1,14 +1,13 @@
 /edmund/__vm
 /edmund/Debug
-/edmund/edmund.vcxproj.filters
-/edmund/edmund.vcxproj.user
+/edmund/*.vcxproj.filters
+/edmund/*.vcxproj.user
 /edmund/Release
 /output
 /bin
-/abn
 /scripts/abn
 /scripts/bin
-/edmund/.vs
+**/.vs
 /build
 /scripts/serlog
 /scripts/screenlog.0

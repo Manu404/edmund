@@ -18,6 +18,7 @@
 #define SERIAL_SPEED 115200
 
 #define SLEEP_TICK_LIMIT 200
+#define SLEEP_TIME 1000
 
 namespace Edmund {
   using namespace Hardware;
@@ -29,14 +30,14 @@ namespace Edmund {
       void Initialize();
       void BeginFrame();
       void EndFrame();
+      void WaitRemainingFrameTime();
       void SaveStateToSpiff(const GameState& state);
       GameState LoadStateFromSpiff();
       void EnsureSleep();
     private:
-      void light_sleep();
+      void startLightSleep();
       ESPFlash<GameState>* stateArray;
-      unsigned long frameStart = 0;
-      long frameDuration = 0;
+      unsigned long frameStart = 0, frameDuration = 0;
       int debug_combination = -1, sleepTick = 0;
     };
 }

@@ -10,7 +10,7 @@
 #define R_START_M 0x3
 #define R_CW_BEGIN_M 0x4
 #define R_CCW_BEGIN_M 0x5
-const unsigned char ttable[6][4] = {
+const byte ttable[6][4] = {
   {R_START_M,            R_CW_BEGIN,     R_CCW_BEGIN,  R_START}, // R_START (00)  
   {R_START_M | DIR_CCW, R_START,        R_CCW_BEGIN,  R_START}, // R_CCW_BEGIN  
   {R_START_M | DIR_CW,  R_CW_BEGIN,     R_START,      R_START}, // R_CW_BEGIN  
@@ -27,7 +27,7 @@ const unsigned char ttable[6][4] = {
 #define R_CCW_FINAL 0x5
 #define R_CCW_NEXT 0x6
 
-const unsigned char ttable[7][4] = {
+const byte ttable[7][4] = {
   {R_START,    R_CW_BEGIN,  R_CCW_BEGIN, R_START}, // R_START  
   {R_CW_NEXT,  R_START,     R_CW_FINAL,  R_START | DIR_CW}, // R_CW_FINAL  
   {R_CW_NEXT,  R_CW_BEGIN,  R_START,     R_START}, // R_CW_BEGIN  
@@ -44,9 +44,9 @@ namespace Edmund {
       state = R_START;
     }
 
-    unsigned char RotaryDecoder::getState() {
+    byte RotaryDecoder::getState() {
       refreshPinState();
-      unsigned char pinstate = (a << 1) | b;
+      unsigned char pinstate = (sda_state << 1) | sdb_state;
       state = ttable[state & 0xf][pinstate];
       return state & 0x30;
     }
@@ -63,7 +63,7 @@ namespace Edmund {
       return applyState(getState());
     }
 
-    double RotaryOnMcp::applyState(unsigned char state) {
+    double RotaryOnMcp::applyState(byte state) {
       if (state == DIR_CW)
         current_value+=1;
       else if (state == DIR_CCW)
@@ -75,8 +75,8 @@ namespace Edmund {
       if (provider && provider->IsReady())
       {
         uint16_t reg = provider->GetRegisters();
-        a = bitRead(reg, sda);
-        b = bitRead(reg, sdb);
+        sda_state = bitRead(reg, sda);
+        sdb_state = bitRead(reg, sdb);
       }
     }
   }

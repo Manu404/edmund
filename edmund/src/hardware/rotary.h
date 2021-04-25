@@ -20,12 +20,12 @@ namespace Edmund {
       public:
         RotaryDecoder();
       protected:
-        uint8_t a;
-        uint8_t b;
+        byte sda_state;
+        byte sdb_state;
         virtual void refreshPinState() = 0;
-        unsigned char getState();
+        byte getState();
       private:
-        unsigned char state;
+        byte state;
     };
 
     class RotaryOnMcp : RotaryDecoder
@@ -41,11 +41,11 @@ namespace Edmund {
       private:
         McpProvider* provider;
         double current_value = 0;
-        char sda;
-        char sdb;
+        byte sda;
+        byte sdb;
       protected:
         virtual void refreshPinState();
-        double applyState(unsigned char state);
+        double applyState(byte state);
     };
   }
 }

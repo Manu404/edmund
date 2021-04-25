@@ -25,7 +25,7 @@ namespace Edmund {
       byte right = GPB + 0;
       byte middle = GPB + 2;
       byte left = GPB + 1;
-      int pot = A0;
+      byte pot = A0;
       byte CLK = GPA + 1;
       byte DT = GPA + 2;
       byte SW = GPA + 3;
@@ -47,44 +47,41 @@ namespace Edmund {
     public:
       static RotaryOnMcp* RotaryInstance;
       InputProvider(McpProvider* mcp, PinMapping mapping) : mcp_provider(mcp), pinMapping(mapping) { }
-      int IsRightPressed();
-      int IsLeftPressed();
-      int GetEncoderDelta();
-      int IsMiddlePressed();
-      int IsDebugPressed();
-      int IsResetPressed();
-      int IsEncoderTurnedRight();
-      int IsEncoderTurnedLeft();
-      int IsRotarySwitchPressed();
-      int HasPotChanged();
+      bool IsRightPressed();
+      bool IsLeftPressed();
+      bool IsMiddlePressed();
+      bool IsDebugPressed();
+      bool IsResetPressed();
+      bool IsEncoderTurnedRight();
+      bool IsEncoderTurnedLeft();
+      bool IsRotarySwitchPressed();
+      bool HasPotChanged();
       float GetPositionFromPot(float scale);
+      int GetEncoderDelta();
 
     protected:
       void initInputs();
       byte refreshInputStatus();
-      void beginFrame() {
-        refreshInputs();
-      }
-      void endFrame() {
-        refreshInputStatus();
-        previous = current;
-      }
+      void beginFrame();
+      void endFrame();
       InputStatus getInputStatus() { return status; }
 
     private:
-      PinMapping pinMapping;
-      McpProvider* mcp_provider;
-
-      InputState current, previous, bounced;
-      InputStatus status;
       int debug_combination = -1;
       double previous_encoder_value = 0, current_encoder_value = 0;
 
-      int isPressed(int prev, int curr);
-      InputState getState();
-      float getPositionFromValue(float scale, int value);
-      byte isPotActive();
+      McpProvider* mcp_provider;
+      PinMapping pinMapping;
+
+      InputState current, previous, bounced;
+      InputStatus status;
+
       void refreshInputs();
+      float getPositionFromValue(float scale, int value);
+
+      byte getButtonState(byte prev, byte curr);
+      InputState readCurrentState();
+      byte isPotActive();
     };
   }
 }

@@ -11,11 +11,11 @@ namespace Edmund {
     class McpProvider {
       Adafruit_MCP23017* current_mcp;
       TwoWire* wire;
-      int ready = 0;
+      bool ready = false;
     public:
       McpProvider() : current_mcp{ new Adafruit_MCP23017() }, wire{ new TwoWire() }  {  }
       void Initialize(byte SDA, byte SDB);
-      int IsReady();
+      bool IsReady();
       void pinMode(byte pin, byte mode);
       void setupInterruptPinMode(byte pin, byte mode, byte interupt_mode);
       int digitalRead(byte pin);

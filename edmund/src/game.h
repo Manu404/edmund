@@ -10,11 +10,11 @@ namespace Edmund {
   {
     public:
       Game();
-      void UpdatePlayerProperty(int delta, int player, PlayerProperties property);
-      int GetPlayerProperty(int player, PlayerProperties property);
-      int GetPropertyCount();
-      int GetPlayerCount();
-      int GetManaTypeCount();
+      void UpdatePlayerPropertyValue(byte player, PlayerProperties property, int delta);
+      int GetPlayerPropertyValue(byte player, PlayerProperties property);
+      byte GetPropertyCount();
+      byte GetPlayerCount();
+      byte GetManaTypeCount();
       void Reset();
       const GameState GetGameState();
       void LoadGameState(GameState newState);
