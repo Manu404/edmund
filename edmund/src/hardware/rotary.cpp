@@ -65,9 +65,9 @@ namespace Edmund {
 
     double RotaryOnMcp::applyState(unsigned char state) {
       if (state == DIR_CW)
-        current_value++;
+        current_value+=1;
       else if (state == DIR_CCW)
-        current_value--;
+        current_value-=1;
       return current_value;
     }
 

@@ -4,10 +4,10 @@ namespace Edmund {
   namespace Hardware {
     RotaryOnMcp* InputProvider::RotaryInstance;
 
-    volatile bool interrupt = false;
+    volatile bool rotaryInterruptTriggered = false;
 
     void ICACHE_RAM_ATTR OnRotaryInterupt() {
-      //if(!interrupt) interrupt = true;
+      if(!rotaryInterruptTriggered) rotaryInterruptTriggered = true;
       Serial.print('.');
       RotaryOnMcp* current_rotary = Edmund::Hardware::InputProvider::RotaryInstance;
       if (!(current_rotary && current_rotary->IsReady())) return;
@@ -15,7 +15,6 @@ namespace Edmund {
     }
 
     void InputProvider::initInputs() {
-      //detachInterrupt(D7);
       mcp_provider->Initialize(D5, D6);
       mcp_provider->setupInterruptPinMode(pinMapping.DT, INPUT, CHANGE);
       mcp_provider->setupInterruptPinMode(pinMapping.CLK, INPUT, CHANGE);
@@ -27,38 +26,29 @@ namespace Edmund {
       pinMode(pinMapping.pot, INPUT_PULLUP);
 
       Edmund::Hardware::InputProvider::RotaryInstance = new RotaryOnMcp(mcp_provider, pinMapping.DT, pinMapping.CLK);
-      //pinMode(D7, INPUT);
       attachInterrupt(D7, OnRotaryInterupt, CHANGE);
     }
 
     void InputProvider::refreshInputs() {  
-      previous = current;    
       current = getState();
     }
 
-    void InputProvider::updateInputs() {
-    }
-
-    // https://lastminuteengineers.com/rotary-encoder-arduino-tutorial/
     InputState InputProvider::getState() {
       current_encoder_value = Edmund::Hardware::InputProvider::RotaryInstance->GetValue();
-      int direction = previous_encoder_value - current_encoder_value;
+      int encoder_delta = previous_encoder_value - current_encoder_value;
       previous_encoder_value = current_encoder_value;
 
-      byte rotary_switch = mcp_provider->digitalRead(pinMapping.SW);
+      byte encoder_switch = mcp_provider->digitalRead(pinMapping.SW);
       byte middle = mcp_provider->digitalRead(pinMapping.middle);
       byte left = mcp_provider->digitalRead(pinMapping.left);
       byte right = mcp_provider->digitalRead(pinMapping.right);
-
-      //byte rotary_switch = 0, middle = 0, left = 0, right = 0;
 
       // dummy workaround ~ issue related to breadboard
       bounced.middle = middle > 0 ? bounced.middle + 1 : 0;
       bounced.left = left > 0 ? bounced.middle + 1 : 0;
       bounced.right = right > 0 ? bounced.middle + 1 : 0;
 
-      //int pot = analogRead(pinMapping.pot);
-      int pot = 1;
+      int pot = analogRead(pinMapping.pot);
 
       return InputState
       {
@@ -68,8 +58,8 @@ namespace Edmund {
         pot,
         (byte)(left * right),
         (byte)(left * right * middle * (pot > 1020) * current.debug),
-        direction,
-        rotary_switch
+        encoder_delta,
+        encoder_switch
       };
     }
 
@@ -78,11 +68,11 @@ namespace Edmund {
     }
 
     int InputProvider::IsEncoderTurnedRight() {
-      return current.rotary_direction < 0;
+      return current.rotary_delta < 0;
     }
 
     int InputProvider::IsEncoderTurnedLeft() {
-      return current.rotary_direction > 0;
+      return current.rotary_delta > 0;
     }
 
     int InputProvider::IsRightPressed() {
@@ -110,7 +100,7 @@ namespace Edmund {
     }
 
     int InputProvider::GetEncoderDelta() {
-      return current.rotary_direction;
+      return current.rotary_delta;
     }
 
     int InputProvider::HasPotChanged() {
@@ -118,17 +108,27 @@ namespace Edmund {
     }
 
     float InputProvider::GetPositionFromPot(float scale) {
-      if (scale == 0) return 0;
-      // log, resistor biased +5 top
-      return (1024 * exp(log(((float)current.pot / 1024)))) / (1024 / scale);
+      return getPositionFromValue(scale, current.pot);
     }
 
-    byte InputProvider::IsActive(){
-      return previous.rotary_direction != current.rotary_direction ||
+    float InputProvider::getPositionFromValue(float scale, int value) {
+      if (scale == 0) return 0;
+      // log, resistor biased +5 top
+      return (1024 * exp(log(((float)value / 1024)))) / (1024 / scale);
+    }
+
+    byte InputProvider::isPotActive() {
+      return abs(getPositionFromValue(POT_ACTIVE_SCALE, previous.pot) - getPositionFromValue(POT_ACTIVE_SCALE, current.pot)) > POT_ACTIVE_SENSITIVITY;
+    }
+
+    byte InputProvider::refreshInputStatus(){
+      int computedStatus = (previous.rotary_delta != current.rotary_delta ||
+        isPotActive() ||
         previous.middle != current.middle ||
         previous.left != current.left ||
         previous.right != current.right ||
-        previous.rotary_switch != current.rotary_switch;
+        previous.rotary_switch != current.rotary_switch); // + isDesabled;
+      status = (InputStatus)(computedStatus);
     }
   }
 }

@@ -3,6 +3,7 @@
 
 #include <SPI.h>  
 #include <ESPFlash.h>
+#include <ESP8266WiFi.h>
 
 #include "../model.h"
 #include "lcd_provider.h"
@@ -16,6 +17,8 @@
 
 #define SERIAL_SPEED 115200
 
+#define SLEEP_TICK_LIMIT 200
+
 namespace Edmund {
   using namespace Hardware;
     class Device : public LcdProvider, public InputProvider
@@ -28,11 +31,13 @@ namespace Edmund {
       void EndFrame();
       void SaveStateToSpiff(const GameState& state);
       GameState LoadStateFromSpiff();
+      void EnsureSleep();
     private:
+      void light_sleep();
       ESPFlash<GameState>* stateArray;
       unsigned long frameStart = 0;
       long frameDuration = 0;
-      int debug_combination = -1;
+      int debug_combination = -1, sleepTick = 0;
     };
 }
 #endif

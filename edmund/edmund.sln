@@ -5,14 +5,6 @@ VisualStudioVersion = 16.0.30611.23
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "edmund", "edmund.vcxproj", "{C5F80730-F44F-4478-BDAE-6634EFC2CA88}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{F0FF3C26-5397-4619-9D2D-22D978140125}"
-	ProjectSection(SolutionItems) = preProject
-		..\scripts\build.sh = ..\scripts\build.sh
-		..\scripts\install_cli.sh = ..\scripts\install_cli.sh
-		..\scripts\install_dependencies.sh = ..\scripts\install_dependencies.sh
-		..\scripts\upload.sh = ..\scripts\upload.sh
-	EndProjectSection
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x86 = Debug|x86
