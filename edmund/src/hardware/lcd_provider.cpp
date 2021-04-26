@@ -93,7 +93,6 @@ namespace Edmund {
     }
 
     void LcdProvider::clear() {
-      //fill(BLACK);
       lcd->clearDisplay();
     }
 

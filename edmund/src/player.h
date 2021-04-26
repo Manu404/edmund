@@ -43,7 +43,7 @@ namespace Edmund {
         return life;
       }
 
-      void ApplyDeltaToCommanderDamages(int delta, byte target) {
+      void ApplyDeltaToCommanderDamages(byte target, int delta) {
         if (target < 0 || target > PLAYER_COUNT) return;
         if (delta < 0 && abs(delta) >= commanderDamages[target]) commanderDamages[target] = 0;
         else commanderDamages[target] += delta;
