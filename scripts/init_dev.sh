@@ -1,5 +1,11 @@
 #!/bin/bash
 
-bash ./install_cli.sh
-bash ./install_dependencies.sh
-bash ./build.sh
+sudo ./apt_install.sh
+
+./install_cli.sh
+./install_dependencies.sh
+./install_esp_decoder.sh
+
+./clean.sh
+./build.sh
+

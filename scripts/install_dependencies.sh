@@ -1,3 +1,10 @@
+#!/bin/bash
+
+if [[ $platform == 'linux' ]]; then
+	wget https://arduino.esp8266.com/stable/package_esp8266com_index.json
+	mv package_esp8266com_index.json ~/.arduino15/
+fi
+
 ./abn core install --additional-urls https://arduino.esp8266.com/stable/package_esp8266com_index.json esp8266:esp8266
 
 ./abn lib install "ESPFlash"
