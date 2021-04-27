@@ -1,15 +1,15 @@
 THIS_DIR := $(realpath $(dir $(realpath $(lastword $(MAKEFILE_LIST)))))
 ROOT := $(THIS_DIR)
 
-SKETCH = edmund.ino
+SKETCH = $(ROOT)/edmund.ino
 
-ESP_ROOT = /home/eis/esp8266
+ESP_ROOT = $(ROOT)/../sdk/esp8266
 
 UPLOAD_PORT = /dev/ttyS3
 
 BUILD_DIR = $(ROOT)/../build
 
-ARDUINO_LIBS := /home/eis/Arduino/libraries
+ARDUINO_LIBS := $(HOME)/Arduino/libraries
 
 BOARD = nodemcuv2
 

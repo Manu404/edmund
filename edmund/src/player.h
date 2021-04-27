@@ -2,9 +2,9 @@
 #define PLAYER_INCLUDED
 
 #define PLAYER_COUNT 4
+#define PROPERTY_COUNT 6
 
 namespace Edmund {
-  #define PROPERTY_COUNT 6
   enum PlayerProperties {
     Commander_1_property = 0,
     Commander_2_property = 1,
