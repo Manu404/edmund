@@ -8,6 +8,7 @@ include_directories(
     ${ARDUINO_MOCK_INCLUDE_DIRS}
     ${ARDUINO_MOCK_LIBS_DIR}/lib/gtest/gtest/src/gtest/googletest/include
     ${ARDUINO_MOCK_LIBS_DIR}/lib/gtest/gtest/src/gtest/googlemock/include
+    "./mocks/"
 )
 
 file(GLOB LIB_SRCS "../*.ino")
