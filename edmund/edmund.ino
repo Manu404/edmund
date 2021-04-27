@@ -1,4 +1,4 @@
-  #include "./src/edmund.h"
+  #include "./edmund.h"
   
   Edmund::EntryPoint ep;
 

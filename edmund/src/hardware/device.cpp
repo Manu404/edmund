@@ -1,12 +1,5 @@
 #include "./device.h"
 
-extern "C" {
-  #include "user_interface.h"
-}
-extern "C" {
-  #include "gpio.h"
-}
-
 void wakeup(void) {
   Serial.print("#");
 }

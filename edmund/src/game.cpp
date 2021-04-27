@@ -5,7 +5,7 @@ namespace Edmund {
     ellapsed_time = 0;
   }
 
-  void Game::UpdatePlayerPropertyValue(byte player, PlayerProperties property, int delta) {
+  void Game::ApplyDeltaToPlayerProperty(byte player, PlayerProperties property, int delta) {
     if (delta == 0) return;
     if (player < 0 || player > GetPlayerCount()) return;
     if (property < 0 || property > GetPropertyCount() + GetManaTypeCount()) return;

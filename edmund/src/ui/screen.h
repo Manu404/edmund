@@ -49,7 +49,7 @@ namespace Edmund {
           //  game.UpdatePlayerPropertyValue(current_player, current_property, -1);
 
           if (hardware.GetEncoderDelta() != 0)
-            game.UpdatePlayerPropertyValue(current_player, current_property, hardware.GetEncoderDelta());
+            game.ApplyDeltaToPlayerProperty(current_player, current_property, hardware.GetEncoderDelta());
 
           if (hardware.IsLeftPressed())
             game.EmptyManaPool();

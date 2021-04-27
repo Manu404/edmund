@@ -10,7 +10,7 @@ namespace Edmund {
   {
     public:
       Game();
-      void UpdatePlayerPropertyValue(byte player, PlayerProperties property, int delta);
+      void ApplyDeltaToPlayerProperty(byte player, PlayerProperties property, int delta);
       int GetPlayerPropertyValue(byte player, PlayerProperties property);
       byte GetPropertyCount();
       byte GetPlayerCount();

@@ -1,6 +1,7 @@
 #ifndef HARDWARE_INCLUDED
 #define HARDWARE_INCLUDED
 
+#include <Arduino.h>  
 #include <SPI.h>  
 #include <ESPFlash.h>
 #include <ESP8266WiFi.h>
