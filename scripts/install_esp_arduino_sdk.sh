@@ -1,5 +1,5 @@
 #!/bin/bash
-sudo apt-get install gcc
+sudo apt-get install gcc make
 
 mkdir -p ../sdk/
 cd ../sdk/

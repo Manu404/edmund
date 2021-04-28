@@ -51,17 +51,17 @@ The regulator is optional, an usb powerbank can do the job or directly connectin
 
 If on Windows, install wsl (https://gist.github.com/trzecieu/8828e9b47b2b553e3ece7f6f899d4d25)
 
-- scripts/init_dev.sh => install all deps and dev tools and build project, will install:
-	- arduino-cli
-	- arduino-cli esp8266 core
-	- required arduino libraries	
-	- minicom
-	- screen
-	- vim
-	- java default-jre unzip for the exception decoder (optional, manual confirmation required, +/- 400mo for the jre)
-scripts/init_build.sh => install dependencies required for build and start build. (no dev tools installed)
-	- arduino-cli
-	- arduino-cli esp8266 core
-	- required arduino libraries	
-	
+To setup the entire toolchain from a clean environemennt run init.sh (tested on ubuntu server "default" install and clean WSL)
+will call:
+ - init_esp_arduino_sdk.sh => install dependencies to use make with arduinon project and esp8266 sdk from espressif
+ - install_cli.sh => install arduino-cli, still used for librairies
+ - install_dependencies.sh => install required arduino librairies using arduino-cli, also install core:esp8266 (remains from previous build process, low footprint)
+ 
 for the rest, script names are self explainatory
+
+if using arduino-cli ("legacy" scripts, gtest not supported, scripts prefixed with abn)
+- scripts/abn_install_dev.sh => install all deps and dev tools and build project, will install:
+	- arduino-cli, arduino-cli esp8266 core, required arduino libraries, minicom, screen, vim, java default-jre unzip for the exception decoder (optional, manual confirmation required, +/- 400mo for the jre)
+- scripts/abn_install_build.sh => install dependencies required for build and start build. (no dev tools installed)
+	- arduino-cli, arduino-cli esp8266 core, required arduino libraries	
+	
