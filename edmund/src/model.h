@@ -9,7 +9,7 @@ namespace Edmund {
   class GameState {
   public:
     Player Players[PLAYER_COUNT];
-    ManaPoolState ManaPool;
+    ManaPoolState ManaPool[PLAYER_COUNT];
   };
 }
 #endif

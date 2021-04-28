@@ -22,7 +22,7 @@ namespace Edmund {
     case 8:
     case 9:
     case 10:
-    case 11: state.ManaPool.ApplyDeltaToManaPoolContent((ManaType)(property - W_MANA_property), delta); break;
+    case 11: state.ManaPool[player].ApplyDeltaToManaPoolContent((ManaType)(property - W_MANA_property), delta); break;
     default: break;
     }
   }
@@ -42,7 +42,7 @@ namespace Edmund {
     case 8:
     case 9:
     case 10:
-    case 11: return state.ManaPool.GetManaPoolContent((ManaType)(property - W_MANA_property));
+    case 11: return state.ManaPool[player].GetManaPoolContent((ManaType)(property - W_MANA_property));
     default: return -1;
     }
   }
@@ -72,7 +72,8 @@ namespace Edmund {
   }
 
   void Game::EmptyManaPool() {
-    state.ManaPool.Empty();
+    for(int i = 0; i < GetPlayerCount(); i++)
+      state.ManaPool[i].Empty();
   }
 
   void Game::RefreshEllapsedTime() {

@@ -1,6 +1,6 @@
 #include "gtest/gtest.h"
-#include "arduino-mock/Arduino.h"
-#include "arduino-mock/Serial.h"
+#include "Arduino.h"
+#include "Serial.h"
 
 #include "../src/model.h"
 

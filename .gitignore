@@ -16,3 +16,9 @@
 /edmund/test/build
 /edmund/test/Testing
 /sdk
+/edmund/test/CMakeFiles
+/edmund/test/arduino_mock/cmake_install.cmake
+/edmund/test/arduino_mock/CTestTestfile.cmake
+/edmund/test/arduino_mock/Makefile
+/edmund/test/arduino_mock/CMakeFiles
+/scripts/build.log

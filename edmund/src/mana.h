@@ -15,7 +15,7 @@ namespace Edmund {
 
   class ManaPoolState {
   private:
-    unsigned int pool[MANA_TYPE_COUNT];
+    unsigned int pool[MANA_TYPE_COUNT + 1];
   public:
 
     ManaPoolState() {
@@ -29,10 +29,6 @@ namespace Edmund {
     void ApplyDeltaToManaPoolContent(ManaType type, int delta) {
       if (delta < 0 && abs(delta) >= pool[type]) pool[type] = 0;
       else pool[type] += delta;
-    }
-
-    unsigned int* GetManaPoolContent() {
-      return pool;
     }
 
     void Empty() {
