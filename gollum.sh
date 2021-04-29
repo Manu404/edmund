@@ -8,7 +8,8 @@ while test $# -gt 0; do
   case "$1" in
     init)
 		echo "Default init."; 
-		./init.sh; exit;;
+		./init.sh; 
+		exit;;
 	install:gollum)
 		echo "Make gollum userly available (ln in ~/bin/gollum"
 		ln -s `pwd`/gollum.sh ~/bin/gollum
@@ -16,55 +17,72 @@ while test $# -gt 0; do
 		exit;;
 	install:cli)
 		echo "Install cli"; 
-		./instal_cli.sh; exit;;
+		./instal_cli.sh; 
+		exit;;
 	install:deps)
 		echo "Install dependencies"; 
-		./install_dependencies.sh; exit;;
+		./install_dependencies.sh; 
+		exit;;
 	install:esp-arduino-sdk)
 		echo "Install esp sdk"; 
-		./install_esp_arduino_sdk.sh; exit;;
+		./install_esp_arduino_sdk.sh; 
+		exit;;
 	install:decoder)
 		echo "Install esp stacktrace decoder"
-		./innstall_esp_decoder.sh; exit;;	
+		./innstall_esp_decoder.sh; 
+		exit;;	
 	install:espressif-toolchain)
 		echo "Install espressif toolchain"
-		./install_espressif_toolchain.sh; exit;;	
+		./install_espressif_toolchain.sh; 
+		exit;;	
 	install:apt)
 		echo "Install packages required from apt"
-		./apt_install.sh; exit;;
+		./apt_install.sh; 
+		exit;;
 	build:bin)
 		echo "Build current code base"
-		./build.sh; exit;;		
+		./build.sh; 
+		exit;;		
 	build:test)
 		echo "Build tests"
-		./build_test.sh; exit;;	
+		./build_test.sh; 
+		exit;;	
 	build:clean)
 		echo "Clean build output/tmp, then build"
-		./cleanbuild.sh; exit;;	
+		./cleanbuild.sh; 
+		exit;;	
 	clean:all)
 		echo "Clean build output/tmp"
 		./clean.sh; 
-		./clean_test.sh; exit;;
+		./clean_test.sh; 
+		exit;;
 	clean:test)
 		echo "Clean test output/tmp"; 
-		./clean_test.sh; exit;;
+		./clean_test.sh; 
+		exit;;
 	run:flash)
 		echo "Flash the device with edmmund"; 
-		./upload.sh; exit;;
+		./upload.sh; 
+		exit;;
 	run:test)
 		echo "Build and run unit tests"; 
-		./build_run_test.sh; exit;;
+		./build_run_test.sh; 
+		exit;;
 	run:debug)
 		echo "Clean build, upload and start serial monitor"; 
-		./debug.sh; exit;;
+		./debug.sh; 
+		exit;;
 	run:to:mordor)
-		./break.sh; exit;;
+		./break.sh; 
+		exit;;
 	serial)
 		echo "Start serial monitor"; 
-		./openserial.sh; exit;;
+		./openserial.sh; 
+		exit;;
 	screen)
 		echo "Launch dev screen"; 
-		./startscreen.sh; exit;;
+		./startscreen.sh; 
+		exit;;
 	help)
 		echo "======================================================================================"
 		echo "=============== b e == c a r e f u l./:%£*¨%µ%*jdj'*¨£%$^)z¨^àçgu^ ============ damn ="
