@@ -15,6 +15,11 @@ namespace Edmund {
     unsigned long lastFrameDuration = 0, lastFrame = 0, currentFrame = 0;
 
   public:
+    ~EntryPoint() {
+      delete(screenManager);
+      delete(device);
+      delete(game);
+    }
 
     void loop() {
       device->BeginFrame();

@@ -47,6 +47,7 @@ namespace Edmund {
     public:
       static RotaryOnMcp* RotaryInstance;
       InputProvider(McpProvider* mcp, PinMapping mapping) : mcp_provider(mcp), pinMapping(mapping) { }
+      ~InputProvider() { delete(mcp_provider); }
       bool IsRightPressed();
       bool IsLeftPressed();
       bool IsMiddlePressed();

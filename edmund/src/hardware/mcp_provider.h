@@ -14,6 +14,12 @@ namespace Edmund {
       bool ready = false;
     public:
       McpProvider() : current_mcp{ new Adafruit_MCP23017() }, wire{ new TwoWire() }  {  }
+
+      ~McpProvider() {
+        delete (current_mcp);
+        delete (wire);
+      }
+
       void Initialize(byte SDA, byte SDB);
       bool IsReady();
       void pinMode(byte pin, byte mode);

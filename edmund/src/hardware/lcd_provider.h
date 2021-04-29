@@ -17,6 +17,7 @@ namespace Edmund {
     {
     public:
       LcdProvider(Adafruit_PCD8544* _lcd) : lcd(_lcd) { }
+      ~LcdProvider() { delete(lcd); }
       void Print(String m); 
       void Print(String m, int x, int y);
       void PrintLine(String m);
