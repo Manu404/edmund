@@ -2,39 +2,40 @@
 
 namespace Edmund {
   namespace Hardware {
-    RotaryOnMcp* InputProvider::RotaryInstance;
-
+    // 
+    // on interrupt D7
+    //
+    std::shared_ptr<RotaryOnMcp> InputProvider::RotaryInstance;
     volatile bool rotaryInterruptTriggered = false;
-
     void ICACHE_RAM_ATTR OnRotaryInterupt() {
       if(!rotaryInterruptTriggered) rotaryInterruptTriggered = true;
       Serial.print('.');
-      RotaryOnMcp* current_rotary = Edmund::Hardware::InputProvider::RotaryInstance;
-      if (!(current_rotary && current_rotary->IsReady())) return;
-      current_rotary->RefreshValue();
+      std::shared_ptr<RotaryOnMcp> current_rotary = Edmund::Hardware::InputProvider::RotaryInstance;
+      if (current_rotary && current_rotary->IsReady()) 
+        current_rotary->RefreshValue();
     }
 
     void InputProvider::initInputs() {
-      mcp_provider->Initialize(D5, D6);
-      mcp_provider->setupInterruptPinMode(pinMapping.DT, INPUT, CHANGE);
-      mcp_provider->setupInterruptPinMode(pinMapping.CLK, INPUT, CHANGE);
+      mcpProvider->Initialize(D5, D6);
+      mcpProvider->setupInterruptPinMode(pinMapping.DT, INPUT, CHANGE);
+      mcpProvider->setupInterruptPinMode(pinMapping.CLK, INPUT, CHANGE);
 
-      mcp_provider->pinMode(pinMapping.left, INPUT);
-      mcp_provider->pinMode(pinMapping.middle, INPUT);
-      mcp_provider->pinMode(pinMapping.right, INPUT);
+      mcpProvider->pinMode(pinMapping.left, INPUT);
+      mcpProvider->pinMode(pinMapping.middle, INPUT);
+      mcpProvider->pinMode(pinMapping.right, INPUT);
 
       pinMode(pinMapping.pot, INPUT_PULLUP);
 
-      Edmund::Hardware::InputProvider::RotaryInstance = new RotaryOnMcp(mcp_provider, pinMapping.DT, pinMapping.CLK);
+      Edmund::Hardware::InputProvider::RotaryInstance = std::shared_ptr<RotaryOnMcp>(new RotaryOnMcp(mcpProvider, pinMapping.DT, pinMapping.CLK));
       attachInterrupt(D7, OnRotaryInterupt, CHANGE);
     }
 
     void InputProvider::beginFrame() {
       refreshInputs();
+      activityStatus = computeActivityStatus();
     }
 
     void InputProvider::endFrame() {
-      refreshInputStatus();
       previous = current;
     }
 
@@ -44,14 +45,14 @@ namespace Edmund {
 
     InputState InputProvider::readCurrentState() {
 
-      current_encoder_value = Edmund::Hardware::InputProvider::RotaryInstance->GetValue();
-      int encoder_delta = previous_encoder_value - current_encoder_value;
-      previous_encoder_value = current_encoder_value;
+      currentEncoderValue = Edmund::Hardware::InputProvider::RotaryInstance->GetValue();
+      int encoder_delta = previousEncoderValue - currentEncoderValue;
+      previousEncoderValue = currentEncoderValue;
 
-      byte encoder_switch = mcp_provider->digitalRead(pinMapping.SW);
-      byte middle = mcp_provider->digitalRead(pinMapping.middle);
-      byte left = mcp_provider->digitalRead(pinMapping.left);
-      byte right = mcp_provider->digitalRead(pinMapping.right);
+      byte encoder_switch = mcpProvider->digitalRead(pinMapping.SW);
+      byte middle = mcpProvider->digitalRead(pinMapping.middle);
+      byte left = mcpProvider->digitalRead(pinMapping.left);
+      byte right = mcpProvider->digitalRead(pinMapping.right);
 
       // dummy workaround ~ issue related to breadboard
       bounced.middle = middle > 0 ? bounced.middle + 1 : 0;
@@ -73,14 +74,14 @@ namespace Edmund {
       };
     }
 
-    byte InputProvider::refreshInputStatus() {
-      int computedStatus = (previous.encoder_delta != current.encoder_delta ||
+    ActivityStatus InputProvider::computeActivityStatus() const {
+      int computedStatus = (previous.encoderDelta != current.encoderDelta ||
         isPotActive() ||
         previous.middle != current.middle ||
         previous.left != current.left ||
         previous.right != current.right ||
-        previous.encoder_switch != current.encoder_switch); // + isDisabled;
-      status = (InputStatus)(computedStatus);
+        previous.encoderSwitch != current.encoderSwitch); // + isDisabled;
+      return (ActivityStatus)(computedStatus);
     }
 
     byte InputProvider::getButtonState(byte prev, byte curr) const {
@@ -88,11 +89,11 @@ namespace Edmund {
     }
 
     bool InputProvider::IsEncoderTurnedRight() const {
-      return current.encoder_delta < 0;
+      return current.encoderDelta < 0;
     }
 
     bool InputProvider::IsEncoderTurnedLeft() const {
-      return current.encoder_delta > 0;
+      return current.encoderDelta > 0;
     }
 
     bool InputProvider::IsRightPressed() const {
@@ -108,7 +109,7 @@ namespace Edmund {
     }
 
     bool InputProvider::IsRotarySwitchPressed() const {
-      return previous.encoder_switch > current.encoder_switch;
+      return previous.encoderSwitch > current.encoderSwitch;
     }
 
     bool InputProvider::IsDebugPressed() const {
@@ -120,7 +121,7 @@ namespace Edmund {
     }
 
     int InputProvider::GetEncoderDelta() const {
-      return current.encoder_delta;
+      return current.encoderDelta;
     }
 
     bool InputProvider::HasPotChanged() const {

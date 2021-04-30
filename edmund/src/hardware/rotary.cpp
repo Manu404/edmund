@@ -46,7 +46,7 @@ namespace Edmund {
 
     byte RotaryDecoder::getState() {
       refreshPinState();
-      unsigned char pinstate = (sda_state << 1) | sdb_state;
+      unsigned char pinstate = (sdaState << 1) | sdbState;
       state = ttable[state & 0xf][pinstate];
       return state & 0x30;
     }
@@ -56,7 +56,7 @@ namespace Edmund {
     }
 
     double RotaryOnMcp::GetValue() const {
-      return current_value;
+      return currentValue;
     }
 
     double RotaryOnMcp::RefreshValue() {
@@ -65,18 +65,18 @@ namespace Edmund {
 
     double RotaryOnMcp::applyState(byte state) {
       if (state == DIR_CW)
-        current_value+=1;
+        currentValue+=1;
       else if (state == DIR_CCW)
-        current_value-=1;
-      return current_value;
+        currentValue-=1;
+      return currentValue;
     }
 
     void RotaryOnMcp::refreshPinState() {
       if (provider && provider->IsReady())
       {
         uint16_t reg = provider->GetRegisters();
-        sda_state = bitRead(reg, sda);
-        sdb_state = bitRead(reg, sdb);
+        sdaState = bitRead(reg, sda);
+        sdbState = bitRead(reg, sdb);
       }
     }
   }

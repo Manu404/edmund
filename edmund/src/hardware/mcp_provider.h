@@ -9,14 +9,14 @@
 namespace Edmund {
   namespace Hardware {
     class McpProvider {
-      Adafruit_MCP23017* current_mcp;
+      Adafruit_MCP23017* currentMcp;
       TwoWire* wire;
       bool ready = false;
     public:
-      McpProvider() : current_mcp{ new Adafruit_MCP23017() }, wire{ new TwoWire() }  {  }
+      McpProvider() : currentMcp{ new Adafruit_MCP23017() }, wire{ new TwoWire() }  {  }
 
       ~McpProvider() {
-        delete (current_mcp);
+        delete (currentMcp);
         delete (wire);
       }
 
@@ -28,7 +28,7 @@ namespace Edmund {
 
       uint16_t GetRegisters() {
         if (!ready) return 0;
-        return current_mcp->readGPIOAB();
+        return currentMcp->readGPIOAB();
       }
     };
   }

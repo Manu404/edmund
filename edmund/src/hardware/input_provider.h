@@ -17,7 +17,7 @@ namespace Edmund {
   namespace Hardware {
     extern volatile bool rotaryInterruptTriggered; 
 
-    enum InputStatus {
+    enum ActivityStatus {
       INPUT_Inactive = 0,
       INPUT_Active = 1,
       INPUT_Disabled = 2,
@@ -41,15 +41,15 @@ namespace Edmund {
       int pot;
       byte debug;
       byte reset;
-      int encoder_delta;
-      byte encoder_switch;
+      int encoderDelta;
+      byte encoderSwitch;
     };
 
     class InputProvider
     {
     public:
-      static RotaryOnMcp* RotaryInstance;
-      InputProvider(std::unique_ptr<McpProvider> mcp, PinMapping mapping) : mcp_provider(std::move(mcp)), pinMapping(mapping) { }
+      static std::shared_ptr<RotaryOnMcp> RotaryInstance;
+      InputProvider(std::unique_ptr<McpProvider> mcp, PinMapping mapping) : mcpProvider(std::move(mcp)), pinMapping(mapping) { }
       ~InputProvider() { }
       bool IsRightPressed() const;
       bool IsLeftPressed() const;
@@ -65,20 +65,20 @@ namespace Edmund {
 
     protected:
       void initInputs();
-      byte refreshInputStatus();
+      ActivityStatus computeActivityStatus() const;
       void beginFrame();
       void endFrame();
-      InputStatus getInputStatus() { return status; }
+      ActivityStatus getInputStatus() { return activityStatus; }
 
     private:
-      int debug_combination = -1;
-      double previous_encoder_value = 0, current_encoder_value = 0;
+      int debugCombination = -1;
+      double previousEncoderValue = 0, currentEncoderValue = 0;
 
-      std::shared_ptr<McpProvider> mcp_provider;
+      std::shared_ptr<McpProvider> mcpProvider;
       PinMapping pinMapping;
 
       InputState current, previous, bounced;
-      InputStatus status;
+      ActivityStatus activityStatus;
 
       void refreshInputs();
       float getPositionFromValue(float scale, int value) const;

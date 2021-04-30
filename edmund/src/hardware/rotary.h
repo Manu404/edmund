@@ -23,8 +23,8 @@ namespace Edmund {
       public:
         RotaryDecoder();
       protected:
-        byte sda_state;
-        byte sdb_state;
+        byte sdaState;
+        byte sdbState;
         virtual void refreshPinState() = 0;
         byte getState();
       private:
@@ -34,7 +34,7 @@ namespace Edmund {
     class RotaryOnMcp : RotaryDecoder
     {
       private:
-        double current_value = 0;
+        double currentValue = 0;
         byte sda;
         byte sdb;
         std::shared_ptr<McpProvider> provider;
