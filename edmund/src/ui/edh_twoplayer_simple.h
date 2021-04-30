@@ -9,7 +9,9 @@ namespace Edmund {
     class SimpleTwoPlayerEdhScreen : public DefaultPropertyNavigationScreen {
     public:
       SimpleTwoPlayerEdhScreen() : DefaultPropertyNavigationScreen(14) { }
-      virtual ScreenEnum GetNavigationId() { return SimpleTwoPlayerEdhScreenEnum; }
+
+      virtual const ScreenEnum GetNavigationId() const { return SimpleTwoPlayerEdhScreenEnum; }
+
       virtual ScreenEnum loop(const Device& hardware, Game& game) {
 
         processInputs(hardware, game);

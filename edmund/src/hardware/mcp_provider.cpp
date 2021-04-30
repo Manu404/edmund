@@ -12,7 +12,7 @@ namespace Edmund {
       ready = 1;
     }
 
-    bool McpProvider::IsReady() {
+    bool McpProvider::IsReady() const {
       return ready;
     }
 

@@ -9,18 +9,18 @@ namespace Edmund {
 
     class HomeScreenMenuOption {
       public:
-        HomeScreenMenuOption(ScreenEnum screen, String caption, const uint8_t* logo, int w, int h) 
+        HomeScreenMenuOption(const ScreenEnum screen, const String caption, const uint8_t* logo, const int w, const int h) 
           : _icon(logo), _screen(screen), _h(h), _w(w), _caption(caption) { }
         const uint8_t* GetIcon() { return _icon; }
-        ScreenEnum GetScreenEnum() { return _screen; }
-        int GetIconWidth() { return _w; }
-        int GetIconHeight() { return _h; }
-        String GetCaption() { return _caption; }
+        const ScreenEnum GetScreenEnum() { return _screen; }
+        const int GetIconWidth() { return _w; }
+        const int GetIconHeight() { return _h; }
+        const String GetCaption() { return _caption; }
       private:
-        int _h, _w;
+        const int _h, _w;
         const uint8_t* _icon;
-        ScreenEnum _screen;
-        String _caption;
+        const ScreenEnum _screen;
+        const String _caption;
     };
 
     class HomeScreen : public IScreen
@@ -28,16 +28,14 @@ namespace Edmund {
     private:
       HomeScreenMenuOption* options[6];
       int newSelection, currentSelection;
-      int requestNavigation;
+      bool requestNavigation;
       long rotaryValue, x_delta;
       int direction, currentFrame;
-      int frameSkip = 1;
+      byte frameSkip = 1;
       int screenWidth = 0;
-      int optionCount = 0;
+      byte optionCount = 0;
 
     public:
-      virtual ScreenEnum GetNavigationId() { return HomeMenuScreenEnum; }
-
       HomeScreen() : IScreen() {
         //int w = 52, h = 31;
         int w = 84, h = 48;
@@ -49,6 +47,8 @@ namespace Edmund {
         options[5] = new HomeScreenMenuOption(ConfigScreenEnum, "Diagnostic", Resources::diag_icon, w, h);
         optionCount = (sizeof(options) / sizeof(HomeScreenMenuOption*)) - 1;
       }
+
+      virtual const ScreenEnum GetNavigationId() const { return HomeMenuScreenEnum; }
 
       virtual ScreenEnum loop(const Device& hardware, Game& game)
       {

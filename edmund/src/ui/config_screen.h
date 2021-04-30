@@ -7,8 +7,6 @@ namespace Edmund {
   namespace UI {
     class ConfigScreen : public IScreen
     {
-      private:
-        int debug = -1;
       public:
         ConfigScreen() : IScreen() { }
 
@@ -27,7 +25,7 @@ namespace Edmund {
 
         virtual void processInputs(const Device& hardware, Game& game) { }
 
-        virtual ScreenEnum GetNavigationId() { return ConfigScreenEnum; }
+        virtual const ScreenEnum GetNavigationId() const { return ConfigScreenEnum; }
     };
   }
 }

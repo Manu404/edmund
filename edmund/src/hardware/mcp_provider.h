@@ -21,7 +21,7 @@ namespace Edmund {
       }
 
       void Initialize(byte SDA, byte SDB);
-      bool IsReady();
+      bool IsReady() const;
       void pinMode(byte pin, byte mode);
       void setupInterruptPinMode(byte pin, byte mode, byte interupt_mode);
       int digitalRead(byte pin);

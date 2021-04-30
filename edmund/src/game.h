@@ -10,13 +10,13 @@ namespace Edmund {
   {
     public:
       Game();
-      void ApplyDeltaToPlayerProperty(byte player, PlayerProperties property, int delta);
-      int GetPlayerPropertyValue(byte player, PlayerProperties property);
-      byte GetPropertyCount();
-      byte GetPlayerCount();
-      byte GetManaTypeCount();
+      void ApplyDeltaToPlayerProperty(const byte player, const PlayerProperties property, const int delta);
+      int GetPlayerPropertyValue(const byte player, const PlayerProperties property) const;
+      const byte GetPropertyCount() const;
+      const  byte GetPlayerCount() const;
+      const byte GetManaTypeCount() const;
       void Reset();
-      const GameState GetGameState();
+      const GameState GetGameState() const;
       void LoadGameState(GameState newState);
       void RefreshEllapsedTime();
       void EmptyManaPool();

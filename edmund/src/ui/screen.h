@@ -21,7 +21,7 @@ namespace Edmund {
         IScreen() {
         }
         virtual ScreenEnum loop(const Device& hardware, Game& game) = 0;
-        virtual ScreenEnum GetNavigationId() = 0;
+        virtual const ScreenEnum GetNavigationId() const = 0;
       protected:
         virtual void processInputs(const Device& hardware, Game& game) = 0;
     };
@@ -33,8 +33,8 @@ namespace Edmund {
         }
       protected:
         bool readOnlySelection = false;
-        int current_player;
-        int propertyCount;
+        byte current_player;
+        byte propertyCount;
         PlayerProperties current_property;
 
         void processInputs(const Device& hardware, Game& game) {

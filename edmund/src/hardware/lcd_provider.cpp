@@ -11,7 +11,7 @@ namespace Edmund {
       lcd->setRotation(2);
       lcd->setContrast(64);
       lcd->setBias(4);
-      SPI.setClockDivider(1);
+      SPI.setClockDivider(1); // !! will cause problem, need to move this within lcd
       is_init = 1;
     }
 
@@ -31,7 +31,7 @@ namespace Edmund {
     void LcdProvider::PrintNumberLarge(int x, int y, u_int value, uint16_t color, int length) const {
       lcd->setFont(&FreeMonoBold9pt7b);
       int remainingValue = value, currentValue = 0, decimal_shift = 0;
-      for (int i = 5; remainingValue >= 0 && i >= 0; i--) // 16bits int, 5 digits max
+      for (int i = 5; remainingValue >= 0 && i >= 0; i--) // 16bits uint, 5 digits max
       {
         int p = pow(10, i);
         currentValue = (remainingValue / p);

@@ -51,11 +51,11 @@ namespace Edmund {
       return state & 0x30;
     }
 
-    int RotaryOnMcp::IsReady() {
+    int RotaryOnMcp::IsReady() const {
       return provider && provider->IsReady();
     }
 
-    double RotaryOnMcp::GetValue() {
+    double RotaryOnMcp::GetValue() const {
       return current_value;
     }
 

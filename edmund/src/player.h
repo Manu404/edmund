@@ -39,33 +39,33 @@ namespace Edmund {
           commanderDamages[i] = 0;
       }
 
-      void ApplyDeltaToLife(int delta) {
+      void ApplyDeltaToLife(const int delta) {
         life += delta;
       }
 
-      int GetLife() {
+      int GetLife() const {
         return life;
       }
 
-      void ApplyDeltaToCommanderDamages(byte target, int delta) {
+      void ApplyDeltaToCommanderDamages(const byte target, const int delta) {
         if (target < 0 || target > PLAYER_COUNT) return;
         if (delta < 0 && abs(delta) >= commanderDamages[target]) commanderDamages[target] = 0;
         else commanderDamages[target] += delta;
       }
 
-      unsigned int GetCommanderDamages(byte target) {
+      unsigned int GetCommanderDamages(const byte target) const {
         if ((target < 0 || target > PLAYER_COUNT)) return 0;
         return commanderDamages[target];
       }
 
-      void ApplyDeltaToInfect(int delta) {
+      void ApplyDeltaToInfect(const int delta) {
         if ((delta < 0 && abs(delta) >= infect)) 
           infect = 0;
         else 
           infect += delta;
       }
 
-      unsigned int GetInfect() {
+      unsigned int GetInfect() const {
         return infect;
       }
   };

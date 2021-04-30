@@ -44,8 +44,8 @@ namespace Edmund {
           sdb = _sdb;
           provider = _provider;
         }
-        int IsReady();
-        double GetValue();
+        int IsReady() const;
+        double GetValue() const;
         double RefreshValue();
       protected:
         virtual void refreshPinState();

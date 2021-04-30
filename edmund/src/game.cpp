@@ -5,7 +5,7 @@ namespace Edmund {
     ellapsed_time = 0;
   }
 
-  void Game::ApplyDeltaToPlayerProperty(byte player, PlayerProperties property, int delta) {
+  void Game::ApplyDeltaToPlayerProperty(const byte player, const PlayerProperties property, const int delta) {
     if (delta == 0) return;
     if (player < 0 || player > GetPlayerCount()) return;
     if (property < 0 || property > GetPropertyCount() + GetManaTypeCount()) return;
@@ -27,7 +27,7 @@ namespace Edmund {
     }
   }
 
-  int Game::GetPlayerPropertyValue(byte player, PlayerProperties property) {
+  int Game::GetPlayerPropertyValue(const byte player, const PlayerProperties property) const {
     if (player < 0 || player > GetPlayerCount() || property < 0 || property > GetPropertyCount() + GetManaTypeCount()) return -1;
 
     switch (property) {
@@ -47,15 +47,15 @@ namespace Edmund {
     }
   }
 
-  byte Game::GetPropertyCount() {
+  const byte Game::GetPropertyCount() const {
     return PROPERTY_COUNT;
   }
 
-  byte Game::GetPlayerCount() {
+  const byte Game::GetPlayerCount() const {
     return PLAYER_COUNT;
   }
 
-  byte Game::GetManaTypeCount() {
+  const byte Game::GetManaTypeCount() const {
     return MANA_TYPE_COUNT;
   }
 
@@ -63,7 +63,7 @@ namespace Edmund {
     state = GameState();
   }
 
-  const GameState Game::GetGameState() {
+  const GameState Game::GetGameState() const {
     return state;
   }
 

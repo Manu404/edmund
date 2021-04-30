@@ -8,8 +8,11 @@ namespace Edmund {
   namespace UI {
     class CompleteFourPlayerEdhScreen : public DefaultPropertyNavigationScreen
     {
+
       public:
         CompleteFourPlayerEdhScreen() : DefaultPropertyNavigationScreen(25) { }
+
+        virtual const ScreenEnum GetNavigationId() const { return CompleteFourPlayerEdhScreenEnum; }
 
         ScreenEnum loop(const Device& hardware, Game& game) {
           processInputs(hardware, game);
@@ -22,8 +25,6 @@ namespace Edmund {
 
           return GetNavigationId();
         }
-
-        virtual ScreenEnum GetNavigationId() { return CompleteFourPlayerEdhScreenEnum; }
 
       private:
         int debug = -1;

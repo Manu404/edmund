@@ -22,11 +22,11 @@ namespace Edmund {
       Empty();
     }
 
-    unsigned int GetManaPoolContent(ManaType type) {
+    unsigned int GetManaPoolContent(const ManaType type) const {
       return pool[type];
     }
 
-    void ApplyDeltaToManaPoolContent(ManaType type, int delta) {
+    void ApplyDeltaToManaPoolContent(const ManaType type, const int delta) {
       if (delta < 0 && abs(delta) >= pool[type]) pool[type] = 0;
       else pool[type] += delta;
     }
