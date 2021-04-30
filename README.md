@@ -1,6 +1,10 @@
 # edmund
 esp8266 based stats counter for multiplayer mtg edh
 
+*This was not meant to go "public", but the thing have been used "extensively" in real situation and had barely no stability issues outside of development while doing the stuffs, also, current consumption is quite acceptable and usability is above the expectation, so, as the chance of your deck catching fire or having the game state misrepresented range from exceptionally low to null, this is made public.*
+
+*Also, I'm just a hobbyist on the electronic side, so please let me know what I'm wrong about. But don't dare to question my god level software sKilLz.*
+
 ## things this stuff do
 
   ```
@@ -17,7 +21,7 @@ esp8266 based stats counter for multiplayer mtg edh
       - player edit
       - game history logs
     - text-to-speech commander effects
-    - up to 100fps 84x48 nokia grade lcd screen ! (idle, when it's snowy)
+    - up to 100fps 84x48 nokia grade lcd screen! (idle, when it's snowy)
   ```
 
   ```
@@ -81,11 +85,23 @@ Price source: mouser.com, from belgium
 
 Most parts were picked based on what I had on hand, pick whatever you want, but most are available for cheap.
 
+The pull down resistor are optional as the esp integrate configurable pull-up/dow resistor, I kept them to avoid relying on the esp8266 ones, as the board may vary in the future, providing a possible different set of feature/config and less prone configuration errors. Use -DESP_INTERNAL_PULL_DOWN to switch to the internal pull dow in the code.
+
+##### Devboard or off-board chip ?
+
+Price wise: dev board. 
+
+Current consumption wise: off chip.
+
+The esp8266 can be found around 2 to 5€ depending on the 'authenticity' and can reach way lower current consumption without the entire rest of the board (in the µA range). But, it require you to pick a better voltage regulator than a LM7805 and a serial-to-usb programmer (which can be another arduino, esp, pic, anything, don't buy it if for hobby, google) The dev board, for it's price and for embedding the voltage regulation and usb port (that can be used both for powering and programming/debuging) ca be a comfortable choice if you want to modify this project, it's particularly usefull/tidy on a breadboard. 
+
+Yet, the finished esp8266 version don't embbed the devboard.
+
 ### things to know about the stuffs you need to make the stuff do things
 
 I used a log pot instead of lin, might need to update the reading method to your hardware if linear.
 
-The regulator is optional, an usb powerbank can do the job or directly connecting the battery to the lolin. But as I'll use certainly 9v if on battery instead of powerbank, I don't want to load too much the ESP regulator and had the part available. *Yet, might not be the best efficient way of doing this, but provide plenty of heat to get your finger ready for the next shuffling* 
+The voltage regulator is optional, a usb powerbank can do the job, or directly connecting the battery to the lolin. But as I'll use certainly 9v if on battery instead of powerbank, I don't want to load too much the ESP regulator and had the part available. *Yet, might not be the best efficient way of doing this, but provide plenty of heat to get your finger ready for the next shuffling* 
 
 ## building the things to install on the stuff
 
@@ -128,36 +144,42 @@ Test were written to meet three goals:
 2. Detect regressions
 3. Speed up the porting to other plateforms, as esp32 and raspberry zero are two board which will be for sure targeted in the future, but were not envision at start.
 
- - **unit tests** 
+##### unit tests 
 
-   ```
-   gollum run:unit
-   ```
+```
+gollum run:unit
+```
 
-   Based on gtest and gmock to mock the API if needed, run on the computer, it's your "F5".
+Based on gtest and gmock to mock the API if needed, run on the computer, it's your "F5".
 
- - **"on chip" unit tests**
+##### "on chip" unit tests
 
-   ```
-   gollum run:unit:onchip
-   ```
+```
+gollum run:unit:onchip
+```
 
-   as the target platform acts way differently than a computer, that suite of tests ensure the unit tests pass also on the targeted hardware and help narrowing issues related to hardware specifics (for instance, a type not acting the same way). The unit tests need to be quick, with the shortest feedback loop possible and not tied to any "physical stuffs" (disk, network, etc). 
-   These, even tho running on the hardware, will also mock the api/hardware if required, but be executed on the targeted device to test the logic. 
-   They should be run  "frequently" but on a more loose basis to cross check those behavior on the hardware from time to time or before commit, having the luxury to watch your firmware flash for few minutes before telling your how miserable you are for having half of the test broken, and a quarter commented out...
+as the target platform acts way differently than a computer, that suite of tests ensure the unit tests pass also on the targeted hardware and help narrowing issues related to hardware specifics (for instance, a type not acting the same way). The unit tests need to be quick, with the shortest feedback loop possible and not tied to any "physical stuffs" (disk, network, etc). 
+These, even tho running on the hardware, will also mock the api/hardware if required, but be executed on the targeted device to test the logic. 
+They should be run  "frequently" but on a more loose basis to cross check those behavior on the hardware from time to time or before commit, having the luxury to watch your firmware flash for few minutes before telling your how miserable you are for having half of the test broken, and a quarter commented out...
 
- - **"on chip" system tests**  
-   These tests are mostly designed to test the overall behavior and rely on scenarios. As the "engine" is mostly frame based, inputs for each computed frame are given either through mock or through I/O instrumentation using another device, acting as a scenario player and recorder. Might seems overkill, but was fun to try. 
+##### "on chip" system tests
 
-   ```
-   gollum run:unit:end
-   ```
+These tests are mostly designed to test the overall behavior and rely on scenarios. As the "engine" is mostly frame based, inputs for each computed frame are given either through mock or through I/O instrumentation using another device, acting as a scenario player and recorder. Might seems overkill, but was fun to try. 
 
- - **"on chip" smoke tests** 
-   A subset of the system tests testing basic functional requirements. Does it complete processing a frame ? Does it catch fire ?
+```
+gollum run:unit:end
+```
 
-   ```
-   gollum run:unit:end
-   ```
+##### "on chip" smoke tests
 
-   
+A subset of the system tests testing basic functional requirements. Does it complete processing a frame? Does it catch fire?
+
+```
+gollum run:unit:end
+```
+
+
+
+## why that much doc for a thing you'll certainly be the only one doing stuffs with?
+
+Will not use any 'real certified dissociated elasticity' for this, in fact, I hate them as much as they are needed (even tho merise and unified process were envision at start, I'm sure those have a bright future), mainly cause they are symptoms of problems they don't solve, just provide workaround. Writting user doc is a good and quick way to express requirements take decisionsn implementing them quickly and iterate over them instead of searching way too long for the "correct solution" (that will have to be iterated over too anyways). Most (non)-functionnal requiremets added after initial prototype, so about 75% of the project, comes from selling them to myself in this doc and then regretting it for few days, how usual isn't it? It's also a break/bridge from/to writting code.
