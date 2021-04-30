@@ -178,7 +178,33 @@ A subset of the system tests testing basic functional requirements. Does it comp
 gollum run:unit:end
 ```
 
+## How are things written to make the stuff do things ?
 
+The code base is mostly C++ 14-ish.
+
+If you want to take a look at the code, start by edmund.h containing the implementation of the main loop.
+
+You'll find instance of:
+
+Edmund::Device 
+
+- Hardware abstraction layer that act as a facade for the input and lcd manager (basically I and O of the system, Edmund::Hardware::InputProvider and Edmund::Hardware::LcdProvider), Adafruit libs etc have a wrapper around them. Don't know anything about the UI or the game. 
+- The lcd abstract the screen as a fixed size pixel buffer with text print utility. Screen is recomputed/draw each active frame as it does not impact a lot current consumption regarding the stability cost of implementing caching, redraw change only. I'm also not sure yet of who should be responsible for that concern. 
+- Inputs state are exposed through boolean and float. Their state is refresh and computed once per frame at start, any query of the state within the same frame will return the same value.
+
+Edmund::Game 
+
+- encapsulate logic around stat tracking, you'll find player stats, limits, etc encapsulated in here. 
+- Consumer can query or command game state through a simple CQRS-ish api
+- Can provide a read-only copy of its guts (the game state) for saving (don't like it, refactor by providing pointer to the save/load methods ?)
+
+Edmund::ScreenManager 
+
+- Handle the logic and IO manipulation behind the different screens of the device. 
+- At each frame, the loop() method of the current screen is called, the screen return the id of the next screen to navigate to next frame (if no navigation required, himself). 
+- All screen implement Edmund::UI::IScreen 
+- Edmund::UI::DefaultPropertyNavigationScreen is used by most layout displaying stats (but not required) and provide basic navigation/property updating and support. 
+- Uppon construction, the screenmanager instantiate/register each screen available in unique_ptr.
 
 ## why that much doc for a thing you'll certainly be the only one doing stuffs with?
 
