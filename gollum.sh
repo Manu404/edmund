@@ -41,6 +41,7 @@ while test $# -gt 0; do
 		exit;;
 	build:bin)
 		echo "Build current code base"
+		./update_build_version.sh && ./apply_build_version.sh
 		./build.sh; 
 		exit;;		
 	build:test)
