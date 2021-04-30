@@ -50,7 +50,7 @@ namespace Edmund {
         optionCount = (sizeof(options) / sizeof(HomeScreenMenuOption*)) - 1;
       }
 
-      virtual ScreenEnum loop(Device& hardware, Game& game)
+      virtual ScreenEnum loop(const Device& hardware, Game& game)
       {
         processInputs(hardware, game);
 
@@ -77,13 +77,13 @@ namespace Edmund {
         return GetNavigationId();
       }
 
-      void drawOptionIcon(Device& hardware, int selection, int delta)
+      void drawOptionIcon(const Device& hardware, int selection, int delta)
       {
         hardware.DrawLogo(delta, 0, options[selection]->GetIconWidth(), options[selection]->GetIconHeight(), options[selection]->GetIcon());
         hardware.PrintLineCentered(options[selection]->GetCaption(), (screenWidth / 2) + delta, 45, WHITE);
       }
 
-      virtual void processInputs(Device& hardware, Game& game) { 
+      virtual void processInputs(const Device& hardware, Game& game) {
         if (newSelection != currentSelection) return;
         direction = hardware.GetEncoderDelta();
         //frameSkip = hardware.GetPositionFromPot(10) + 1;

@@ -10,7 +10,7 @@ namespace Edmund {
     public:
       SimpleTwoPlayerEdhScreen() : DefaultPropertyNavigationScreen(14) { }
       virtual ScreenEnum GetNavigationId() { return SimpleTwoPlayerEdhScreenEnum; }
-      virtual ScreenEnum loop(Device& hardware, Game& game) {
+      virtual ScreenEnum loop(const Device& hardware, Game& game) {
 
         processInputs(hardware, game);
         drawLayout(hardware);
@@ -49,7 +49,7 @@ namespace Edmund {
         }
       }
 
-      void printPlayersProperties(Device& hardware, Game& game) {
+      void printPlayersProperties(const Device& hardware, Game& game) {
         int y = 0, x = 0;
         uint16_t color = WHITE;
 
@@ -88,11 +88,11 @@ namespace Edmund {
         }
       }
 
-      void drawLayout(Device& hardware) {
+      void drawLayout(const Device& hardware) {
         hardware.DrawScreen(Resources::twoplayerlayout);
       }
 
-      void printManaPool(Device& hardware, Game& game) {
+      void printManaPool(const Device& hardware, Game& game) {
         int y = 40, x = 0;
         uint16_t color = BLACK;
         for (int i = 0; i < MANA_TYPE_COUNT; i++, color = BLACK) {

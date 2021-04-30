@@ -13,7 +13,7 @@ namespace Edmund {
     public:
       BootScreen() : IScreen() { }
 
-      virtual ScreenEnum loop(Device& hardware, Game& game)
+      virtual ScreenEnum loop(const Device& hardware, Game& game)
       {
         //if (ellapsed_ms < 0 || ellapsed_ms > 1000) ellapsed_ms = 0;
 
@@ -29,7 +29,7 @@ namespace Edmund {
         return GetNavigationId();
       }
 
-      virtual void processInputs(Device& hardware, Game& game) { ; }
+      virtual void processInputs(const Device& hardware, Game& game) { ; }
 
       virtual ScreenEnum GetNavigationId() { return BootScreenEnum; }
     };

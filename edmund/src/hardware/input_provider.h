@@ -51,17 +51,17 @@ namespace Edmund {
       static RotaryOnMcp* RotaryInstance;
       InputProvider(std::unique_ptr<McpProvider> mcp, PinMapping mapping) : mcp_provider(std::move(mcp)), pinMapping(mapping) { }
       ~InputProvider() { }
-      bool IsRightPressed();
-      bool IsLeftPressed();
-      bool IsMiddlePressed();
-      bool IsDebugPressed();
-      bool IsResetPressed();
-      bool IsEncoderTurnedRight();
-      bool IsEncoderTurnedLeft();
-      bool IsRotarySwitchPressed();
-      bool HasPotChanged();
-      float GetPositionFromPot(float scale);
-      int GetEncoderDelta();
+      bool IsRightPressed() const;
+      bool IsLeftPressed() const;
+      bool IsMiddlePressed() const;
+      bool IsDebugPressed() const;
+      bool IsResetPressed() const;
+      bool IsEncoderTurnedRight() const;
+      bool IsEncoderTurnedLeft() const;
+      bool IsRotarySwitchPressed() const;
+      bool HasPotChanged() const;
+      float GetPositionFromPot(float scale) const;
+      int GetEncoderDelta() const;
 
     protected:
       void initInputs();
@@ -81,11 +81,11 @@ namespace Edmund {
       InputStatus status;
 
       void refreshInputs();
-      float getPositionFromValue(float scale, int value);
+      float getPositionFromValue(float scale, int value) const;
 
-      byte getButtonState(byte prev, byte curr);
+      byte getButtonState(byte prev, byte curr) const;
       InputState readCurrentState();
-      byte isPotActive();
+      byte isPotActive() const;
     };
   }
 }

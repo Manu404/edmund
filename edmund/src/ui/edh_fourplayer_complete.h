@@ -11,7 +11,7 @@ namespace Edmund {
       public:
         CompleteFourPlayerEdhScreen() : DefaultPropertyNavigationScreen(25) { }
 
-        ScreenEnum loop(Device& hardware, Game& game) {
+        ScreenEnum loop(const Device& hardware, Game& game) {
           processInputs(hardware, game);
           drawLayout(hardware);
           printPlayersProperties(hardware, game);
@@ -63,7 +63,7 @@ namespace Edmund {
           current_property = Infect_property;
         }
 
-        void printPlayersProperties(Device& hardware, Game& game) {
+        void printPlayersProperties(const Device& hardware, Game& game) {
           int y = 0, x = 0;
           int life_column = Life_property, infect_column = Infect_property;
           uint16_t color = BLACK;
@@ -104,11 +104,11 @@ namespace Edmund {
           }
         }
 
-        void drawLayout(Device& hardware) {
+        void drawLayout(const Device& hardware) {
           hardware.DrawScreen(Resources::MainScreenLayout);
         }
 
-        void printManaPool(Device& hardware, Game& game) {
+        void printManaPool(const Device& hardware, Game& game) {
           int y = 0, x = 0;
           uint16_t color = BLACK;
           x = col_size + head_col_size + (4 * col_size) + col_margin + mana_head_col_size;

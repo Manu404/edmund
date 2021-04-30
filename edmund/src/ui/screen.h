@@ -20,10 +20,10 @@ namespace Edmund {
       public:
         IScreen() {
         }
-        virtual ScreenEnum loop(Device& hardware, Game& game) = 0;
+        virtual ScreenEnum loop(const Device& hardware, Game& game) = 0;
         virtual ScreenEnum GetNavigationId() = 0;
       protected:
-        virtual void processInputs(Device& hardware, Game& game) = 0;
+        virtual void processInputs(const Device& hardware, Game& game) = 0;
     };
 
     class DefaultPropertyNavigationScreen : public IScreen {
@@ -37,7 +37,7 @@ namespace Edmund {
         int propertyCount;
         PlayerProperties current_property;
 
-        void processInputs(Device& hardware, Game& game) {
+        void processInputs(const Device& hardware, Game& game) {
           if (hardware.HasPotChanged())
             updateNavigationPosition(hardware.GetPositionFromPot(propertyCount));
 

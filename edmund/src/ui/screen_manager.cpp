@@ -9,24 +9,25 @@
 namespace Edmund {
 
   ScreenManager::ScreenManager() {
-    RegisterInstance(new ConfigScreen());
-    RegisterInstance(new BootScreen());
-    RegisterInstance(new CompleteFourPlayerEdhScreen());
-    RegisterInstance(new SimpleFourPlayerEdhScreen());
-    RegisterInstance(new SimpleTwoPlayerEdhScreen());
-    RegisterInstance(new HomeScreen());
+    RegisterInstance(std::unique_ptr<IScreen>(new ConfigScreen()));
+    RegisterInstance(std::unique_ptr<IScreen>(new BootScreen()));
+    RegisterInstance(std::unique_ptr<IScreen>(new CompleteFourPlayerEdhScreen()));
+    RegisterInstance(std::unique_ptr<IScreen>(new SimpleFourPlayerEdhScreen()));
+    RegisterInstance(std::unique_ptr<IScreen>(new SimpleTwoPlayerEdhScreen()));
+    RegisterInstance(std::unique_ptr<IScreen>(new HomeScreen()));
   }
 
-  void ScreenManager::LoopCurrent(Device& hardware, Game& game) {
-    NavigateTo(current->loop(hardware, game));
+  void ScreenManager::LoopCurrent(const Device& hardware, Game& game) {
+    NavigateTo(screens[current]->loop(hardware, game));
   }
 
-  void ScreenManager::RegisterInstance(IScreen* screen) {
-    screens[screen->GetNavigationId()] = screen;
+  void ScreenManager::RegisterInstance(std::unique_ptr<IScreen> screen) {
+    ScreenEnum target = screen->GetNavigationId();
+    screens[screen->GetNavigationId()] = std::move(screen);
   }
 
   void ScreenManager::NavigateTo(ScreenEnum screen) {
-    current = screens[screen];
+    current = screen;
   }
 }
 
