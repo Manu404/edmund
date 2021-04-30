@@ -6,14 +6,14 @@ void wakeup(void) {
 
 namespace Edmund {
     // CE = D0, DC = D1, CLK = D2, DIN = D3, RST = D4
-    Device::Device() :LcdProvider(new Adafruit_PCD8544(D2, D3, D1, D0, D4)),
-      InputProvider(new McpProvider(), PinMapping()),
-      stateArray{ new ESPFlash<GameState>("/currentGame") }{
-    }
+    Device::Device() : LcdProvider(std::unique_ptr<Adafruit_PCD8544>(new Adafruit_PCD8544(D2, D3, D1, D0, D4))),
+                       InputProvider(std::unique_ptr<McpProvider>(new McpProvider()), PinMapping()),
+                       stateArray{ new ESPFlash<GameState>("/currentGame") }
+    { }
 
-    Device::Device(Adafruit_PCD8544* _lcd, McpProvider* _mcp, ESPFlash<GameState>* _stateArray, PinMapping _mapping) :
-      LcdProvider(new Adafruit_PCD8544(D2, D3, D1, D0, D4)),
-      InputProvider(_mcp, _mapping),
+    Device::Device(std::unique_ptr<Adafruit_PCD8544> _lcd, std::unique_ptr<McpProvider> _mcp, ESPFlash<GameState>* _stateArray, PinMapping _mapping) :
+      LcdProvider(std::move(_lcd)),
+      InputProvider(std::move(_mcp), _mapping),    
       stateArray(_stateArray) {
     }
 

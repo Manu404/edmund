@@ -54,9 +54,6 @@ namespace Edmund {
           if (hardware.IsLeftPressed())
             game.EmptyManaPool();
 
-          Serial.print("K - ");
-          Serial.println(hardware.IsLeftPressed());
-
           //if (hardware.IsRightPressed() == 1 || hardware.IsLeftPressed())
           //  hardware.SaveStateToSpiff(game.GetGameState());
         }

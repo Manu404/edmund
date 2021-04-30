@@ -24,3 +24,5 @@ LIBS = $(ESP_LIBS)/SPI \
 	$(ARDUINO_LIBS)/ESPFlash/src \
 
 EXCLUDE_DIRS := $(ROOT)/test/*
+
+CPP_EXTRA := -std=c++11

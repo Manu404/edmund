@@ -14,20 +14,20 @@ namespace Edmund {
       is_init = 1;
     }
 
-    void LcdProvider::Print(String m) {
+    const void LcdProvider::Print(String m) {
       lcd->print(m);
     }
 
-    void LcdProvider::Print(String m, int x, int y) {
+    const void LcdProvider::Print(String m, int x, int y) {
       lcd->setCursor(x, y);
       this->Print(m);
     }
 
-    void LcdProvider::PrintLine(String m) {
+    const void LcdProvider::PrintLine(String m) {
       lcd->println(m);
     }
 
-    void LcdProvider::PrintNumberLarge(int x, int y, u_int value, uint16_t color, int length) {
+    const void LcdProvider::PrintNumberLarge(int x, int y, u_int value, uint16_t color, int length) {
       lcd->setFont(&FreeMonoBold9pt7b);
       int remainingValue = value, currentValue = 0, decimal_shift = 0;
       for (int i = 5; remainingValue >= 0 && i >= 0; i--) // 16bits int, 5 digits max
@@ -42,7 +42,7 @@ namespace Edmund {
       }
     }
 
-    void LcdProvider::PrintLineCentered(const String& buf, int x, int y, uint16_t color)
+    const void LcdProvider::PrintLineCentered(const String& buf, int x, int y, uint16_t color)
     {
       int16_t x1, y1;
       uint16_t w, h;
@@ -53,11 +53,11 @@ namespace Edmund {
       lcd->print(buf);
     }
 
-    void LcdProvider::PrintSymbol(int x_pos, int y_pos, const uint8_t* logo) {
+    const void LcdProvider::PrintSymbol(int x_pos, int y_pos, const uint8_t* logo) {
       lcd->drawBitmap(x_pos * 9, y_pos * 10, logo, 9, 10, BLACK);
     }
 
-    void LcdProvider::PrintNumberSmall(int x_pos, int y_pos, int value, uint16_t color, int length) {
+    const void LcdProvider::PrintNumberSmall(int x_pos, int y_pos, int value, uint16_t color, int length) {
       int char_w = 4, char_h = 5;
       int digitsShift = 0, currentValue = 0, maxRange = 3;
 
@@ -72,31 +72,31 @@ namespace Edmund {
       }
     }
 
-    void LcdProvider::DrawScreen(const uint8_t* logo) {
+    const void LcdProvider::DrawScreen(const uint8_t* logo) {
       lcd->drawBitmap(0, 0, logo, 84, 48, BLACK);
     }
 
-    void LcdProvider::DrawScreen(const uint8_t* logo, int x) {
+    const void LcdProvider::DrawScreen(const uint8_t* logo, int x) {
       lcd->drawBitmap(x, 0, logo, 84, 48, BLACK);
     }    
     
-    void LcdProvider::DrawLogo(int x, int y, int w, int h, const uint8_t* logo) {
+    const void LcdProvider::DrawLogo(int x, int y, int w, int h, const uint8_t* logo) {
       lcd->drawBitmap(x, y, logo, w, h, BLACK);
     }
 
-    void LcdProvider::DrawBox(int x, int y, int w, int h, uint16_t color) {
+    const void LcdProvider::DrawBox(int x, int y, int w, int h, uint16_t color) {
       lcd->fillRect(x, y, w, h, color);
     }
 
-    void LcdProvider::DrawBorder(int x, int y, int w, int h, uint16_t color) {
+    const void LcdProvider::DrawBorder(int x, int y, int w, int h, uint16_t color) {
       lcd->drawRect(x, y, w, h, color);
     }
 
-    void LcdProvider::clear() {
+    const void LcdProvider::clear() {
       lcd->clearDisplay();
     }
 
-    void LcdProvider::display() {
+    const void LcdProvider::display() {
       lcd->display();
     }
   }

@@ -2,6 +2,9 @@
 #ifndef INPUTPROVIDER_INCLUDED
 #define INPUTPROVIDER_INCLUDED
 
+#include <memory>
+#include "Arduino.h"
+#include "mcp_provider.h"
 #include "rotary.h"
 
 #define SERIAL_SPEED 115200
@@ -10,16 +13,16 @@
 #define POT_ACTIVE_SENSITIVITY 10
 #define POT_ACTIVE_SCALE 1000
 
-enum InputStatus {
-  INPUT_Inactive = 0,
-  INPUT_Active = 1,
-  INPUT_Disabled = 2,
-  INPUT_Sleep = 4
-};
-
 namespace Edmund {
   namespace Hardware {
     extern volatile bool rotaryInterruptTriggered; 
+
+    enum InputStatus {
+      INPUT_Inactive = 0,
+      INPUT_Active = 1,
+      INPUT_Disabled = 2,
+      INPUT_Sleep = 4
+    };
 
     struct PinMapping {
       byte right = GPB + 0;
@@ -46,8 +49,8 @@ namespace Edmund {
     {
     public:
       static RotaryOnMcp* RotaryInstance;
-      InputProvider(McpProvider* mcp, PinMapping mapping) : mcp_provider(mcp), pinMapping(mapping) { }
-      ~InputProvider() { delete(mcp_provider); }
+      InputProvider(std::unique_ptr<McpProvider> mcp, PinMapping mapping) : mcp_provider(std::move(mcp)), pinMapping(mapping) { }
+      ~InputProvider() { }
       bool IsRightPressed();
       bool IsLeftPressed();
       bool IsMiddlePressed();
@@ -71,7 +74,7 @@ namespace Edmund {
       int debug_combination = -1;
       double previous_encoder_value = 0, current_encoder_value = 0;
 
-      McpProvider* mcp_provider;
+      std::shared_ptr<McpProvider> mcp_provider;
       PinMapping pinMapping;
 
       InputState current, previous, bounced;

@@ -27,7 +27,7 @@ namespace Edmund {
     {
     public:
       Device();
-      Device(Adafruit_PCD8544* lcd, McpProvider* mcp, ESPFlash<GameState>* stateArray, PinMapping mapping);
+      Device(std::unique_ptr<Adafruit_PCD8544> lcd, std::unique_ptr<McpProvider> mcp, ESPFlash<GameState>* stateArray, PinMapping mapping);
       void Initialize();
       void BeginFrame();
       void EndFrame(const GameState& game);

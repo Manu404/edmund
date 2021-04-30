@@ -8,6 +8,6 @@
 // minor => increment on patch release, no breaking changes, manual
 // build => global increment, never reset, used for dev, automatic on build
 
-#define EDMUND_VERSION "0.0.8"
+#define EDMUND_VERSION "0.0.17"
 
 #endif

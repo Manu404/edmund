@@ -143,6 +143,7 @@
     <ClInclude Include="src\ui\edh_fourplayer_simple.h" />
     <ClInclude Include="src\ui\edh_twoplayer_simple.h" />
     <ClInclude Include="src\ui\screen_manager.h" />
+    <ClInclude Include="src\version.h" />
     <ClInclude Include="__vm\.edmund.vsarduino.h" />
   </ItemGroup>
   <ItemGroup>

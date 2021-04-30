@@ -6,12 +6,15 @@
 #include "Arduino.h"
 #include "mcp_provider.h"
 
+#include <memory>
+
 #define ENABLE_PULLUPS  // Enable weak pullups
 
 // Values returned by 'process'
 #define DIR_NONE 0x0 // No complete step yet.
 #define DIR_CW 0x10 // Clockwise step.
 #define DIR_CCW 0x20 // Anti-clockwise step.
+
 
 namespace Edmund {
   namespace Hardware {
@@ -30,19 +33,20 @@ namespace Edmund {
 
     class RotaryOnMcp : RotaryDecoder
     {
+      private:
+        double current_value = 0;
+        byte sda;
+        byte sdb;
+        std::shared_ptr<McpProvider> provider;
       public:
-        RotaryOnMcp(McpProvider* _provider, byte _sda, byte _sdb) : RotaryDecoder(), provider(_provider) {
+        RotaryOnMcp(std::shared_ptr<McpProvider> _provider, byte _sda, byte _sdb) : RotaryDecoder() {
           sda = _sda;
           sdb = _sdb;
+          provider = _provider;
         }
         int IsReady();
         double GetValue();
         double RefreshValue();
-      private:
-        McpProvider* provider;
-        double current_value = 0;
-        byte sda;
-        byte sdb;
       protected:
         virtual void refreshPinState();
         double applyState(byte state);
