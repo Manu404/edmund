@@ -39,7 +39,7 @@ namespace Edmund {
 
     void setup() {
       device->Initialize();
-      game->LoadGameState(device->LoadStateFromSpiff());
+      game->LoadGameState(device->LoadStateFromSpiffs());
       screenManager->NavigateTo(HomeMenuScreenEnum);
       Serial.println("setup");
       Serial.println(EDMUND_VERSION);

@@ -65,10 +65,11 @@ namespace Edmund {
 
     protected:
       void initInputs();
-      ActivityStatus computeActivityStatus() const;
       void beginFrame();
       void endFrame();
-      ActivityStatus getInputStatus() { return activityStatus; }
+
+      ActivityStatus computeActivityStatus() const;
+      ActivityStatus getActivityStatus() { return activityStatus; }
 
     private:
       int debugCombination = -1;

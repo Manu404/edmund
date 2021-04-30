@@ -135,13 +135,13 @@
     <ClInclude Include="src\ui\resources\font.h" />
     <ClInclude Include="src\ui\resources\bootscreen_logo.h" />
     <ClInclude Include="src\ui\resources\edh_fourplayercomplete_layout.h" />
-    <ClInclude Include="src\ui\edh_fourplayer_complete.h" />
+    <ClInclude Include="src\ui\edh_fourplayer_complete_screen.h" />
     <ClInclude Include="src\ui\resources\home_logo.h" />
     <ClInclude Include="src\ui\resources\mana_symbols.h" />
     <ClInclude Include="src\ui\screen.h" />
     <ClInclude Include="src\ui\screenmanager.h" />
-    <ClInclude Include="src\ui\edh_fourplayer_simple.h" />
-    <ClInclude Include="src\ui\edh_twoplayer_simple.h" />
+    <ClInclude Include="src\ui\edh_fourplayer_simple_screen.h" />
+    <ClInclude Include="src\ui\edh_twoplayer_simple_screen.h" />
     <ClInclude Include="src\ui\screen_manager.h" />
     <ClInclude Include="src\version.h" />
     <ClInclude Include="__vm\.edmund.vsarduino.h" />

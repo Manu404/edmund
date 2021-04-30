@@ -19,7 +19,7 @@ namespace Edmund {
       const GameState GetGameState() const;
       void LoadGameState(GameState newState);
       void RefreshEllapsedTime();
-      void EmptyManaPool();
+      void EmptyManaPools();
     private:
       String space = "";
       GameState state;

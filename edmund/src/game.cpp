@@ -5,6 +5,7 @@ namespace Edmund {
     ellapsedTime = 0;
   }
 
+  // it smells good in here
   void Game::ApplyDeltaToPlayerProperty(const byte player, const PlayerProperties property, const int delta) {
     if (delta == 0) return;
     if (player < 0 || player > GetPlayerCount()) return;
@@ -27,6 +28,7 @@ namespace Edmund {
     }
   }
 
+  // yup, kind of a refrehsing odor
   int Game::GetPlayerPropertyValue(const byte player, const PlayerProperties property) const {
     if (player < 0 || player > GetPlayerCount() || property < 0 || property > GetPropertyCount() + GetManaTypeCount()) return -1;
 
@@ -71,7 +73,7 @@ namespace Edmund {
     state = newState;
   }
 
-  void Game::EmptyManaPool() {
+  void Game::EmptyManaPools() {
     for(int i = 0; i < GetPlayerCount(); i++)
       state.ManaPool[i].Empty();
   }

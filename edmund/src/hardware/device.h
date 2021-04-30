@@ -31,8 +31,8 @@ namespace Edmund {
       void Initialize();
       void BeginFrame();
       void EndFrame(const GameState& game);
-      void SaveStateToSpiff(const GameState& game);
-      GameState LoadStateFromSpiff();
+      void SaveStateToSpiffs(const GameState& game);
+      GameState LoadStateFromSpiffs();
     private:
       void startLightSleep();
       void ensureSleep(const GameState& game);

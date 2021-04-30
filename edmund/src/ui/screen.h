@@ -46,7 +46,7 @@ namespace Edmund {
             game.ApplyDeltaToPlayerProperty(currentPlayer, currentProperty, hardware.GetEncoderDelta());
 
           if (hardware.IsLeftPressed())
-            game.EmptyManaPool();
+            game.EmptyManaPools();
         }
     };
   }

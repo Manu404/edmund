@@ -46,7 +46,7 @@ namespace Edmund {
     }
 
     void Device::ensureSleep(const GameState& game) {
-      if (getInputStatus() == INPUT_Active || rotaryInterruptTriggered == true)
+      if (getActivityStatus() == INPUT_Active || rotaryInterruptTriggered == true)
       {
         sleepTick = 0;
         rotaryInterruptTriggered = false;
@@ -58,7 +58,7 @@ namespace Edmund {
       if (sleepTick > SLEEP_TICK_LIMIT) {
         if (!sleeping)
         {
-          SaveStateToSpiff(game);
+          SaveStateToSpiffs(game);
           Serial.println("save");
         }
         sleeping = true;
@@ -69,11 +69,11 @@ namespace Edmund {
         Serial.print("+");
     }
 
-    void Device::SaveStateToSpiff(const GameState& game) {
+    void Device::SaveStateToSpiffs(const GameState& game) {
       stateArray->set(game);
     }
 
-    GameState Device::LoadStateFromSpiff() {
+    GameState Device::LoadStateFromSpiffs() {
       return stateArray->get();
     }
 
