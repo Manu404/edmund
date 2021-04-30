@@ -14,7 +14,7 @@ namespace Edmund {
 
       virtual ScreenEnum loop(const Device& hardware, Game& game) {
 
-        processInputs(hardware, game);
+        handleInputs(hardware, game);
         drawLayout(hardware);
         printPlayersProperties(hardware, game);
         printManaPool(hardware, game);
@@ -30,22 +30,22 @@ namespace Edmund {
         readOnlySelection = 0;
 
         if (position < 6) {
-          current_property = (PlayerProperties)(X_MANA_property - (position % 6));
+          currentProperty = (PlayerProperties)(X_MANA_property - (position % 6));
           return;
         }
         position -= 6;
 
         if (position < 2) {
-          current_player = position;
-          current_property = Life_property;
+          currentPlayer = position;
+          currentProperty = Life_property;
           return;
         }
         position -= 2;
 
         if (position < 6) {
-          current_player = position % 2;
+          currentPlayer = position % 2;
           int prop = position / 2;
-          current_property = prop < 2 ? ((PlayerProperties)(prop == 0 ? !current_player : current_player)) : Infect_property;
+          currentProperty = prop < 2 ? ((PlayerProperties)(prop == 0 ? !currentPlayer : currentPlayer)) : Infect_property;
           readOnlySelection = prop == 1;
           return;
         }
@@ -59,7 +59,7 @@ namespace Edmund {
         {
           int life = game.GetPlayerPropertyValue(i, Life_property);
           x = life < 100 ? 5 + (54 * i) : 0 + (53 * i);
-          if (current_player == i && current_property == Life_property)
+          if (currentPlayer == i && currentProperty == Life_property)
             hardware.DrawBox(9 + (55 * i), 22, 11, 2, WHITE);
           hardware.PrintNumberLarge(x, y, life, color, 2);
         }
@@ -70,10 +70,10 @@ namespace Edmund {
             x = 29 + (col * 17);
             y = 4 + (row * 8);
 
-            if (col == current_player) {
-              if ((current_property == Infect_property && row == 2)
-                || (current_property == (PlayerProperties)(col) && row == 1)
-                || (current_property == (PlayerProperties)(!col) && row == 0))
+            if (col == currentPlayer) {
+              if ((currentProperty == Infect_property && row == 2)
+                || (currentProperty == (PlayerProperties)(col) && row == 1)
+                || (currentProperty == (PlayerProperties)(!col) && row == 0))
               {
                 hardware.DrawBox(x - 1, y - 1, 11, 7, BLACK);
                 color = WHITE;
@@ -99,7 +99,7 @@ namespace Edmund {
         uint16_t color = BLACK;
         for (int i = 0; i < MANA_TYPE_COUNT; i++, color = BLACK) {
           x = 3 + (i * 14);
-          if (current_player == 0 && (current_property - 6) == i) {
+          if (currentPlayer == 0 && (currentProperty - 6) == i) {
             hardware.DrawBox(x - 1, (y - 1), 11, 7, color);
             color = WHITE;
           }

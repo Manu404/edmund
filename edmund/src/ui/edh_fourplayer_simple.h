@@ -14,7 +14,7 @@ namespace Edmund {
       virtual const ScreenEnum GetNavigationId() const { return SimpleFourPlayerEdhScreenEnum; }
 
       virtual ScreenEnum loop(const Device& hardware, Game& game) {
-        processInputs(hardware, game);
+        handleInputs(hardware, game);
 
         drawLayout(hardware);
         printPlayersProperties(hardware, game);
@@ -29,14 +29,14 @@ namespace Edmund {
     protected:
       void updateNavigationPosition(int position) {
         if (position < 6) {
-          current_property = (PlayerProperties)(X_MANA_property - (position % 6));
+          currentProperty = (PlayerProperties)(X_MANA_property - (position % 6));
           return;
         }
         position -= 6;
 
         if (position < 1) {
-          current_player = position;
-          current_property = Life_property;
+          currentPlayer = position;
+          currentProperty = Life_property;
           return;
         }
         position -= 1;
@@ -44,16 +44,16 @@ namespace Edmund {
         if (position < 9) {
           int prop = position / 3;
           if (prop == 2) {
-            current_player = (position % 3) + 1;
-            current_property = Infect_property;
+            currentPlayer = (position % 3) + 1;
+            currentProperty = Infect_property;
           }
           else if (prop == 1) {
-            current_player = (position % 3) + 1;
-            current_property = Commander_1_property;
+            currentPlayer = (position % 3) + 1;
+            currentProperty = Commander_1_property;
           }
           else {
-            current_player = 0;
-            current_property = ((PlayerProperties)((position % 3) + 1));
+            currentPlayer = 0;
+            currentProperty = ((PlayerProperties)((position % 3) + 1));
           }
           return;
         }
@@ -66,7 +66,7 @@ namespace Edmund {
         int life = game.GetPlayerPropertyValue(0, Life_property);
         x = life < 100 ? 5 : 0;
         y = 10;
-        if (current_player == 0 && current_property == Life_property)
+        if (currentPlayer == 0 && currentProperty == Life_property)
           hardware.DrawBox(9, 22, 11, 2, WHITE);
         hardware.PrintNumberLarge(x, y, life, color, 2);
 
@@ -76,9 +76,9 @@ namespace Edmund {
             x = 37 + (col * 12);
             y = 8 + (row * 7);
 
-            if ((row == 0 && col + 1 == current_property)
-            || (row == 1 && current_player == (col + 1) && current_property == Commander_1_property)
-            || (row == 2 && current_player == (col + 1) && current_property == Infect_property)) {
+            if ((row == 0 && col + 1 == currentProperty)
+            || (row == 1 && currentPlayer == (col + 1) && currentProperty == Commander_1_property)
+            || (row == 2 && currentPlayer == (col + 1) && currentProperty == Infect_property)) {
               hardware.DrawBox(x - 1, y - 1, 12, 7, BLACK);
               color = WHITE;
             }
@@ -105,7 +105,7 @@ namespace Edmund {
         uint16_t color = BLACK;
         for (int i = 0; i < MANA_TYPE_COUNT; i++, color = BLACK) {
           x = 3 + (i * 14);
-          if (current_player == 0 && (current_property - 6) == i) {
+          if (currentPlayer == 0 && (currentProperty - 6) == i) {
             hardware.DrawBox(x - 1, (y - 1), 11, 7, color);
             color = WHITE;
           }

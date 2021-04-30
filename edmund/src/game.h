@@ -23,7 +23,7 @@ namespace Edmund {
     private:
       String space = "";
       GameState state;
-      unsigned long ellapsed_time, last_time;
+      unsigned long ellapsedTime, lastTime;
   };
 }
 #endif

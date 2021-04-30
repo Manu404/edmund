@@ -18,46 +18,36 @@ namespace Edmund {
     class IScreen
     {
       public:
-        IScreen() {
-        }
+        IScreen() { }
         virtual ScreenEnum loop(const Device& hardware, Game& game) = 0;
         virtual const ScreenEnum GetNavigationId() const = 0;
       protected:
-        virtual void processInputs(const Device& hardware, Game& game) = 0;
+        virtual void handleInputs(const Device& hardware, Game& game) = 0;
     };
 
     class DefaultPropertyNavigationScreen : public IScreen {
       public:
-        DefaultPropertyNavigationScreen(int _propertyCount) : IScreen() {
-          propertyCount = _propertyCount;
-        }
+        DefaultPropertyNavigationScreen(int _propertyCount) : IScreen(), propertyCount(_propertyCount) { }
       protected:
         bool readOnlySelection = false;
-        byte current_player;
+        byte currentPlayer;
         byte propertyCount;
-        PlayerProperties current_property;
+        PlayerProperties currentProperty;
 
-        void processInputs(const Device& hardware, Game& game) {
+        virtual void updateNavigationPosition(int position) = 0;
+
+        void handleInputs(const Device& hardware, Game& game) {
           if (hardware.HasPotChanged())
             updateNavigationPosition(hardware.GetPositionFromPot(propertyCount));
 
           if (readOnlySelection) return;
 
-          //if (hardware.IsRightPressed() == 1)
-          //  game.UpdatePlayerPropertyValue(current_player, current_property, 1);
-          //if (hardware.IsLeftPressed() == 1)
-          //  game.UpdatePlayerPropertyValue(current_player, current_property, -1);
-
           if (hardware.GetEncoderDelta() != 0)
-            game.ApplyDeltaToPlayerProperty(current_player, current_property, hardware.GetEncoderDelta());
+            game.ApplyDeltaToPlayerProperty(currentPlayer, currentProperty, hardware.GetEncoderDelta());
 
           if (hardware.IsLeftPressed())
             game.EmptyManaPool();
-
-          //if (hardware.IsRightPressed() == 1 || hardware.IsLeftPressed())
-          //  hardware.SaveStateToSpiff(game.GetGameState());
         }
-        virtual void updateNavigationPosition(int position) = 0;
     };
   }
 }

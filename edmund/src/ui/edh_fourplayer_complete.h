@@ -15,7 +15,7 @@ namespace Edmund {
         virtual const ScreenEnum GetNavigationId() const { return CompleteFourPlayerEdhScreenEnum; }
 
         ScreenEnum loop(const Device& hardware, Game& game) {
-          processInputs(hardware, game);
+          handleInputs(hardware, game);
           drawLayout(hardware);
           printPlayersProperties(hardware, game);
           printManaPool(hardware, game);
@@ -39,29 +39,29 @@ namespace Edmund {
     protected:
         void updateNavigationPosition(int position) {
           if (position < 6) {
-            current_player = 0;
-            current_property = (PlayerProperties)(6 + (position % 6));
+            currentPlayer = 0;
+            currentProperty = (PlayerProperties)(6 + (position % 6));
             return;
           }
           position -= 6;
 
           if (position < 4) {
-            current_player = position;
-            current_property = Life_property;
+            currentPlayer = position;
+            currentProperty = Life_property;
             return;
           }
           position -= 4;
 
           if (position < 12) {
-            current_player = (position / 3);
+            currentPlayer = (position / 3);
             int target_player = (position % 3);
-            current_property = (PlayerProperties)(target_player + (target_player >= current_player));
+            currentProperty = (PlayerProperties)(target_player + (target_player >= currentPlayer));
             return;
           }
 
           position -= 12;
-          current_player = position;
-          current_property = Infect_property;
+          currentPlayer = position;
+          currentProperty = Infect_property;
         }
 
         void printPlayersProperties(const Device& hardware, Game& game) {
@@ -85,7 +85,7 @@ namespace Edmund {
               if (col == life_column) x = 0;
 
               // print selection box
-              if (row == current_player && col == current_property) {
+              if (row == currentPlayer && col == currentProperty) {
                 hardware.DrawBox(MAX(x - col_margin, 0), (y - 1), (col_size + 1), (row_size - 1), color);
                 color = WHITE;
               }
@@ -115,7 +115,7 @@ namespace Edmund {
           x = col_size + head_col_size + (4 * col_size) + col_margin + mana_head_col_size;
           for (int i = 0; i < MANA_TYPE_COUNT; i++, color = BLACK) {
             y = (i * row_size) + row_margin;
-            if (current_player == 0 && (current_property - 6) == i) {
+            if (currentPlayer == 0 && (currentProperty - 6) == i) {
               hardware.DrawBox(MAX(x - col_margin, 0), (y - 1), (col_size + 1), (row_size - 1), color);
               color = WHITE;
             }

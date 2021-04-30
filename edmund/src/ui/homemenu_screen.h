@@ -29,7 +29,7 @@ namespace Edmund {
       HomeScreenMenuOption* options[6];
       int newSelection, currentSelection;
       bool requestNavigation;
-      long rotaryValue, x_delta;
+      long rotaryValue, xDelta;
       int direction, currentFrame;
       byte frameSkip = 1;
       int screenWidth = 0;
@@ -52,38 +52,45 @@ namespace Edmund {
 
       virtual ScreenEnum loop(const Device& hardware, Game& game)
       {
-        processInputs(hardware, game);
+        handleInputs(hardware, game);
 
-        if (screenWidth == 0) screenWidth = hardware.GetScreenWidth();
-
-        if (newSelection != currentSelection) {
-          x_delta += (direction * (frameSkip * 6)) * ((currentFrame % frameSkip) == 0);
-          x_delta = abs(x_delta) > 0 ? abs(x_delta) > screenWidth ? (screenWidth * direction) : x_delta : 0;
-          currentFrame += 1;
-          drawOptionIcon(hardware, newSelection, (screenWidth * (direction * -1)) + x_delta);
-        }
-
-        drawOptionIcon(hardware, currentSelection, x_delta);
-
-        if (abs(x_delta) >= screenWidth) {
-          currentSelection = newSelection;
-          x_delta = 0;
-          currentFrame = 0;
-        }
+        drawHomeMenu(hardware);
         
         if (newSelection == currentSelection)
           if (requestNavigation) 
             return options[currentSelection]->GetScreenEnum();
+
         return GetNavigationId();
       }
 
-      void drawOptionIcon(const Device& hardware, int selection, int delta)
+    protected:
+      void drawHomeMenu(const Device& hardware)
       {
-        hardware.DrawLogo(delta, 0, options[selection]->GetIconWidth(), options[selection]->GetIconHeight(), options[selection]->GetIcon());
-        hardware.PrintLineCentered(options[selection]->GetCaption(), (screenWidth / 2) + delta, 45, WHITE);
+        if (screenWidth == 0) screenWidth = hardware.GetScreenWidth();
+
+        if (newSelection != currentSelection) {
+          xDelta += (direction * (frameSkip * 6)) * ((currentFrame % frameSkip) == 0);
+          xDelta = abs(xDelta) > 0 ? abs(xDelta) > screenWidth ? (screenWidth * direction) : xDelta : 0;
+          currentFrame += 1;
+          drawMenuOption(hardware, newSelection, (screenWidth * (direction * -1)) + xDelta);
+        }
+
+        drawMenuOption(hardware, currentSelection, xDelta);
+
+        if (abs(xDelta) >= screenWidth) {
+          currentSelection = newSelection;
+          xDelta = 0;
+          currentFrame = 0;
+        }
       }
 
-      virtual void processInputs(const Device& hardware, Game& game) {
+      void drawMenuOption(const Device& hardware, int option, int delta)
+      {
+        hardware.DrawLogo(delta, 0, options[option]->GetIconWidth(), options[option]->GetIconHeight(), options[option]->GetIcon());
+        hardware.PrintLineCentered(options[option]->GetCaption(), (screenWidth / 2) + delta, 45, WHITE);
+      }
+
+      virtual void handleInputs(const Device& hardware, Game& game) {
         if (newSelection != currentSelection) return;
         direction = hardware.GetEncoderDelta();
         //frameSkip = hardware.GetPositionFromPot(10) + 1;

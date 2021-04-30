@@ -2,7 +2,7 @@
  
 namespace Edmund {
   Game::Game() {
-    ellapsed_time = 0;
+    ellapsedTime = 0;
   }
 
   void Game::ApplyDeltaToPlayerProperty(const byte player, const PlayerProperties property, const int delta) {

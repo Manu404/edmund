@@ -23,7 +23,7 @@ namespace Edmund {
           return GetNavigationId();
         }
 
-        virtual void processInputs(const Device& hardware, Game& game) { }
+        virtual void handleInputs(const Device& hardware, Game& game) { }
 
         virtual const ScreenEnum GetNavigationId() const { return ConfigScreenEnum; }
     };
