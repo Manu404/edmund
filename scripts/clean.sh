@@ -2,7 +2,7 @@
 
 cd ../edmund/
 
-make -f ../sdk/makeEspArduino/makeEspArduino.mk clean
+make -f ../sdk/espmake/makeEspArduino.mk clean
 
 rm -rf /tmp/arduino*
 

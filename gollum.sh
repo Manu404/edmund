@@ -13,6 +13,7 @@ while test $# -gt 0; do
 	install:gollum)
 		echo "Make gollum userly available (ln in ~/bin/gollum"
 		cd ../
+		mkdir ~/bin/
 		ln -s `pwd`/gollum.sh ~/bin/gollum
 		sudo chmod +x ~/bin/gollum
 		source ~/.profile
