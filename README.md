@@ -127,14 +127,6 @@ voltage regulator: http://www.advanced-monolithic.com/pdf/ds1117.pdf
 
 ## building the things to install on the stuff
 
-If on Windows, install wsl (https://gist.github.com/trzecieu/8828e9b47b2b553e3ece7f6f899d4d25)
-
-**!!! IF USING WSL 2 - YOU'RE ON YOUR OWN !!!**
-
-*As it wasn't reminded to me for long time, MS tends to break the nice things they've build. WSL 2 cross system file access are in-sane. Like in, not-sane, like in "please, kill that machine, it's been going through too much". And as much as I like(d) linux, WSL was a nice compromise between hardware support and tooling/desktop from windows with a "close to full fledge" linux subsystem, providing the best of both world, fixing the weakness of each others... I sincerely had moment of sincere joy using WSL thinking "that future is awesome, if only it was like that years ago, they finally get it !". But nay, fun is over, now it's a "true vm", with "true security bs perfs". So yep, no more mixing both world seamlessly sharing filesystem, say again hi to p9! Hi p9! Remember p9? A piece of technology that even Bell Labs might have forgotten they've developed for plan9, adhering 100% to the good ol "everything is file, file everything"... Microsoft mostly ending with that as Plan9 was maintained by Nokia Labs (until recent march 2021, where a foundation had been made "in order continue the work from Bell Labs for new generations.", (or let it die due to lack of support, yet used here and there, but hey, it's the P9 foundation that is responsible, maybe we'll "contribute" to fix our wsl, maybe) and nokia is kind of the beaten kid of msft (http://p9f.org/) So yup... With WSL2, for cross access, you basically share your fs across a virtual network and there's a windows side client that consume the exposed fs... defeating one of the only reason that made WSL way better than a vm... Ho yep, and if you already switched, too late, can't revert easily :) (because it's certainly way too advanced and secure, that would maybe degrade performances) gg wp. So thanks for bringing back those intense memories of joy procured by the appreciation of time flowing while building source across shared folder and reminding me the cost of staying at the window watching the pinguins fly.*
-
-*So The decision was made to run mainly under linux, and not WSL, revolving around a simple "kernel only" + x11 + i3 + stterm + vim + atom + git and their respective deps.*
-
 To setup the entire toolchain from a clean environment:
 
 ```
@@ -162,6 +154,12 @@ For a list of the available commands:
 
 ```
 gollum help
+```
+
+You can also setup the "entire" devenv I'm using (debian 10, x11/i3, xterm, vim, typora, vscode, firefox, git and the few basics not installed/configured by default like sudo) on top a a minimal headless debian 10 install. Log in and type:
+
+```
+wget https://github.com/Mannu404/Edmund/scripts/env/setup_debian.sh && chmod +x setup_debian.sh && ./setup_debian.sh
 ```
 
 ## testing the stuff do the things the stuff is supposed to do
@@ -245,3 +243,9 @@ You'll find instance of:
 ## why that much stuffs for a thing I'll certainly be the only dude doing stuffs with?
 
 Will not use any 'real certified dissociated elasticity' for this, in fact, I hate them as much as they are needed (even tho merise and unified process were envision at start, I'm sure those have a bright future), mainly cause they are symptoms of problems they don't solve, just provide workaround. Writting user doc is a good and quick way to express requirements take decisionsn implementing them quickly and iterate over them instead of searching way too long for the "correct solution" (that will have to be iterated over too anyways). Most (non)-functionnal requiremets added after initial prototype, so about 75% of the project, comes from selling them to myself in this doc and then regretting it for few days, how usual isn't it? It's also a break/bridge from/to writting code.
+
+## grandpa diatribe of stuff that happened when building the thing
+
+Don't expect anything smort nor relevant here.
+
+*As it wasn't reminded to me for long time, MS tends to break the nice things they've build. WSL 2 cross system file access are in-sane. Like in, not-sane, like in "please, kill that machine, it's been going through too much". And as much as I like(d) linux, WSL was a nice compromise between hardware support and tooling/desktop from windows with a "close to full fledge" linux subsystem, providing the best of both world, fixing the weakness of each others... I sincerely had moment of sincere joy using WSL thinking "that future is awesome, if only it was like that years ago, they finally get it !". But nay, fun is over, now it's a "true vm", with "true security bs perfs". So yep, no more mixing both world seamlessly sharing filesystem, say again hi to p9! Hi p9! Remember p9? A piece of technology that even Bell Labs might have forgotten they've developed for plan9, adhering 100% to the good ol "everything is file, file everything"... Microsoft mostly ending with that as Plan9 was maintained by Nokia Labs (until recent march 2021, where a foundation had been made "in order continue the work from Bell Labs for new generations.", (or let it die due to lack of support, yet used here and there, but hey, it's the P9 foundation that is responsible, maybe we'll "contribute" to fix our wsl, maybe) and nokia is kind of the beaten kid of msft (http://p9f.org/) So yup... With WSL2, for cross access, you basically share your fs across a virtual network and there's a windows side client that consume the exposed fs... defeating one of the only reason that made WSL way better than a vm... Ho yep, and if you already switched, too late, can't revert easily :) (because it's certainly way too advanced and secure, that would maybe degrade performances) gg wp. So thanks for bringing back those intense memories of joy procured by the appreciation of time flowing while building source across shared folder and reminding me the cost of staying at the window watching the pinguins fly.*

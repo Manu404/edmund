@@ -6,7 +6,7 @@ then
 	su
 	apt-get update
 	apt-get install sudo
-	/sbin/usermod -aG sudoers eis
+	/sbin/usermod -aG sudoers $USER
 	/sbin/reboot
 fi
 

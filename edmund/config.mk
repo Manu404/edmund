@@ -5,7 +5,7 @@ SKETCH = $(ROOT)/edmund.ino
 
 ESP_ROOT = $(ROOT)/../sdk/esp8266
 
-UPLOAD_PORT = /dev/ttyS3
+UPLOAD_PORT = /dev/ttyUSB0
 
 BUILD_DIR = $(ROOT)/../build
 

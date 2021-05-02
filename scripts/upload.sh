@@ -2,4 +2,4 @@
 
 cd ../edmund/
 
-make -f ../sdk/makeEspArduino/makeEspArduino.mk flash
+make -f ../sdk/espmake/makeEspArduino.mk flash
