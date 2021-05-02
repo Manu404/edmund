@@ -5,4 +5,5 @@ sudo apt-get install unzip
 sudo apt-get install default-jre
 
 sudo apt install python3-pip
-pip install cmake --upgrade
+pip3 install cmake --upgrade
+source ~/.profile

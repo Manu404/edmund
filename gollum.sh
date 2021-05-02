@@ -15,6 +15,7 @@ while test $# -gt 0; do
 		cd ../
 		ln -s `pwd`/gollum.sh ~/bin/gollum
 		sudo chmod +x ~/bin/gollum
+		source ~/.profile
 		exit;;
 	install:cli)
 		echo "Install cli"; 
