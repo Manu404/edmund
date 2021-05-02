@@ -1,6 +1,8 @@
 #ifndef HARDWARE_INCLUDED
 #define HARDWARE_INCLUDED
 
+#define ARDUINO 180
+
 #include <Arduino.h>  
 #include <SPI.h>  
 #include <ESPFlash.h>

@@ -1,4 +1,4 @@
-#!/bi/bash
+#!/bin/bash
 
 sudo apt-get install vim
-sudo snap install vscode
+sudo snap install code --classic
