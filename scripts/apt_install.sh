@@ -1,7 +1,8 @@
 #!/bin/bash
 
-apt-get install microcom
-apt-get install unzip
-apt-get install default-jre
-apt remove cmake
+sudo apt-get install microcom
+sudo apt-get install unzip
+sudo apt-get install default-jre
+
+sudo apt install python3-pip
 pip install cmake --upgrade

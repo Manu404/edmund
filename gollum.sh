@@ -12,8 +12,9 @@ while test $# -gt 0; do
 		exit;;
 	install:gollum)
 		echo "Make gollum userly available (ln in ~/bin/gollum"
+		cd ../
 		ln -s `pwd`/gollum.sh ~/bin/gollum
-		chmod +x ~/bin/gollum
+		sudo chmod +x ~/bin/gollum
 		exit;;
 	install:cli)
 		echo "Install cli"; 

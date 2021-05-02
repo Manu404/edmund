@@ -5,7 +5,7 @@ esp8266 based stats counter for multiplayer mtg edh
 
 *Also, I'm just a hobbyist on the electronic side, so please let me know what I'm wrong about. But don't dare to question my god level software sKilLz.*
 
-## things this stuff do
+## things the stuff do
 
   ```
   ~ features ~
@@ -37,14 +37,24 @@ esp8266 based stats counter for multiplayer mtg edh
   ```
 
   ```
-  ~ power consumption ~
+ active: when navigating or changing values
+ sleep: after 3 seconds of inactivity, enter sleep, will take few ms to wake up, poll tick every seconds
+ deep sleep: after 30 seconds of inactivity, enter deepsleep, it's considered "shutdown", wake up < 2seconds
+ 
+ ~ power consumption : DEVBOARD ~
     active .................................. 70mA
     sleep ................................... 20mA (input inactive > 3sec)
-    deep sleep .............................. 2mA  (input inactive > 30sec)
-    deep sleep (bakclight off) .............. 1mA
+    deep sleep .............................. 5-7mA  (input inactive > 30sec)
+    deep sleep (bakclight off) .............. 4mA
+    
+ ~ power consumption : OFFBOARD CHIP ~
+    active .................................. TBD target: < 50mA
+    sleep ................................... TBD target: < 15mA
+    deep sleep .............................. TBD target: < 3mA
+    deep sleep (bakclight off) .............. TBD target: 1mA || <
   ```
 
-## button to press on the stuff to make it do things
+## button to press on the stuff to make the stuff do things
   ```
 												
 home screen
@@ -87,27 +97,43 @@ Most parts were picked based on what I had on hand, pick whatever you want, but 
 
 The pull down resistor are optional as the esp integrate configurable pull-up/dow resistor, I kept them to avoid relying on the esp8266 ones, as the board may vary in the future, providing a possible different set of feature/config and less prone configuration errors. Use -DESP_INTERNAL_PULL_DOWN to switch to the internal pull dow in the code.
 
-##### Devboard or off-board chip ?
-
-Price wise: dev board. 
-
-Current consumption wise: off chip.
-
-The esp8266 can be found around 2 to 5€ depending on the 'authenticity' and can reach way lower current consumption without the entire rest of the board (in the µA range). But, it require you to pick a better voltage regulator than a LM7805 and a serial-to-usb programmer (which can be another arduino, esp, pic, anything, don't buy it if for hobby, google) The dev board, for it's price and for embedding the voltage regulation and usb port (that can be used both for powering and programming/debuging) ca be a comfortable choice if you want to modify this project, it's particularly usefull/tidy on a breadboard. 
-
-Yet, the finished esp8266 version don't embbed the devboard.
-
-### things to know about the stuffs you need to make the stuff do things
+The voltage regulator is optional, a usb powerbank can do the job, or directly connecting the battery to the lolin. But as I'll use certainly 9v if on battery instead of powerbank, I don't want to load too much the ESP regulator and had the part available.
 
 I used a log pot instead of lin, might need to update the reading method to your hardware if linear.
 
-The voltage regulator is optional, a usb powerbank can do the job, or directly connecting the battery to the lolin. But as I'll use certainly 9v if on battery instead of powerbank, I don't want to load too much the ESP regulator and had the part available. *Yet, might not be the best efficient way of doing this, but provide plenty of heat to get your finger ready for the next shuffling* 
+##### devboard or esp chip alone?
+
+Price wise: dev board. 
+
+Current consumption wise: esp chip.
+
+The esp8266 chip alone can be found around 2€ to 5€ depending on it's 'authenticity' and can reach way lower current consumption than the devboard (going in the µA range) as the usbToUart can account for about 25 mA of drawn current during operation and 330µ during sleep according to datasheet. Also, the regulator minimum load current is around 5mA. All in all, that will have a big impact proportional to the overall current consumption. A solutionn would be to bruteforce the "problem" (if any) with a bigger power bank, as you can find today 30kmAh capacity for 25€, representing thousands of hours of operation considering the sleep most of the time, depending on what's more fun for you: spending money or spending time ? So, it will require you to pick a (better) regulator, a crystal, add decoupling capacitor, few resistances, maybe a switch for hard reset and use an external programmer to avoid having to embed usb-to-uart (which can be another arduino, esp, pic, anything, don't buy it if for hobby, google) 
+The form factor of the ESP8266 have to be considered too when assembling.
+The dev board, for it's price, for embedding the voltage regulation and usb port (that can be used both for powering and programming/debuging) as well as std header 0.1" pinout ca be a comfortable choice if you want to modify this project, and it's particularly usefull/tidy on a breadboard. Considering 
+
+Yet, my finished esp8266 version don't embbed the devboard, but the esp on a breakout board. 
+For voltage regulation, an LDO might be a good option as they offer low dropout voltage and low quiescent current. (https://www.ti.com/lit/an/slva079/slva079.pdf?ts=1619796111456)
+
+##### schematics and datasheets
+
+devboard schematic (original): https://github.com/nodemcu/nodemcu-devkit-v1.0/blob/master/NODEMCU_DEVKIT_V1.0.PDF
+summary: https://raw.githubusercontent.com/nodemcu/nodemcu-devkit/master/Documents/NODEMCU_DEVKIT_SCH.png
+original uart2usb: https://www.silabs.com/documents/public/data-sheets/CP2102-9.pdf
+original voltage regulator: https://www.onsemi.com/pdf/datasheet/ncp1117-d.pdf
+
+The ones I worked on have:
+uart2usb: http://www.wch-ic.com/products/CH340.html
+voltage regulator: http://www.advanced-monolithic.com/pdf/ds1117.pdf
 
 ## building the things to install on the stuff
 
 If on Windows, install wsl (https://gist.github.com/trzecieu/8828e9b47b2b553e3ece7f6f899d4d25)
 
-To setup the entire toolchain from a clean environment run
+**!!! IF USING WSL 2 - YOU'RE ON YOUR OWN !!!**
+
+*As it wasn't reminded to me for long time, MS tends to break the nice things they've build. WSL 2 cross system file access are in-sane. Like in, not-sane, like in "please, kill that machine, it's been going through too much". And as much as I like(d) linux, WSL was a nice compromise between hardware support and tooling/desktop from windows with a "close to full fledge" linux subsystem, providing the best of both world, fixing the weakness of each others... I sincerely had moment of sincere joy using WSL thinking "that future is awesome, if only it was like that years ago, they finally get it !". But nay, fun is over, now it's a "true vm", with "true security bs perfs". So yep, no more mixing both world seamlessly sharing filesystem, say again hi to samba ! Hi Samba ! Remember samba ? That good o'l friend which gave your C-drive to your friends for free and no questions asked! Remember why you didn't really heard about it for years ? Yup... With WSL2 you basically share your fs across a virtual network through smb protocol... defeating one of the only reason that made WSL way better than a vm... Ho yep, and if you already switched, too late, can't revert easily :) (because it's certainly way too advanced and secure, that would maybe degrade performances, that's why we run dotJava) gg wp. So thanks for bringing back those intense memories of joy procured by the appreciation of time flowing while building source accross shared folder and reminding me the cost of staying at the window watching the pinguins fly. The decision was made to run mainly under linux by default using a server ubuntu with x11, i3 as tiled window manager, stterm and vscode.*
+
+To setup the entire toolchain from a clean environment:
 
 ```
 bash ./gollum.sh install:gollum && gollum init
@@ -116,13 +142,13 @@ bash ./gollum.sh install:gollum && gollum init
 Which will :
 
  - make gollum available from cli (create a link in ~/bin/)
- - install requirements to use make with arduino project and esp8266 sdk from espressif
+ - install requirements to use make with arduino and esp8266 sdk
  - install arduino-cli, still used for librairies
  - install required arduino librairies using arduino-cli, also install core:esp8266 (remains from previous build process, low footprint)
 
 Gollum can be read easily and all scripts called resides within ./scripts/
 
-Then, to compile and flash the board
+To compile and flash the board:
 
 ```
 gollum build:bin && gollum build:test && gollum run:test && gollum run:flash && gollum run:serial
@@ -130,13 +156,13 @@ gollum build:bin && gollum build:test && gollum run:test && gollum run:flash && 
 
 This will build edmund firmware and tests, run the unit  tests, flash the firmware and open a serial monitor.
 
-for a list of the available commands
+For a list of the available commands:
 
 ```
 gollum help
 ```
 
-## testing the stuff do things this stuff is supposed to do
+## testing the stuff do the things the stuff is supposed to do
 
 Test were written to meet three goals: 
 
@@ -178,9 +204,16 @@ A subset of the system tests testing basic functional requirements. Does it comp
 gollum run:unit:end
 ```
 
-## How are things written to make the stuff do things ?
+## writing things to make the stuff do things
 
-The code base is mostly C++ 14-ish.
+- The code base is mostly C++ 14-ish.
+- Formatting:
+  - All file names should be lower_snake_cased by convention. (no good, no bad, like that and stick to it).
+  - Type names ArePascalCase.
+  - Variable name willUseCamelCaseIfPossible, without _underScore for private.
+- Smart pointers were used whenever ownership is relevant.
+- Lifetime of most objects is tied to device operation time, most objects are initialized uppon startup and destroyed when shutting down. The only time an object is created on the heap during operation oustide of startup is when loading a gamestate from spiff storage. (and during tests, initially, destructors were not even written, as objects should never be destroyed, originally... I know... kinda)
+- You'll notice that Edmund::Device and Edmund::Game is passed "a lot" and might looks like a codesmell. Each frame should be independent to the greater extent to the previous and the next one. Of course some interaction that involve change over time, but computing a single frame, don't require a previous and next one. Injecting those two dependencies by constructor and keeping/managing a reference to those two object would also, imho, not be a good idea, despite apparent silliness. The overhead of passing pointer is minimal for me. 
 
 If you want to take a look at the code, start by edmund.h containing the implementation of the main loop.
 
@@ -207,6 +240,6 @@ You'll find instance of:
 - Edmund::UI::DefaultPropertyNavigationScreen is used by most layout displaying stats (but not required) and provide basic navigation/property updating and support. 
 - Uppon construction, the screenmanager instantiate/register each screen available in unique_ptr.
 
-## why that much doc for a thing you'll certainly be the only one doing stuffs with?
+## why that much stuffs for a thing I'll certainly be the only dude doing stuffs with?
 
 Will not use any 'real certified dissociated elasticity' for this, in fact, I hate them as much as they are needed (even tho merise and unified process were envision at start, I'm sure those have a bright future), mainly cause they are symptoms of problems they don't solve, just provide workaround. Writting user doc is a good and quick way to express requirements take decisionsn implementing them quickly and iterate over them instead of searching way too long for the "correct solution" (that will have to be iterated over too anyways). Most (non)-functionnal requiremets added after initial prototype, so about 75% of the project, comes from selling them to myself in this doc and then regretting it for few days, how usual isn't it? It's also a break/bridge from/to writting code.

@@ -2,6 +2,8 @@ cmake_minimum_required(VERSION 3.14)
 project(test-all)
 
 
+project (ValgrindExample)
+
 find_package(Threads REQUIRED)
 
 # If we are a stand alone project not included with add_subdirectory() and
@@ -37,11 +39,11 @@ target_link_libraries(test-all
     ${CMAKE_THREAD_LIBS_INIT}
 )
 
+include (CTest)
 add_dependencies(test-all arduino_mock gtest gmock gtest_main)
 
 add_definitions( -DARDUINO=180 )
 target_compile_features(test-all PUBLIC cxx_std_11)
 set_target_properties(test-all PROPERTIES CXX_EXTENSIONS OFF)
 
-enable_testing()
 add_test(TestAll test-all)
