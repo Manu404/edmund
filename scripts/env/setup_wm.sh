@@ -2,7 +2,13 @@
 
 sudo apt-get install xorg
 sudo apt-get install i3
+
 cp ./xinitrc ~/
+mv ~/xinitrc ~.xinitrc
+
+cp ./xresource ~/
+mv ~/xresource ~/.xresource
+
 mkdir ~/.i3
 cp ./i3config ~/.i3/
 
