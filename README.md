@@ -116,14 +116,15 @@ For voltage regulation, an LDO might be a good option as they offer low dropout 
 
 ##### schematics and datasheets
 
-devboard schematic (original): https://github.com/nodemcu/nodemcu-devkit-v1.0/blob/master/NODEMCU_DEVKIT_V1.0.PDF
-summary: https://raw.githubusercontent.com/nodemcu/nodemcu-devkit/master/Documents/NODEMCU_DEVKIT_SCH.png
-original uart2usb: https://www.silabs.com/documents/public/data-sheets/CP2102-9.pdf
-original voltage regulator: https://www.onsemi.com/pdf/datasheet/ncp1117-d.pdf
+- devboard schematic (original): https://github.com/nodemcu/nodemcu-devkit-v1.0/blob/master/NODEMCU_DEVKIT_V1.0.PDF
+- summary: https://raw.githubusercontent.com/nodemcu/nodemcu-devkit/master/Documents/NODEMCU_DEVKIT_SCH.png
+- original uart2usb: https://www.silabs.com/documents/public/data-sheets/CP2102-9.pdf
+- original voltage regulator: https://www.onsemi.com/pdf/datasheet/ncp1117-d.pdf
 
 The ones I worked on have:
-uart2usb: http://www.wch-ic.com/products/CH340.html
-voltage regulator: http://www.advanced-monolithic.com/pdf/ds1117.pdf
+
+- uart2usb: http://www.wch-ic.com/products/CH340.html
+- voltage regulator: http://www.advanced-monolithic.com/pdf/ds1117.pdf
 
 ## building the things to install on the stuff
 
