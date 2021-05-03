@@ -1,7 +1,6 @@
 cmake_minimum_required(VERSION 3.14)
 project(test-all)
 
-
 project (ValgrindExample)
 
 find_package(Threads REQUIRED)
@@ -26,14 +25,18 @@ include_directories(
     ./build/_deps/googletest-src/googlemock/include
     ./build/_deps/googletest-src/googletest/include
     ./mock/include
+    ../src/
+    ../src/hardware/
+    ../src/hardware/output/
+    ../src/ui/
+    ../src/ui/resource/
 )
 
-file(GLOB LIB_SRCS "../src/*.h")
-file(GLOB LIB_SRCS "../src/*.cpp")
-file(GLOB SRCS "./mock/src/*.cpp")
-file(GLOB SRCS "*.cpp")
+file(GLOB EDMUND_SRCS  "../src/*.cpp" 
+                    "../src/hardware/output/pcd8544device.cpp")
+file(GLOB SRCS "*.cpp") 
 
-add_executable(test-all ${SRCS} ${LIB_SRCS})
+add_executable(test-all ${SRCS} ${EDMUND_SRCS})
 
 target_link_libraries(test-all
     gtest gmock gtest_main

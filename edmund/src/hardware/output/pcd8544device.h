@@ -24,15 +24,15 @@ namespace Edmund {
       void Print(String m) const; 
       void Print(String m, int x, int y) const;
       void PrintLine(String m) const;
-      void DrawSymbol(int x_pos, int y_pos, const uint8_t* logo) const;
-      void PrintNumberSmall(int x_pos, int y_pos, int value, uint16_t color, int length) const;
+      void DrawSymbol(int x, int y, const uint8_t* logo) const;
       void DrawScreen(const uint8_t* screen) const;
       void DrawBox(int x, int y, int w, int h, uint16_t color) const;
       void DrawBorder(int x, int y, int w, int h, uint16_t color) const;
       void DrawScreen(const uint8_t* logo, int x) const;
       void DrawLogo(int x, int y, int w, int h, const uint8_t* logo) const;
-      void PrintNumberLarge(int x, int y, u_int value, uint16_t color, int length) const;
       void PrintLineCentered(const String& buf, int x, int y, uint16_t color) const;
+      void PrintNumberSmall(int x, int y, int value, uint16_t color, int minLength) const;
+      void PrintNumberLarge(int x, int y, int value, uint16_t color, int minLength) const;
       int GetScreenWidth() const { return 84; }
       int GetScreenHeigt() const { return 48; }
 

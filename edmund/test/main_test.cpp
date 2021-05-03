@@ -1,7 +1,7 @@
 #include "gtest/gtest.h"
 #include "Arduino.h"
 
-#include "../src/game.h"
+#include "game.h"
 
 using ::testing::Return;
 using namespace Edmund;

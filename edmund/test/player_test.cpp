@@ -2,7 +2,7 @@
 #include "Arduino.h"
 #include "Serial.h"
 
-#include "../src/model.h"
+#include "model.h"
 
 using ::testing::Return;
 

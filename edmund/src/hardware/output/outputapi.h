@@ -40,18 +40,19 @@ namespace Edmund {
 
     class IOutputDevice {
       public:
+        virtual ~IOutputDevice() = default;
         virtual void Print(String m) const = 0; 
         virtual void Print(String m, int x, int y) const  = 0;
         virtual void PrintLine(String m) const  = 0;
-        virtual void DrawSymbol(int x_pos, int y_pos, const uint8_t* logo) const  = 0;
-        virtual void PrintNumberSmall(int x_pos, int y_pos, int value, uint16_t color, int length) const  = 0;
+        virtual void DrawSymbol(int x, int y, const uint8_t* logo) const  = 0;
         virtual void DrawScreen(const uint8_t* screen) const  = 0;
         virtual void DrawBox(int x, int y, int w, int h, uint16_t color) const  = 0;
         virtual void DrawBorder(int x, int y, int w, int h, uint16_t color) const  = 0;
         virtual void DrawScreen(const uint8_t* logo, int x) const  = 0;
         virtual void DrawLogo(int x, int y, int w, int h, const uint8_t* logo) const  = 0;
-        virtual void PrintNumberLarge(int x, int y, u_int value, uint16_t color, int length) const  = 0;
         virtual void PrintLineCentered(const String& buf, int x, int y, uint16_t color) const  = 0;
+        virtual void PrintNumberLarge(int x, int y, int value, uint16_t color, int minLength) const  = 0;
+        virtual void PrintNumberSmall(int x, int y, int value, uint16_t color, int minLength) const  = 0;
         virtual int GetScreenWidth() const = 0;
         virtual int GetScreenHeigt() const = 0;
  

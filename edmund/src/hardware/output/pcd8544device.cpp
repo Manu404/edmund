@@ -38,8 +38,8 @@ namespace Edmund {
       lcd->print(buf);
     }
 
-    void PCD8544OutputDevice::DrawSymbol(int x_pos, int y_pos, const uint8_t* logo) const {
-      lcd->drawBitmap(x_pos * 9, y_pos * 10, logo, 9, 10, BLACK);
+    void PCD8544OutputDevice::DrawSymbol(int x, int y, const uint8_t* logo) const {
+      lcd->drawBitmap(x * 9, y * 10, logo, 9, 10, BLACK);
     }
 
     void PCD8544OutputDevice::DrawScreen(const uint8_t* logo) const {
@@ -70,32 +70,38 @@ namespace Edmund {
       lcd->display();
     }
 
-    void PCD8544OutputDevice::PrintNumberLarge(int x, int y, u_int value, uint16_t color, int length) const {
+    void PCD8544OutputDevice::PrintNumberLarge(int x, int y, int value, uint16_t color, int minLength) const {
       lcd->useMonoBoldFont();
-      int remainingValue = value, currentDigit = 0, printedDigitCount = 0;
+      int remainingValue = std::abs(value), currentDigit = 0, printedDigitCount = 0;
+      if(value < 0) {
+        lcd->fillRect(x - 5, y + 10, 2, 2, color);
+        x += 3;
+      }
+
       for (int i = 5; remainingValue >= 0 && i >= 0; i--) // 16bits uint, 5 digits max
       {
-        int p = pow(10, i);
+        int p = std::pow(10, i);
         currentDigit = (remainingValue / p);
         remainingValue %= p;
-        if (currentDigit > 10 || i >= length || (currentDigit == 0 && printedDigitCount == 0 && i >= length))
+        if (currentDigit > 10 || (currentDigit == 0 && printedDigitCount == 0 && i >= minLength))
           continue;
         lcd->drawChar(x + (printedDigitCount * 8), y + 10, (char)(currentDigit + ((int)'0')), color, !color);
         printedDigitCount += 1;
       }
     };
 
-    void PCD8544OutputDevice::PrintNumberSmall(int x_pos, int y_pos, int value, uint16_t color, int length) const {
+    void PCD8544OutputDevice::PrintNumberSmall(int x, int y, int value, uint16_t color, int minLength) const {
       int char_w = 4, char_h = 5;
       int printedDigitCount = 0, currentDigit = 0, maxRange = 3;
+      value = std::abs(value);
 
       for (int i = 1; i <= maxRange; i++) {
-        int p = pow(10, i);
+        int p = std::pow(10, i);
         currentDigit = (value % p) / (p / 10);
         value -= currentDigit;
-        if ((length - i) < 0) continue;
+        if ((minLength - i) < 0) continue;
         if (!(currentDigit == 0 && i == 3)) // don't print on leading 0 for hundred
-          lcd->drawNumericBitmap(x_pos + (char_w * ((length - printedDigitCount) - 1)) - (i < 3 && length == 3), y_pos, currentDigit, char_w, char_h, color);
+          lcd->drawNumericBitmap(x + (char_w * ((minLength - printedDigitCount) - 1)) - (i < 3 && minLength == 3), y, currentDigit, char_w, char_h, color);
         printedDigitCount += 1;
       }
     };
