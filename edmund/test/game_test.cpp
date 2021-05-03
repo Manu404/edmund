@@ -13,6 +13,7 @@ TEST(game, get_set_player_life_property) {
     g->ApplyDeltaToPlayerProperty(i, Life_property, i + 1);
     EXPECT_EQ(40 + i + 1, g->GetPlayerPropertyValue(i, Life_property));
   }
+  delete(g);
 }
 
 TEST(game, get_set_player_infect_property) {
@@ -21,6 +22,7 @@ TEST(game, get_set_player_infect_property) {
     g->ApplyDeltaToPlayerProperty(i, Infect_property, i + 1);
     EXPECT_EQ(i + 1, g->GetPlayerPropertyValue(i, Infect_property));
   }
+  delete(g);
 }
 
 TEST(game, get_set_player_cmdr_dmg_property) {
@@ -31,6 +33,7 @@ TEST(game, get_set_player_cmdr_dmg_property) {
       EXPECT_EQ(i + 1, g->GetPlayerPropertyValue(i, (PlayerProperties)(target)));
     }
   }
+  delete(g);
 }
 
 TEST(game, get_set_mana_property_single_player) {
@@ -39,6 +42,7 @@ TEST(game, get_set_mana_property_single_player) {
     g->ApplyDeltaToPlayerProperty(0, (PlayerProperties)(W_MANA_property + mana), 1);
     EXPECT_EQ(1, g->GetPlayerPropertyValue(0, (PlayerProperties)(W_MANA_property + mana)));
   }
+  delete(g);
 }
 
 TEST(game, get_set_mana_property_all_player) {
@@ -49,21 +53,25 @@ TEST(game, get_set_mana_property_all_player) {
       EXPECT_EQ(i + 1, g->GetPlayerPropertyValue(i, (PlayerProperties)(W_MANA_property + mana)));
     }
   }
+  delete(g);
 }
 
 TEST(game, get_player_count) {
   Edmund::Game* g = new Edmund::Game();
   EXPECT_EQ(4, g->GetPlayerCount());
+  delete(g);
 }
 
 TEST(game, get_property_count) {
   Edmund::Game* g = new Edmund::Game();
   EXPECT_EQ(6, g->GetPropertyCount());
+  delete(g);
 }
 
 TEST(game, get_manatype_count) {
   Edmund::Game* g = new Edmund::Game();
   EXPECT_EQ(6, g->GetManaTypeCount());
+  delete(g);
 }
 
 TEST(game, reset) {
@@ -85,4 +93,5 @@ TEST(game, reset) {
     for (int mana = 0; mana < MANA_TYPE_COUNT; mana++)
       EXPECT_EQ(0, g->GetPlayerPropertyValue(i, (PlayerProperties)(W_MANA_property + mana)));
   }
+  delete(g);
 }

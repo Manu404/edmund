@@ -11,6 +11,7 @@ TEST(manapool, apply_positive_delta) {
   Edmund::ManaPoolState* p = new Edmund::ManaPoolState();
   p->ApplyDeltaToManaPoolContent(W_MANA, 1);
   EXPECT_EQ(1, p->GetManaPoolContent(W_MANA));
+  delete(p);
 }
 
 TEST(manapool, apply_negative_delta) {
@@ -18,12 +19,14 @@ TEST(manapool, apply_negative_delta) {
   p->ApplyDeltaToManaPoolContent(W_MANA, 10);
   p->ApplyDeltaToManaPoolContent(W_MANA, -1);
   EXPECT_EQ(9, p->GetManaPoolContent(W_MANA));
+  delete(p);
 }
 
 TEST(manapool, apply_negative_delta_bigger_than_current) {
   Edmund::ManaPoolState* p = new Edmund::ManaPoolState();
   p->ApplyDeltaToManaPoolContent(W_MANA, -1);
   EXPECT_EQ(0, p->GetManaPoolContent(W_MANA));
+  delete(p);
 }
 
 TEST(manapool, apply_match_get) {
@@ -40,6 +43,7 @@ TEST(manapool, apply_match_get) {
   EXPECT_EQ(4, p->GetManaPoolContent(R_MANA));
   EXPECT_EQ(5, p->GetManaPoolContent(G_MANA));
   EXPECT_EQ(6, p->GetManaPoolContent(X_MANA));
+  delete(p);
 }
 
 
@@ -58,4 +62,5 @@ TEST(manapool, empty) {
   EXPECT_EQ(0, p->GetManaPoolContent(R_MANA));
   EXPECT_EQ(0, p->GetManaPoolContent(G_MANA));
   EXPECT_EQ(0, p->GetManaPoolContent(X_MANA));
+  delete(p);
 }

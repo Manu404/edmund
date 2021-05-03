@@ -10,29 +10,34 @@ TEST(player, life_delta_plus_one) {
   Edmund::Player* p = new Edmund::Player();
   p->ApplyDeltaToLife(1);
   EXPECT_EQ(41, p->GetLife());	
+  delete(p);
 }
 
 TEST(player, life_delta_minus_one) {
   Edmund::Player* p = new Edmund::Player();
   p->ApplyDeltaToLife(-1);
   EXPECT_EQ(39, p->GetLife());	
+  delete(p);
 }
 
 TEST(player, life_delta_minus_bigger_than_current) {
   Edmund::Player* p = new Edmund::Player();
   p->ApplyDeltaToLife(-41);
   EXPECT_EQ(-1, p->GetLife());	
+  delete(p);
 }
 
 TEST(player, life_default) {
   Edmund::Player* p = new Edmund::Player();
   EXPECT_EQ(40, p->GetLife());	
+  delete(p);
 }
 
 TEST(player, cmdr_dmg_delta_plus_one) {
   Edmund::Player* p = new Edmund::Player();
   p->ApplyDeltaToCommanderDamages(0, 1);
   EXPECT_EQ(1, p->GetCommanderDamages(0));	
+  delete(p);
 }
 
 TEST(player, cmdr_dmg_delta_minus_one) {
@@ -40,12 +45,14 @@ TEST(player, cmdr_dmg_delta_minus_one) {
   p->ApplyDeltaToCommanderDamages(0, 10);
   p->ApplyDeltaToCommanderDamages(0, -1);
   EXPECT_EQ(9, p->GetCommanderDamages(0));
+  delete(p);
 }
 
 TEST(player, cmdr_dmg_delta_minus_bigger_than_current) {
   Edmund::Player* p = new Edmund::Player();
   p->ApplyDeltaToCommanderDamages(0, -1);
   EXPECT_EQ(0, p->GetCommanderDamages(0));
+  delete(p);
 }
 
 TEST(player, cmdr_dmg_delta_inexsting_player) {
@@ -54,23 +61,27 @@ TEST(player, cmdr_dmg_delta_inexsting_player) {
   p->ApplyDeltaToCommanderDamages(-1, 10);
   for(int i = 0; i < PLAYER_COUNT; i++)
     EXPECT_EQ(0, p->GetCommanderDamages(i));
+  delete(p);
 }
 
 TEST(player, cmdr_dmg_get_inexsting_player) {
   Edmund::Player* p = new Edmund::Player();
   EXPECT_EQ(0, p->GetCommanderDamages(PLAYER_COUNT + 1));
   EXPECT_EQ(0, p->GetCommanderDamages(-1));
+  delete(p);
 }
 
 TEST(player, cmdr_dmg_default) {
   Edmund::Player* p = new Edmund::Player();
   EXPECT_EQ(0, p->GetCommanderDamages(0));		
+  delete(p);
 }
 
 TEST(player, infect_delta_plus_one) {
   Edmund::Player* p = new Edmund::Player();
   p->ApplyDeltaToInfect(1);
   EXPECT_EQ(1, p->GetInfect());
+  delete(p);
 }
 
 TEST(player, infect_delta_minus_one) {
@@ -78,17 +89,20 @@ TEST(player, infect_delta_minus_one) {
   p->ApplyDeltaToInfect(10);
   p->ApplyDeltaToInfect(-1);
   EXPECT_EQ(9, p->GetInfect());
+  delete(p);
 }
 
 TEST(player, infect_delta_minus_bigger_than_current) {
   Edmund::Player* p = new Edmund::Player();
   p->ApplyDeltaToInfect(-1);
   EXPECT_EQ(0, p->GetInfect());
+  delete(p);
 }
 
 TEST(player, infect_default) {
   Edmund::Player* p = new Edmund::Player();
   EXPECT_EQ(0, p->GetInfect());
+  delete(p);
 }
 
 TEST(player, reset) {
@@ -100,4 +114,5 @@ TEST(player, reset) {
   EXPECT_EQ(0, p->GetInfect());
   EXPECT_EQ(0, p->GetCommanderDamages(0));
   EXPECT_EQ(40, p->GetLife());
+  delete(p);
 }
