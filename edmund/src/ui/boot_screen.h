@@ -13,13 +13,13 @@ namespace Edmund {
     public:
       BootScreen() : IScreen() { }
 
-      virtual ScreenEnum loop(const Device& hardware, Game& game)
+      virtual ScreenEnum loop(const Device& hardware, const IOutputDevice& output, Game& game)
       {
         current = millis();
         ellapsed_ms += current - last_tick;
         last_tick = current;
 
-        hardware.DrawScreen(Resources::BootLogo);
+        output.DrawScreen(Resources::BootLogo);
 
         if (hardware.IsMiddlePressed() == 1 || ellapsed_ms >= 1000)
           return HomeMenuScreenEnum;

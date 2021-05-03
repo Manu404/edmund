@@ -27,12 +27,12 @@ namespace Edmund {
     void loop() {
       device->BeginFrame();
             
-      screenManager->LoopCurrent(*device, *game);
+      screenManager->LoopCurrent(*device, *device->GetOutput(), *game);
 
       game->RefreshEllapsedTime();
       
       if (debug)  
-        displayDebug(*device);
+        displayDebug(*device->GetOutput());
       
       device->EndFrame(game->GetGameState());
     }
@@ -45,7 +45,7 @@ namespace Edmund {
       Serial.println(EDMUND_VERSION);
     }
 
-    void displayDebug(Device& hardware) {
+    void displayDebug(IOutputDevice& hardware) {
       currentFrame = millis();
       lastFrameDuration = currentFrame - lastFrame;
       lastFrame = currentFrame;

@@ -19,7 +19,7 @@ namespace Edmund {
     {
       public:
         IScreen() { }
-        virtual ScreenEnum loop(const Device& hardware, Game& game) = 0;
+        virtual ScreenEnum loop(const Device& hardware, const IOutputDevice& output, Game& game) = 0;
         virtual const ScreenEnum GetNavigationId() const = 0;
       protected:
         virtual void handleInputs(const Device& hardware, Game& game) = 0;

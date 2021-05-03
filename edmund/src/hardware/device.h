@@ -9,7 +9,7 @@
 #include <ESP8266WiFi.h>
 
 #include "../model.h"
-#include "lcd_provider.h"
+#include "./output/outputapi.h"
 #include "input_provider.h"
 
 #define MIN(a,b) (((a)<(b))?(a):(b))
@@ -25,21 +25,23 @@
 
 namespace Edmund {
   using namespace Hardware;
-    class Device : public LcdProvider, public InputProvider
+    class Device : public InputProvider
     {
     public:
       Device();
-      Device(std::unique_ptr<Adafruit_PCD8544> lcd, std::unique_ptr<McpProvider> mcp, ESPFlash<GameState>* stateArray, PinMapping mapping);
+      Device(IOutputDevice* outputDevice, std::unique_ptr<McpProvider> mcp, ESPFlash<GameState>* stateArray, PinMapping mapping);
       void Initialize();
       void BeginFrame();
       void EndFrame(const GameState& game);
       void SaveStateToSpiffs(const GameState& game);
       GameState LoadStateFromSpiffs();
+      IOutputDevice* GetOutput() const { return outputDevice; };
     private:
       void startLightSleep();
       void ensureSleep(const GameState& game);
       void waitRemainingFrameTime();
       ESPFlash<GameState>* stateArray;
+      IOutputDevice* outputDevice;
       unsigned long frameStart = 0, frameDuration = 0;
       int debug_combination = -1, sleepTick = 0;
       bool sleeping = false;

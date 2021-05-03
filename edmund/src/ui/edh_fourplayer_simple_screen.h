@@ -13,12 +13,12 @@ namespace Edmund {
 
       virtual const ScreenEnum GetNavigationId() const { return SimpleFourPlayerEdhScreenEnum; }
 
-      virtual ScreenEnum loop(const Device& hardware, Game& game) {
+      virtual ScreenEnum loop(const Device& hardware, const IOutputDevice& output, Game& game) {
         handleInputs(hardware, game);
 
-        drawLayout(hardware);
-        printPlayersProperties(hardware, game);
-        printManaPool(hardware, game);
+        drawLayout(output);
+        printPlayersProperties(output, game);
+        printManaPool(output, game);
 
         if (hardware.IsMiddlePressed())
           return HomeMenuScreenEnum;
@@ -59,7 +59,7 @@ namespace Edmund {
         }
       }
 
-      void printPlayersProperties(const Device& hardware, Game& game) {
+      void printPlayersProperties(const IOutputDevice& hardware, Game& game) {
         int y = 0, x = 0;
         uint16_t color = WHITE;
 
@@ -96,11 +96,11 @@ namespace Edmund {
         }
       }
 
-      void drawLayout(const Device& hardware) {
+      void drawLayout(const IOutputDevice& hardware) {
         hardware.DrawScreen(Resources::simple4PlayerLayout);
       }
 
-      void printManaPool(const Device& hardware, Game& game) {
+      void printManaPool(const IOutputDevice& hardware, Game& game) {
         int y = 40, x = 0;
         uint16_t color = BLACK;
         for (int i = 0; i < MANA_TYPE_COUNT; i++, color = BLACK) {

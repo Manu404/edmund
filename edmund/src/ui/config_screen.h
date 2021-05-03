@@ -10,9 +10,9 @@ namespace Edmund {
       public:
         ConfigScreen() : IScreen() { }
 
-        virtual ScreenEnum loop(const Device& hardware, Game& game)
+        virtual ScreenEnum loop(const Device& hardware, const IOutputDevice& output, Game& game)
         {
-          hardware.Print("L to reset", 7, 7);          
+          output.Print("L to reset", 7, 7);          
           
           if (hardware.IsLeftPressed())
             game.Reset();

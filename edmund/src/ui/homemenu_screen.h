@@ -50,11 +50,11 @@ namespace Edmund {
 
       virtual const ScreenEnum GetNavigationId() const { return HomeMenuScreenEnum; }
 
-      virtual ScreenEnum loop(const Device& hardware, Game& game)
+      virtual ScreenEnum loop(const Device& hardware, const IOutputDevice& output, Game& game)
       {
         handleInputs(hardware, game);
 
-        drawHomeMenu(hardware);
+        drawHomeMenu(output);
         
         if (newSelection == currentSelection)
           if (requestNavigation) 
@@ -64,7 +64,7 @@ namespace Edmund {
       }
 
     protected:
-      void drawHomeMenu(const Device& hardware)
+      void drawHomeMenu(const IOutputDevice& hardware)
       {
         if (screenWidth == 0) screenWidth = hardware.GetScreenWidth();
 
@@ -84,7 +84,7 @@ namespace Edmund {
         }
       }
 
-      void drawMenuOption(const Device& hardware, int option, int delta)
+      void drawMenuOption(const IOutputDevice& hardware, int option, int delta)
       {
         hardware.DrawLogo(delta, 0, options[option]->GetIconWidth(), options[option]->GetIconHeight(), options[option]->GetIcon());
         hardware.PrintLineCentered(options[option]->GetCaption(), (screenWidth / 2) + delta, 45, WHITE);

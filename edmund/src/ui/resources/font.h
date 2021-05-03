@@ -1,8 +1,14 @@
 #ifndef _font_h
 #define _font_h
 
-// https://glenviewsoftware.com/projects/products/adafonteditor/adafruit-gfx-font-format/
-#include <Adafruit_GFX.h>
+#ifndef _test
+  // https://glenviewsoftware.com/projects/products/adafonteditor/adafruit-gfx-font-format/
+  #include <Adafruit_GFX.h>
+  #include <Fonts/FreeMonoBold9pt7b.h>
+  #include <Fonts/TomThumb.h>
+#else
+  #include "../../../test/mock/include/Adafruit_GFX.h"
+#endif
 
 namespace Edmund {
   namespace UI {

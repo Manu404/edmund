@@ -2,12 +2,7 @@
 #ifndef LCDPROVIDER_INCLUDED
 #define LCDPROVIDER_INCLUDED
 
-#include <Adafruit_GFX.h> 
-#include <Adafruit_PCD8544.h> 
-#include <Fonts/FreeMonoBold9pt7b.h>
-#include <Fonts/TomThumb.h>
-
-#include "../ui/resources/font.h"
+#include "outputapi.h"
 
 #include <memory>
 
@@ -16,14 +11,20 @@
 
 namespace Edmund {
   namespace Hardware {
-    class LcdProvider
+
+    class PCD8544OutputDevice : public IOutputDevice
     {
+    private:
+      std::unique_ptr<IPCD8544Api> lcd;
     public:
-      LcdProvider(std::unique_ptr<Adafruit_PCD8544> _lcd) : lcd(std::move(_lcd)) { }
+      PCD8544OutputDevice(std::unique_ptr<IPCD8544Api> _lcd) 
+        : lcd(std::move(_lcd)) 
+      { }
+
       void Print(String m) const; 
       void Print(String m, int x, int y) const;
       void PrintLine(String m) const;
-      void PrintSymbol(int x_pos, int y_pos, const uint8_t* logo) const;
+      void DrawSymbol(int x_pos, int y_pos, const uint8_t* logo) const;
       void PrintNumberSmall(int x_pos, int y_pos, int value, uint16_t color, int length) const;
       void DrawScreen(const uint8_t* screen) const;
       void DrawBox(int x, int y, int w, int h, uint16_t color) const;
@@ -35,7 +36,7 @@ namespace Edmund {
       int GetScreenWidth() const { return 84; }
       int GetScreenHeigt() const { return 48; }
 
-    protected:
+    //protected:
       void initScreen();
       void clear() const;
       void display() const;
@@ -47,9 +48,8 @@ namespace Edmund {
       void endFrame() const {
         display();
       }
-    private:
-      std::unique_ptr<Adafruit_PCD8544> lcd;
     };
+
   }
 }
 #endif

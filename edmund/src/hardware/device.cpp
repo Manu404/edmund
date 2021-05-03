@@ -1,26 +1,31 @@
 #include "./device.h"
+#include "./output/pcd8544api.h"
+#include "./output/pcd8544device.h"
 
 void wakeup(void) {
   Serial.print("#");
 }
 
 namespace Edmund {
+  //new Adafruit_PCD8544(D2, D3, D1, D0, D4)
     // CE = D0, DC = D1, CLK = D2, DIN = D3, RST = D4
-    Device::Device() : LcdProvider(std::unique_ptr<Adafruit_PCD8544>(new Adafruit_PCD8544(D2, D3, D1, D0, D4))),
-                       InputProvider(std::unique_ptr<McpProvider>(new McpProvider()), PinMapping()),
-                       stateArray{ new ESPFlash<GameState>("/currentGame") }
+    Device::Device() : InputProvider(std::unique_ptr<McpProvider>(new McpProvider()), PinMapping()),
+                       stateArray{ new ESPFlash<GameState>("/currentGame") },
+                       outputDevice {
+                          new PCD8544OutputDevice(std::unique_ptr<IPCD8544Api>(new PCD8544Api(D2, D3, D1, D0, D4))) 
+                          }
     { }
 
-    Device::Device(std::unique_ptr<Adafruit_PCD8544> _lcd, std::unique_ptr<McpProvider> _mcp, ESPFlash<GameState>* _stateArray, PinMapping _mapping) :
-      LcdProvider(std::move(_lcd)),
+    Device::Device(IOutputDevice* _outputDevice, std::unique_ptr<McpProvider> _mcp, ESPFlash<GameState>* _stateArray, PinMapping _mapping) :
       InputProvider(std::move(_mcp), _mapping),    
-      stateArray(_stateArray) {
+      stateArray(_stateArray),
+      outputDevice(_outputDevice) {
     }
 
     void Device::Initialize() {
       Serial.begin(SERIAL_SPEED);
       Serial.println("init.");
-      initScreen();
+      outputDevice->initScreen();
       initInputs();
     }
 
@@ -28,12 +33,12 @@ namespace Edmund {
       frameStart = millis();
 
       this->InputProvider::beginFrame();
-      this->LcdProvider::beginFrame();
+      outputDevice->beginFrame();
     }
 
     void Device::EndFrame(const GameState& game) {
       this->InputProvider::endFrame();
-      this->LcdProvider::endFrame();
+      outputDevice->endFrame();
 
       waitRemainingFrameTime();
       ensureSleep(game);

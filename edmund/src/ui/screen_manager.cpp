@@ -17,8 +17,8 @@ namespace Edmund {
     RegisterInstance(std::unique_ptr<IScreen>(new HomeScreen()));
   }
 
-  void ScreenManager::LoopCurrent(const Device& hardware, Game& game) {
-    NavigateTo(screens[current]->loop(hardware, game));
+  void ScreenManager::LoopCurrent(const Device& hardware, const IOutputDevice& output, Game& game) {
+    NavigateTo(screens[current]->loop(hardware, output, game));
   }
 
   void ScreenManager::RegisterInstance(std::unique_ptr<IScreen> screen) {

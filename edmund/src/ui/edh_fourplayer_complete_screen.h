@@ -14,11 +14,11 @@ namespace Edmund {
 
         virtual const ScreenEnum GetNavigationId() const { return CompleteFourPlayerEdhScreenEnum; }
 
-        ScreenEnum loop(const Device& hardware, Game& game) {
+        ScreenEnum loop(const Device& hardware, const IOutputDevice& output, Game& game) {
           handleInputs(hardware, game);
-          drawLayout(hardware);
-          printPlayersProperties(hardware, game);
-          printManaPool(hardware, game);
+          drawLayout(output);
+          printPlayersProperties(output, game);
+          printManaPool(output, game);
 
           if (hardware.IsMiddlePressed())
             return HomeMenuScreenEnum;
@@ -64,7 +64,7 @@ namespace Edmund {
           currentProperty = Infect_property;
         }
 
-        void printPlayersProperties(const Device& hardware, Game& game) {
+        void printPlayersProperties(const IOutputDevice& hardware, Game& game) {
           int y = 0, x = 0;
           int life_column = Life_property, infect_column = Infect_property;
           uint16_t color = BLACK;
@@ -105,11 +105,11 @@ namespace Edmund {
           }
         }
 
-        void drawLayout(const Device& hardware) {
+        void drawLayout(const IOutputDevice& hardware) {
           hardware.DrawScreen(Resources::MainScreenLayout);
         }
 
-        void printManaPool(const Device& hardware, Game& game) {
+        void printManaPool(const IOutputDevice& hardware, Game& game) {
           int y = 0, x = 0;
           uint16_t color = BLACK;
           x = col_size + head_col_size + (4 * col_size) + col_margin + mana_head_col_size;
