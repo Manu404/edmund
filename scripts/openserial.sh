@@ -1,3 +1,3 @@
 #!/bin/bash
 
-microcom -s 115200 -p /dev/ttyS3 -l ../output/serial.log
+sudo microcom -s 115200 -p /dev/ttyUSB0 -l ../output/serial.log

@@ -25,10 +25,12 @@ include_directories(
     ./build/_deps/arduino-mock-src/include
     ./build/_deps/googletest-src/googlemock/include
     ./build/_deps/googletest-src/googletest/include
+    ./mock/include
 )
 
 file(GLOB LIB_SRCS "../src/*.h")
 file(GLOB LIB_SRCS "../src/*.cpp")
+file(GLOB SRCS "./mock/src/*.cpp")
 file(GLOB SRCS "*.cpp")
 
 add_executable(test-all ${SRCS} ${LIB_SRCS})
