@@ -1,44 +1,43 @@
 {
-    // See https://go.microsoft.com/fwlink/?LinkId=733558
-    // for the documentation about the tasks.json format
     "version": "2.0.0",
     "tasks": [
-        {
-            "label": "install_cli",
-            "type": "shell",
-            "command": "sh ${workspaceFolder}/scripts/install_cli.sh",
-            "options": {
-				"cwd": "${workspaceRoot}\\scripts"
-			}
-        },
-        {
-            "label": "install_deps",
-            "type": "shell",
-            "command": "sh ${workspaceFolder}/scripts/install_dependencies.sh",
-            "options": {
-				"cwd": "${workspaceRoot}\\scripts"
-			}
-        },
-        {
-            "label": "abn_build",
-            "type": "shell",
-            "command": "sh ${workspaceFolder}\\scripts\\build.sh",
-            "problemMatcher": [],
-            "group": {
-                "kind": "build",
-                "isDefault": true
-            },
-            "options": {
-				"cwd": "${workspaceRoot}\\scripts"
-			}
-        },
-        {
-            "label": "abn_upload",
-            "type": "shell",
-            "command": "sh ${workspaceFolder}/scripts/upload.sh",
-            "options": {
-				"cwd": "${workspaceRoot}\\scripts"
-			}
-        }
+        // Kept as example, could be nice to wrap gollum here
+        // {
+        //     "label": "install_cli",
+        //     "type": "shell",
+        //     "command": "sh ${workspaceFolder}/scripts/install_cli.sh",
+        //     "options": {
+		// 		"cwd": "${workspaceRoot}\\scripts"
+		// 	}
+        // },
+        // {
+        //     "label": "install_deps",
+        //     "type": "shell",
+        //     "command": "sh ${workspaceFolder}/scripts/install_dependencies.sh",
+        //     "options": {
+		// 		"cwd": "${workspaceRoot}\\scripts"
+		// 	}
+        // },
+        // {
+        //     "label": "abn_build",
+        //     "type": "shell",
+        //     "command": "sh ${workspaceFolder}\\scripts\\build.sh",
+        //     "problemMatcher": [],
+        //     "group": {
+        //         "kind": "build",
+        //         "isDefault": true
+        //     },
+        //     "options": {
+		// 		"cwd": "${workspaceRoot}\\scripts"
+		// 	}
+        // },
+        // {
+        //     "label": "abn_upload",
+        //     "type": "shell",
+        //     "command": "sh ${workspaceFolder}/scripts/upload.sh",
+        //     "options": {
+		// 		"cwd": "${workspaceRoot}\\scripts"
+		// 	}
+        // }
     ]
 }
