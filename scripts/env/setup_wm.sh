@@ -4,12 +4,12 @@ sudo apt-get install xorg
 sudo apt-get install i3
 
 cp ./xinitrc ~/
-mv ~/xinitrc ~.xinitrc
+mv ~/xinitrc ~/.xinitrc
 
 cp ./xresource ~/
-mv ~/xresource ~/.xresource
+mv ~/xresource ~/.Xresources
 
-mkdir ~/.i3
+mkdir -p ~/.i3
 cp ./i3config ~/.i3/
 
 sudo usermod -aG video eis

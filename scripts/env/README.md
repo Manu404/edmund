@@ -1,3 +1,15 @@
+1.  install  minimal debian, no desktop env
+2.  # wget https://github.com/Manu404/Edmund/scripts/env/setup_sudo.sh
+3.  # wget https://github.com/Manu404/Edmund/scripts/env/setup_git.sh
+4.  # wget +x ./setup*.sh
+5.  # su
+6.  Edit setup script with your regular user,
+7.  # bash setup_sudo.sh <need reboot>
+8.  # bash setup_git.sh
+9.  # cd Edmund/scripts/env
+10. # ./setup_all.sh
+
+
 - WSL used first
 - then wsl got updated to 2
 - then a ubuntu runnning i3 and few tools got used

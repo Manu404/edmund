@@ -1,15 +1,5 @@
 #!/bin/bash
 
-#that good ol' debbie, let's not act like savages and query sir sudo... he-oh he-oh ?
-if ! command -v sudo &> /dev/null
-then
-	su
-	apt-get update
-	apt-get install sudo
-	/sbin/usermod -aG sudoers $USER
-	/sbin/reboot
-fi
-
 sudo apt-get update
 sudo apt-get install open-vm-tools
 
