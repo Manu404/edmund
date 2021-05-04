@@ -7,10 +7,6 @@
             "compilerArgs": [
                 "-U__STRICT_ANSI__",
                 "-w",
-                "-mlongcalls",
-                "-mtext-section-literals",
-                "-fno-rtti",
-                "-falign-functions=4",
                 "-std=gnu++17"
             ],
             "intelliSenseMode": "gcc-x64",
@@ -24,9 +20,9 @@
                 "${workspaceFolder}/../sdk/esp8266/variants/generic/**",
                 "${workspaceFolder}/../sdk/esp8266/tools/sdk/include/**",
                 "${workspaceFolder}/../sdk/esp8266/tools/sdk/lwip/**",
-                "${workspaceFolder}/../sdk/esp8266/tools/xtensa-lx106-elf/lib/gcc/xtensa-lx106-elf/4.8.2/include",
                 "${workspaceFolder}/../sdk/esp8266/tools/xtensa-lx106-elf/xtensa-lx106-elf/include",
-                "${workspaceFolder}/../../Arduino/libraries/**"
+                "${workspaceFolder}/../sdk/esp8266/tools/xtensa-lx106-elf/lib/gcc/xtensa-lx106-elf/4.8.2/include",
+                "~/Arduino/libraries/**"
             ],
             "forcedInclude": [
                 "${workspaceFolder}/../sdk/esp8266/cores/esp8266/Arduino.h"

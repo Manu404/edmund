@@ -9,5 +9,7 @@ sudo apt-get install bc
 
 sudo apt-get install curl
 
+sudo apt-get install htop
+
 #should be installed, juste make sure
 sudo apt-get install wget
