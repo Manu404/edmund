@@ -4,3 +4,5 @@ xterm*foreground: lightgray
 xterm*faceName: DejaVu
 xterm*faceSize: 8
 
+#source .profile
+xterm*loginShell: true
