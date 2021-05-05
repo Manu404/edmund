@@ -6,17 +6,13 @@ cd ./scripts
 
 while test $# -gt 0; do
   case "$1" in
-    init)
-		echo "Default init."; 
-		./init.sh; 
+	settle)
+		echo "Gollum got a new home! (ln in ~/bin/gollum, make it globally available for current user)"
+		./install_gollum.sh
 		exit;;
-	install:gollum)
-		echo "Make gollum userly available (ln in ~/bin/gollum"
-		cd ../
-		mkdir -p ~/bin/
-		ln -sf `pwd`/gollum.sh ~/bin/gollum
-		sudo chmod +x ~/bin/gollum
-		source ~/.profile
+	init)
+		echo "Default init."; 
+		time ./init.sh; 
 		exit;;
 	install:cli)
 		echo "Install cli"; 
@@ -32,45 +28,78 @@ while test $# -gt 0; do
 		exit;;
 	install:decoder)
 		echo "Install esp stacktrace decoder"
-		./innstall_esp_decoder.sh; 
+		./install_esp_decoder.sh; 
 		exit;;	
 	install:espressif-toolchain)
 		echo "Install espressif toolchain"
 		./install_espressif_toolchain.sh; 
 		exit;;	
 	install:apt)
-		echo "Install packages required from apt"
-		./apt_install.sh; 
+		echo "Install packages required available through apt"
+		./install_apt.sh; 
 		exit;;
+		
+	build:all)
+		echo "Build current code base"
+		time ./build_bin.sh; 
+		time ./build_test.sh; 
+		exit;;			
 	build:bin)
 		echo "Build current code base"
-		./update_build_version.sh && ./apply_build_version.sh
-		./build.sh; 
+		time ./build_bin.sh; 
 		exit;;		
 	build:test)
 		echo "Build tests"
-		./build_test.sh; 
+		time ./build_test.sh; 
 		exit;;	
 	build:clean)
 		echo "Clean build output/tmp, then build"
-		./cleanbuild.sh; 
+		./clean.sh; 
+		time ./build_bin.sh; 
 		exit;;	
+
 	clean:all)
 		echo "Clean build output/tmp"
-		./clean.sh; 
+		./clean_build.sh; 
 		./clean_test.sh; 
+		./clean_testdep.sh; 
+		exit;;
+	clean:bin)
+		echo "Clean build output/tmp"
+		./clean_bin.sh; 
 		exit;;
 	clean:test)
-		echo "Clean test output/tmp"; 
+		echo "Clean test"; 
 		./clean_test.sh; 
 		exit;;
+	clean:testall)
+		echo "Clean test + dependencies"; 
+		./clean_testdep.sh; 
+		exit;;
+
+	purge:all)
+		echo "Purge test output/tmp"; 
+		./purge_test.sh; 
+		./purge_bin.sh; 
+		exit;;
+	purge:test)
+		echo "Purge test output/tmp"; 
+		./purge_test.sh; 
+		exit;;
+	purge:bin)
+		echo "Purge test output/tmp"; 
+		./purge_bin.sh; 
+		exit;;
+
 	run:flash)
 		echo "Flash the device with edmmund"; 
+		time ./build_bin.sh; 
 		./upload.sh; 
 		exit;;
 	run:test)
 		echo "Build and run unit tests"; 
-		./build_run_test.sh; 
+		time ./build_test.sh
+		./run_test.sh
 		exit;;
 	run:debug)
 		echo "Clean build, upload and start serial monitor"; 
@@ -79,14 +108,15 @@ while test $# -gt 0; do
 	run:to:mordor)
 		./break.sh; 
 		exit;;
-	serial)
+	run:serial)
 		echo "Start serial monitor"; 
 		./openserial.sh; 
 		exit;;
-	screen)
+	run:screen)
 		echo "Launch dev screen"; 
 		./startscreen.sh; 
 		exit;;
+
 	help)
 		echo "======================================================================================"
 		echo "=============== b e == c a r e f u l./:%£*¨%µ%*jdj'*¨£%$^)z¨^àçgu^ ============ damn ="

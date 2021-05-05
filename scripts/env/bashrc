@@ -115,4 +115,6 @@ fi
 PATH=/usr/local/bin:/usr/bin:/bin:/usr/local/games:/usr/games:/snap/bin
 PATH=$PATH:~/bin
 
-export PS1="\[\033[38;5;8m\]\[\033[48;5;0m\][\[$(tput sgr0)\]\[\033[38;5;23m\]\t\[$(tput sgr0)\]\[\033[38;5;8m\]]\[$(tput sgr0)\]\[\033[38;5;0m\]\[$(tput sgr0)\]\[\033[38;5;8m\]\u\[$(tput sgr0)\]\[\033[38;5;235m\]@\[$(tput sgr0)\]\[\033[38;5;8m\]\h:\[$(tput sgr0)\]\[\033[38;5;254m\]\w\[$(tput sgr0)\]\[\033[38;5;8m\]\\$\[$(tput sgr0)\]\[\033[38;5;249m\] \[$(tput sgr0)\]"  
+
+
+export PS1="\[\033[38;5;235m\]\[\033[48;5;0m\]|\[$(tput sgr0)\]\[\033[38;5;23m\]\t\[$(tput sgr0)\]\[\033[38;5;235m\]|\[$(tput sgr0)\]\[\033[38;5;8m\]\u\[$(tput sgr0)\]\[\033[38;5;235m\]@\[$(tput sgr0)\]\[\033[38;5;8m\]\h\[$(tput sgr0)\]\[\033[38;5;236m\]|\[$(tput sgr0)\]\[\033[38;5;244m\]\w\[$(tput sgr0)\]\[\033[38;5;235m\]\\$\[$(tput sgr0)\] \[$(tput sgr0)\]"

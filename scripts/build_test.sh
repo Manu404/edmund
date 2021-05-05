@@ -7,5 +7,7 @@ cd -- "$(dirname -- "$0")"
 mkdir -p build
 cd build
 cmake ..
-make
+echo "CMAKE done"
+echo $(pwd)
+make -j $(nproc)
 
