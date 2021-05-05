@@ -3,6 +3,8 @@
 sudo apt-get install xorg
 sudo apt-get install i3
 
+cp ./bashrc ~/.bashrc
+
 cp ./xinitrc ~/
 mv ~/xinitrc ~/.xinitrc
 
