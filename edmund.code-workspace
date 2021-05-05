@@ -1,0 +1,38 @@
+{
+	"folders": [
+		{
+			"path": "./edmund/",
+			"name": "/edmund/"
+		},
+		{
+			"path": ".",
+			"name": "/"
+		}
+	],
+	"settings": {		
+		"files.exclude": {
+			"test/build": true,
+			"build": true,
+			"edmund": true
+		},
+		"search.exclude": {
+			"test/build": true,
+			"./build": true
+		},
+		"files.watcherExclude": {
+			"test/build": true,
+			"./build": true
+		},		
+		"editor.tabSize": 2,
+		
+		"telemetry.enableTelemetry": false,
+		"git.enableStatusBarSync": false,
+		"explorer.autoReveal": false,
+		"editor.fontSize": 12,
+		"editor.minimap.enabled": false,
+		"search.useGlobalIgnoreFiles": true,
+		"workbench.tips.enabled": false,
+		"workbench.sideBar.location": "right",
+		"workbench.activityBar.visible": false,
+	}
+}
