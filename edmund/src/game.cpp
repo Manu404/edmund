@@ -11,42 +11,30 @@ namespace Edmund {
     if (player < 0 || player > GetPlayerCount()) return;
     if (property < 0 || property > GetPropertyCount() + GetManaTypeCount()) return;
 
-    switch (property) {
-    case 0:
-    case 1:
-    case 2: 
-    case 3: state.Players[player].ApplyDeltaToCommanderDamages((byte)property, delta);  break;
-    case 4: state.Players[player].ApplyDeltaToLife(delta); break;
-    case 5: state.Players[player].ApplyDeltaToInfect(delta); break;
-    case 6:
-    case 7:
-    case 8:
-    case 9:
-    case 10:
-    case 11: state.ManaPool[player].ApplyDeltaToManaPoolContent((ManaType)(property - W_MANA_property), delta); break;
-    default: break;
-    }
+    if(property < 4)
+      state.Players[player].ApplyDeltaToCommanderDamages((byte)property, delta);
+    else if(property == 4)
+      state.Players[player].ApplyDeltaToLife(delta);
+    else if(property == 5)
+      state.Players[player].ApplyDeltaToInfect(delta);
+    else if(property < 12)
+      state.ManaPool[player].ApplyDeltaToManaPoolContent((ManaType)(property - W_MANA_property), delta);
   }
 
   // yup, kind of a refrehsing odor
   int Game::GetPlayerPropertyValue(const byte player, const PlayerProperties property) const {
-    if (player < 0 || player > GetPlayerCount() || property < 0 || property > GetPropertyCount() + GetManaTypeCount()) return -1;
+    if (player < 0 || player > GetPlayerCount() || property < 0 || property > GetPropertyCount() + GetManaTypeCount()) return 0;
 
-    switch (property) {
-    case 0:
-    case 1:
-    case 2:
-    case 3: return state.Players[player].GetCommanderDamages((byte)property);
-    case 4: return state.Players[player].GetLife();
-    case 5: return state.Players[player].GetInfect();
-    case 6:
-    case 7:
-    case 8:
-    case 9:
-    case 10:
-    case 11: return state.ManaPool[player].GetManaPoolContent((ManaType)(property - W_MANA_property));
-    default: return -1;
-    }
+    if(property < 4)
+      return state.Players[player].GetCommanderDamages((byte)property);
+    if(property == 4)
+      return state.Players[player].GetLife();
+    if(property == 5)
+      return state.Players[player].GetInfect();
+    if(property < 12)
+      return state.ManaPool[player].GetManaPoolContent((ManaType)(property - W_MANA_property));
+    
+    return 0;
   }
 
   const byte Game::GetPropertyCount() const {
