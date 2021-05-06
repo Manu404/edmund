@@ -10,7 +10,7 @@ namespace Edmund {
   class ScreenManager {
     public:
       ScreenManager();
-      void LoopCurrent(const Device& hardware, const IOutputDevice& output, Game& game);
+      void LoopCurrent(const IInputDevice& input, const IOutputDevice& output, Game& game);
       void NavigateTo(ScreenEnum screen);
       void RegisterInstance(std::unique_ptr<IScreen> screen);
     private:

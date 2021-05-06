@@ -17,8 +17,9 @@ namespace Edmund {
     private:
       std::unique_ptr<IPCD8544Api> lcd;
     public:
+      PCD8544OutputDevice() { }
       PCD8544OutputDevice(std::unique_ptr<IPCD8544Api> _lcd) 
-        : lcd(std::move(_lcd)) 
+        : IOutputDevice::IOutputDevice(), lcd(std::move(_lcd)) 
       { }
 
       void Print(String m) const; 

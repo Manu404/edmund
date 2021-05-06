@@ -15,6 +15,7 @@ namespace Edmund {
 
     class IPCD8544Api {
       public:
+        IPCD8544Api() = default;
         virtual ~IPCD8544Api() = default;
         virtual void begin() = 0;
         virtual void initDisplay() = 0;
@@ -40,6 +41,7 @@ namespace Edmund {
 
     class IOutputDevice {
       public:
+        IOutputDevice() = default;
         virtual ~IOutputDevice() = default;
         virtual void Print(String m) const = 0; 
         virtual void Print(String m, int x, int y) const  = 0;

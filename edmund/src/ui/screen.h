@@ -19,10 +19,10 @@ namespace Edmund {
     {
       public:
         IScreen() { }
-        virtual ScreenEnum loop(const Device& hardware, const IOutputDevice& output, Game& game) = 0;
+        virtual ScreenEnum loop(const IInputDevice& input, const IOutputDevice& output, Game& game) = 0;
         virtual const ScreenEnum GetNavigationId() const = 0;
       protected:
-        virtual void handleInputs(const Device& hardware, Game& game) = 0;
+        virtual void handleInputs(const IInputDevice& input, Game& game) = 0;
     };
 
     class DefaultPropertyNavigationScreen : public IScreen {
@@ -36,16 +36,16 @@ namespace Edmund {
 
         virtual void updateNavigationPosition(int position) = 0;
 
-        void handleInputs(const Device& hardware, Game& game) {
-          if (hardware.HasPotChanged())
-            updateNavigationPosition(hardware.GetPositionFromPot(propertyCount));
+        void handleInputs(const IInputDevice& input, Game& game) {
+          if (input.HasPotChanged())
+            updateNavigationPosition(input.GetPositionFromPot(propertyCount));
 
           if (readOnlySelection) return;
 
-          if (hardware.GetEncoderDelta() != 0)
-            game.ApplyDeltaToPlayerProperty(currentPlayer, currentProperty, hardware.GetEncoderDelta());
+          if (input.GetEncoderDelta() != 0)
+            game.ApplyDeltaToPlayerProperty(currentPlayer, currentProperty, input.GetEncoderDelta());
 
-          if (hardware.IsLeftPressed())
+          if (input.IsLeftPressed())
             game.EmptyManaPools();
         }
     };

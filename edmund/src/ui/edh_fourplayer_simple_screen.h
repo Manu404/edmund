@@ -13,7 +13,7 @@ namespace Edmund {
 
       virtual const ScreenEnum GetNavigationId() const { return SimpleFourPlayerEdhScreenEnum; }
 
-      virtual ScreenEnum loop(const Device& hardware, const IOutputDevice& output, Game& game) {
+      virtual ScreenEnum loop(const IInputDevice& hardware, const IOutputDevice& output, Game& game) {
         handleInputs(hardware, game);
 
         drawLayout(output);

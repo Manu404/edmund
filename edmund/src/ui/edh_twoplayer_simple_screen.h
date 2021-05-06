@@ -12,14 +12,14 @@ namespace Edmund {
 
       virtual const ScreenEnum GetNavigationId() const { return SimpleTwoPlayerEdhScreenEnum; }
 
-      virtual ScreenEnum loop(const Device& hardware, const IOutputDevice& output, Game& game) {
+      virtual ScreenEnum loop(const IInputDevice& input, const IOutputDevice& output, Game& game) {
 
-        handleInputs(hardware, game);
+        handleInputs(input, game);
         drawLayout(output);
         printPlayersProperties(output, game);
         printManaPool(output, game);
 
-        if (hardware.IsMiddlePressed())
+        if (input.IsMiddlePressed())
           return HomeMenuScreenEnum;
 
         return GetNavigationId();

@@ -22,6 +22,7 @@ namespace Edmund {
     {
       public:
         RotaryDecoder();
+        virtual ~RotaryDecoder() { }
       protected:
         byte sdaState;
         byte sdbState;
@@ -48,7 +49,7 @@ namespace Edmund {
         double GetValue() const;
         double RefreshValue();
       protected:
-        virtual void refreshPinState();
+        virtual void refreshPinState() override;
         double applyState(byte state);
     };
   }

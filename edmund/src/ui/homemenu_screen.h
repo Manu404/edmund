@@ -50,9 +50,9 @@ namespace Edmund {
 
       virtual const ScreenEnum GetNavigationId() const { return HomeMenuScreenEnum; }
 
-      virtual ScreenEnum loop(const Device& hardware, const IOutputDevice& output, Game& game)
+      virtual ScreenEnum loop(const IInputDevice& input, const IOutputDevice& output, Game& game)
       {
-        handleInputs(hardware, game);
+        handleInputs(input, game);
 
         drawHomeMenu(output);
         
@@ -90,13 +90,13 @@ namespace Edmund {
         hardware.PrintLineCentered(options[option]->GetCaption(), (screenWidth / 2) + delta, 45, WHITE);
       }
 
-      virtual void handleInputs(const Device& hardware, Game& game) {
+      virtual void handleInputs(const IInputDevice& input, Game& game) {
         if (newSelection != currentSelection) return;
-        direction = hardware.GetEncoderDelta();
+        direction = input.GetEncoderDelta();
         //frameSkip = hardware.GetPositionFromPot(10) + 1;
         rotaryValue += direction;
         newSelection = (abs(rotaryValue) % optionCount) + (rotaryValue != 0);
-        requestNavigation = hardware.IsMiddlePressed() || hardware.IsRotarySwitchPressed();
+        requestNavigation = input.IsMiddlePressed() || input.IsRotarySwitchPressed();
       }
     };
   }

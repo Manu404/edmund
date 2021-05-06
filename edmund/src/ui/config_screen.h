@@ -10,7 +10,7 @@ namespace Edmund {
       public:
         ConfigScreen() : IScreen() { }
 
-        virtual ScreenEnum loop(const Device& hardware, const IOutputDevice& output, Game& game)
+        virtual ScreenEnum loop(const IInputDevice& hardware, const IOutputDevice& output, Game& game)
         {
           output.Print("L to reset", 7, 7);          
           
@@ -23,7 +23,7 @@ namespace Edmund {
           return GetNavigationId();
         }
 
-        virtual void handleInputs(const Device& hardware, Game& game) { }
+        virtual void handleInputs(const IInputDevice& hardware, Game& game) { }
 
         virtual const ScreenEnum GetNavigationId() const { return ConfigScreenEnum; }
     };
