@@ -110,11 +110,11 @@ while test $# -gt 0; do
 		exit;;
 	run:serial)
 		echo "Start serial monitor"; 
-		./openserial.sh; 
+		./run_serial.sh; 
 		exit;;
 	run:screen)
 		echo "Launch dev screen"; 
-		./startscreen.sh; 
+		./run_screen.sh; 
 		exit;;
 
 	help)
