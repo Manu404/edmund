@@ -1,7 +1,7 @@
 #include "./device.h"
 #include "./output/pcd8544api.h"
 #include "./output/pcd8544device.h"
-#include "./input_provider.h"
+#include "./input/input_provider.h"
 #include "./input/inputapi.h"
 
 void wakeup(void) {

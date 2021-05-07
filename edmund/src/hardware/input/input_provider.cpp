@@ -1,4 +1,4 @@
-#include "./input_provider.h"
+#include "input_provider.h"
 
 namespace Edmund {
   namespace Hardware {

@@ -6,7 +6,7 @@
 #include "Arduino.h"
 #include "mcp_provider.h"
 #include "rotary.h"
-#include "./input/inputapi.h"
+#include "inputapi.h"
 
 #define SERIAL_SPEED 115200
 

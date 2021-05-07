@@ -8,6 +8,6 @@
 // build: global increment, reset on minor, used for dev, automatic on build, used to assert running elf identity, could be omitted durinng commit
 //
 
-#define EDMUND_VERSION "0.0.88"
+#define EDMUND_VERSION "0.0.89"
 
 #endif
