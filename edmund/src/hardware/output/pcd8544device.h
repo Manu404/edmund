@@ -2,7 +2,7 @@
 #ifndef LCDPROVIDER_INCLUDED
 #define LCDPROVIDER_INCLUDED
 
-#include "outputapi.h"
+#include "output_api.h"
 
 #include <memory>
 

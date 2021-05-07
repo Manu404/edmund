@@ -40,10 +40,43 @@ namespace Edmund {
       byte encoderSwitch;
     };
 
+    template <typename T>
+    class IInputControl {
+      protected:
+        T currentState, previousState;
+      public:        
+        IInputControl() = default;
+        virtual ~IInputControl() = default;
+        virtual void Initialize() = 0;
+        virtual void RefreshState() = 0;
+
+        T GetState() { 
+          return currentState; 
+        };
+        bool HasChanged(){
+          return currentState != previousState;
+        };
+    };
+
+    template <typename T>
+    class IInputReader {
+      protected:
+        virtual void readState() = 0;
+        T state;
+      public:
+        IInputReader() = default;
+        virtual ~IInputReader() = default;
+        virtual void Initialize() = 0;
+        T GetState() { 
+          readState();
+          return state; 
+        };
+    };
+
     class IInputDevice {
       public:
         IInputDevice() = default;
-        virtual ~IInputDevice();
+        virtual ~IInputDevice() = default;
 
         virtual bool IsRightPressed() const = 0;
         virtual bool IsLeftPressed() const = 0;

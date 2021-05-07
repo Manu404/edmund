@@ -5,7 +5,7 @@
 #include <Adafruit_GFX.h> 
 #include <Adafruit_PCD8544.h> 
 #include "../../ui/resources/font.h"
-#include "./outputapi.h"
+#include "./output_api.h"
 
 #include <memory>
 

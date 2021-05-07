@@ -1,8 +1,9 @@
 #include "./device.h"
+
 #include "./output/pcd8544api.h"
 #include "./output/pcd8544device.h"
-#include "./input/input_provider.h"
-#include "./input/inputapi.h"
+
+#include "./input/input_device.h"
 
 void wakeup(void) {
   Serial.print("#");
@@ -12,7 +13,7 @@ namespace Edmund {
   //new Adafruit_PCD8544(D2, D3, D1, D0, D4)
     // CE = D0, DC = D1, CLK = D2, DIN = D3, RST = D4
     Device::Device() : inputDevice { 
-                          new InputProvider(std::unique_ptr<McpProvider>(new McpProvider()), PinMapping())
+                          new InputDevice(std::unique_ptr<McpProvider>(new McpProvider()), PinMapping())
                         },
                        stateArray{ new ESPFlash<GameState>("/currentGame") },
                        outputDevice {
@@ -25,7 +26,7 @@ namespace Edmund {
       stateArray(_stateArray),
       outputDevice(_outputDevice) {
 
-      IInputDevice * prov = new InputProvider(std::unique_ptr<McpProvider>(new McpProvider()), PinMapping());
+      IInputDevice * prov = new InputDevice(std::unique_ptr<McpProvider>(new McpProvider()), PinMapping());
     }
 
     void Device::Initialize() {

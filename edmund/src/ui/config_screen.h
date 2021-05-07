@@ -10,18 +10,20 @@ namespace Edmund {
       public:
         ConfigScreen() : IScreen() { }
 
-        virtual ScreenEnum loop(const IInputDevice& hardware, const IOutputDevice& output, Game& game)
+        virtual ScreenEnum loop(const IInputDevice& input, const IOutputDevice& output, Game& game)
         {
           output.Print("L to reset", 7, 7);          
           
-          if (hardware.IsLeftPressed())
+          if (input.IsLeftPressed())
             game.Reset();
 
-          if (hardware.IsMiddlePressed() == 1)
+          if (input.IsMiddlePressed() == 1)
             return BootScreenEnum;
 
           return GetNavigationId();
         }
+
+
 
         virtual void handleInputs(const IInputDevice& hardware, Game& game) { }
 

@@ -9,8 +9,8 @@
 #include <ESP8266WiFi.h>
 
 #include "../model.h"
-#include "./output/outputapi.h"
-#include "./input/inputapi.h"
+#include "./output/output_api.h"
+#include "./input/input_api.h"
 
 #define MIN(a,b) (((a)<(b))?(a):(b))
 #define MAX(a,b) (((a)>(b))?(a):(b))

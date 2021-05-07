@@ -20,6 +20,7 @@ namespace Edmund {
 
     void PCD8544OutputDevice::Print(String m, int x, int y) const {
       lcd->setCursor(x, y);
+      lcd->setTextColor(BLACK);
       this->Print(m);
     }
 

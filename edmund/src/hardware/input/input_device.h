@@ -3,10 +3,13 @@
 #define INPUTPROVIDER_INCLUDED
 
 #include <memory>
+#include <list>
 #include "Arduino.h"
 #include "mcp_provider.h"
 #include "rotary.h"
-#include "inputapi.h"
+#include "input_api.h"
+#include "input_control.h"
+#include "input_reader.h"
 
 #define SERIAL_SPEED 115200
 
@@ -14,13 +17,14 @@ namespace Edmund {
   namespace Hardware {
     extern volatile bool rotaryInterruptTriggered; 
 
-    class InputProvider : public IInputDevice
+    class InputDevice : public IInputDevice
     {
     public:
       static std::shared_ptr<RotaryOnMcp> RotaryInstance;
-      InputProvider() : IInputDevice::IInputDevice() { }
-      InputProvider(std::unique_ptr<McpProvider> mcp, PinMapping mapping) : IInputDevice::IInputDevice(), mcpProvider(std::move(mcp)), pinMapping(mapping) { }
-      ~InputProvider() {
+      InputDevice() : IInputDevice::IInputDevice() { }
+      InputDevice(std::unique_ptr<McpProvider> mcp, PinMapping mapping) : IInputDevice::IInputDevice(), mcpProvider(std::move(mcp)), pinMapping(mapping) { 
+      }
+      ~InputDevice() {
 
       }
       
@@ -36,6 +40,8 @@ namespace Edmund {
       float GetPositionFromPot(float scale) const;
       int GetEncoderDelta() const;
 
+      void RegisterButton(std::unique_ptr<ButtonInputControl> button);
+
       void initInputs();
       void beginFrame();
       void endFrame();
@@ -48,6 +54,7 @@ namespace Edmund {
       double previousEncoderValue = 0, currentEncoderValue = 0;
 
       std::shared_ptr<McpProvider> mcpProvider;
+      std::list<std::unique_ptr<ButtonInputControl>> digitalInputs;
       PinMapping pinMapping;
 
       InputState current, previous, bounced;
