@@ -1,9 +1,23 @@
 # edmund
 esp8266 based stats counter for multiplayer mtg edh
 
-*This was not meant to go "public", but the thing have been used "extensively" in real situation and had barely no stability issues outside of development while doing the stuffs, also, current consumption is quite acceptable and usability is above the expectation, so, as the chance of your deck catching fire or having the game state misrepresented range from exceptionally low to null, this is made public.*
+*This was not meant to go "public", but this thing was used "extensively" in real situation and had barely no stability issues. Also, current consumption is quite acceptable and usability is above expectations, so, as the chance of your cards catching fire or having the game state misrepresented range from exceptionally low to null, I made this public.*
 
-*Also, I'm just a hobbyist on the electronic side, so please let me know what I'm wrong about. But don't dare to question my god level software sKilLz.*
+*Also, I'm just a hobbyist on the electronic side, so please let me know what I'm wrong about. This project is a sandbox to level up/update my modern c++ fluency and test a different solution, the commit history will reflect that as well as the overshooting of solutions in regards to the real need and the different targetted plateforms (esp32, sm32, raspberry, as well as giving a try to RTOS developement).*
+
+*That knowledge is planned to be used for an artistic performance project I have going on since 01/20 [yup... just before cowdiv98...] that will end up requiring me to create a an embedded solutions with soft real time and high stability requirements: https://tele.emmaunelistace.be [and I'm totally bored of more than 10 years of CFlat for "non web stuffs", starts to feel too repetitive and boring, so let's modulate a bit.*
+
+*Finally, I moved the project out of github, this repo being a mirror from a private git server, updated quite often, each acting as backup of the other in case of a disaster on my side or Microsoft microsofting too much.*
+
+TL;DR: This project is under BS-PL.
+
+## things that need to be done
+
+- migrate to priv git
+- use clang for vscodium
+- port to esp32
+- port to raspberry
+- design "clean" pcb
 
 ## things the stuff do
 
@@ -48,10 +62,10 @@ esp8266 based stats counter for multiplayer mtg edh
     deep sleep (bakclight off) .............. 4mA
     
  ~ power consumption : OFFBOARD CHIP ~
-    active .................................. TBD target: < 50mA
-    sleep ................................... TBD target: < 15mA
-    deep sleep .............................. TBD target: < 3mA
-    deep sleep (bakclight off) .............. TBD target: 1mA || <
+    active .................................. TBD goal: < 50mA
+    sleep ................................... TBD goal: < 15mA
+    deep sleep .............................. TBD goal: < 3mA
+    deep sleep (bakclight off) .............. TBD goal: 1mA || <
   ```
 
 ## button to press on the stuff to make the stuff do things
@@ -212,9 +226,10 @@ gollum run:unit:end
   - All file names should be lower_snake_cased by convention. (no good, no bad, like that and stick to it).
   - Type names ArePascalCase.
   - Variable name willUseCamelCaseIfPossible, without _underScore for private.
-- Smart pointers were used whenever ownership is relevant.
-- Lifetime of most objects is tied to device operation time, most objects are initialized uppon startup and destroyed when shutting down. The only time an object is created on the heap during operation oustide of startup is when loading a gamestate from spiff storage. (and during tests, initially, destructors were not even written, as objects should never be destroyed, originally... I know... kinda)
-- You'll notice that Edmund::Device and Edmund::Game is passed "a lot" and might looks like a codesmell. Each frame should be independent to the greater extent to the previous and the next one. Of course some interaction that involve change over time, but computing a single frame, don't require a previous and next one. Injecting those two dependencies by constructor and keeping/managing a reference to those two object would also, imho, not be a good idea, despite apparent silliness. The overhead of passing pointer is minimal for me. 
+  - Constants/macros are UPPERCASE and should be avoided.
+- Smart pointers were used whenever ownership handling is relevant.
+- Lifetime of most objects is tied to device operation time, most objects are initialized uppon startup and destroyed when shutting down. The only time an object is created on the heap during operation oustide of startup is when loading a gamestate from spiff storage. (and during tests, initially, destructors were not even written, as objects should never be destroyed, originally... I know... kinda). AND IT HAVE TO STAY LIKE THAT.
+- You'll notice that Edmund::Device and Edmund::Game is passed "a lot" and might looks like a codesmell. Each frame should be independent to the greater extent to the previous and the next one. Of course some interaction involve change over time but computing the current frame is independant of the previous and next one [in fact, most of them are in ./hardware and related to input state, the only outside is home menu animation and wil be acted uppon]. Injecting those two dependencies by constructor and keeping/managing a reference to those two object would also, imho, not be a good idea. Despite apparent silliness, the overhead of passing pointer is minimal considering the 'stateless' benefit. Also, most of the code is deterministic-ish (or tend to be).
 
 If you want to take a look at the code, start by edmund.h containing the implementation of the main loop.
 
@@ -236,17 +251,32 @@ You'll find instance of:
 ##### Edmund::ScreenManager()
 
 - Handle the logic and IO manipulation behind the different screens of the device. 
-- At each frame, the loop() method of the current screen is called, the screen return the id of the next screen to navigate to next frame (if no navigation required, himself). 
+- At each frame, the loop() method of the current screen is called, the screen return the id of the next screen to navigate to next frame (if no navigation required, himself). The screen knows about IInputDevice and IIOutputDevice
 - All screen implement Edmund::UI::IScreen 
 - Edmund::UI::DefaultPropertyNavigationScreen is used by most layout displaying stats (but not required) and provide basic navigation/property updating and support. 
 - Uppon construction, the screenmanager instantiate/register each screen available in unique_ptr.
 
 ## why that much stuffs for a thing I'll certainly be the only dude doing stuffs with?
 
-Will not use any 'real certified dissociated elasticity' for this, in fact, I hate them as much as they are needed (even tho merise and unified process were envision at start, I'm sure those have a bright future), mainly cause they are symptoms of problems they don't solve, just provide workaround. Writting user doc is a good and quick way to express requirements take decisionsn implementing them quickly and iterate over them instead of searching way too long for the "correct solution" (that will have to be iterated over too anyways). Most (non)-functionnal requiremets added after initial prototype, so about 75% of the project, comes from selling them to myself in this doc and then regretting it for few days, how usual isn't it? It's also a break/bridge from/to writting code.
+Will not use any 'real certified dissociated elasticity' for this, in fact, I hate them as much as they are needed (even tho merise and unified process were envision at start), mainly cause they are symptoms of problems they were meant to solve, just provide rigid liability workarounds. 
+Writting doc is a good and quick way to express requirements, take decisions, reflect, prototype quickly and iterate instead of searching way too long for the "correct solution" (that will have to be iterated over too anyways), even more when being alone while thinking about those stuffs. So yes, in the heart, this is elastic dissociation, without the pm/alm/pro bs. Most (non)-functionnal requiremets were added after initial prototype (about 75% of the project, comes from selling them to myself in this doc and then regretting it for few days, how usual isn't it? Finally, it's as much a break from "doing stuffs" as it is a bridge to "start doing stuffs".
 
 ## grandpa diatribe of stuff that happened when building the thing
 
 Don't expect anything smort nor relevant here.
 
 *As it wasn't reminded to me for long time, MS tends to break the nice things they've build. WSL 2 cross system file access are in-sane. Like in, not-sane, like in "please, kill that machine, it's been going through too much". And as much as I like(d) linux, WSL was a nice compromise between hardware support and tooling/desktop from windows with a "close to full fledge" linux subsystem, providing the best of both world, fixing the weakness of each others... I sincerely had moment of sincere joy using WSL thinking "that future is awesome, if only it was like that years ago, they finally get it !". But nay, fun is over, now it's a "true vm", with "true security bs perfs". So yep, no more mixing both world seamlessly sharing filesystem, say again hi to p9! Hi p9! Remember p9? A piece of technology that even Bell Labs might have forgotten they've developed for plan9, adhering 100% to the good ol "everything is file, file everything"... Microsoft mostly ending with that as Plan9 was maintained by Nokia Labs (until recent march 2021, where a foundation had been made "in order continue the work from Bell Labs for new generations.", (or let it die due to lack of support, yet used here and there, but hey, it's the P9 foundation that is responsible, maybe we'll "contribute" to fix our wsl, maybe) and nokia is kind of the beaten kid of msft (http://p9f.org/) So yup... With WSL2, for cross access, you basically share your fs across a virtual network and there's a windows side client that consume the exposed fs... defeating one of the only reason that made WSL way better than a vm... Ho yep, and if you already switched, too late, can't revert easily :) (because it's certainly way too advanced and secure, that would maybe degrade performances) gg wp. So thanks for bringing back those intense memories of joy procured by the appreciation of time flowing while building source across shared folder and reminding me the cost of staying at the window watching the pinguins fly.*
+
+## lie-sensing
+
+**BS-PL v6.7.3[unstable]: Bullshit power license**
+
+*Copywest 2000 <COPYRIGHT HOLDER> [I've printed it, and it's in my hand all the time, beware, ima watch ya' ]*
+
+*Permission is hereby granted, or not, free of charge, or not, to any/no person obtaining a copy of this software and associated documentation files (the  "Software"), to deal, or not, in the Software with, or without restriction including, or not, without, or with limitation the rights, or not, to use, or not, copy, or not, modify, or not, merge, or not, publish, or not, distribute, or not, sublicense, or not, and/or/xor/xand sell copies, or not, of the Software, and to permit, or not, persons to whom the Software is furnished to do so, or not, subject to, or not, the following conditions:*
+
+*The above copyright notice and this permission notice shall be, or not, included in all copies or substantial portions of the Software.*
+
+THE SOFTWARE IS PROVIDED, OR NOT, "AS IS", OR "WAS", WITH, OR WITHOUT WARRANTY OF ANY KIND,  EXPRESS OR IMPLIED, INCLUDING, OR NOT, BUT NOT LIMITED TO, OR LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,  TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE  SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. SUE ME DADDY
+
+**So, to sum up: do wathever the f*$# you want with this, but you're on your own.**
