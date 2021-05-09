@@ -29,29 +29,14 @@ namespace Edmund {
       Edmund::Hardware::InputDevice::RotaryInstance = std::shared_ptr<RotaryOnMcp>(new RotaryOnMcp(mcpProvider, pinMapping.DT, pinMapping.CLK));
       attachInterrupt(D7, OnRotaryInterupt, CHANGE);
 
-      digitalInputs.push_back(
-        std::unique_ptr<ButtonInputControl>(new ButtonInputControl(
-          std::unique_ptr<MCPDigitalInputReader>(new MCPDigitalInputReader(pinMapping.left, mcpProvider))
-          )
-        )
-      );
-      digitalInputs.push_back(
-        std::unique_ptr<ButtonInputControl>(new ButtonInputControl(
-          std::unique_ptr<MCPDigitalInputReader>(new MCPDigitalInputReader(pinMapping.middle, mcpProvider))
-          )
-        )
-      );
-      digitalInputs.push_back(
-        std::unique_ptr<ButtonInputControl>(new ButtonInputControl(
-          std::unique_ptr<MCPDigitalInputReader>(new MCPDigitalInputReader(pinMapping.right, mcpProvider))
-          )
-        )
-      );
+      digitalInputs.push_back(std::unique_ptr<ButtonInputControl>(new ButtonInputControl(std::unique_ptr<MCPDigitalInputReader>(new MCPDigitalInputReader(pinMapping.left, mcpProvider)))));
+      digitalInputs.push_back(std::unique_ptr<ButtonInputControl>(new ButtonInputControl(std::unique_ptr<MCPDigitalInputReader>(new MCPDigitalInputReader(pinMapping.middle, mcpProvider)))));
+      digitalInputs.push_back(std::unique_ptr<ButtonInputControl>(new ButtonInputControl(std::unique_ptr<MCPDigitalInputReader>(new MCPDigitalInputReader(pinMapping.right, mcpProvider)))));
 
       for(auto const& in : digitalInputs)
-          in->Initialize();
+        in->Initialize();
     }
-    
+
     void InputDevice::RegisterButton(std::unique_ptr<ButtonInputControl> button){
       digitalInputs.push_back(std::move(button));
     }

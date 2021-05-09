@@ -2,7 +2,7 @@
 
 namespace Edmund {
   namespace Hardware {
-
+    
     void ESP82666DigitalInputReader::Initialize(){
       pinMode(pin, INPUT);
     }

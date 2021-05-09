@@ -1,5 +1,5 @@
 #include "gmock/gmock.h"
-#include "outputapi.h"
+#include "output_api.h"
 
 class MockIPCD8544Api : public Edmund::Hardware::IPCD8544Api {
  public:
