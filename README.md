@@ -140,6 +140,15 @@ The ones I worked on have:
 - uart2usb: http://www.wch-ic.com/products/CH340.html
 - voltage regulator: http://www.advanced-monolithic.com/pdf/ds1117.pdf
 
+## epilepsy
+
+While working on this, I found that photosensitive epileptic siezures can be highly reduced by avoiding flashing within a certain range of fps. So, by default, the screen will freeze for 1sec whennever it drop below 70hz. But, if you want to really avoid any issue, the screen can be locked, both at compile time or configuration, to run bellow 3hz all the time. I have no personal interest in this nor for my surrouding, but thought this would be nice to have. 
+https://epilepsysociety.org.uk/photosensitive-epilepsy
+
+W3C "3hz or less" requirement, 2021 version: https://www.w3.org/WAI/WCAG21/Understanding/three-flashes-or-below-threshold.html
+
+
+
 ## building the things to install on the stuff
 
 To setup the entire toolchain from a clean environment:
