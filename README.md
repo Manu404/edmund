@@ -154,7 +154,7 @@ W3C "3hz or less" requirement, 2021 version: https://www.w3.org/WAI/WCAG21/Under
 To setup the entire toolchain from a clean environment:
 
 ```
-bash ./gollum.sh install:gollum && gollum init
+bash ./gollum.sh settle && gollum init
 ```
 
 Which will :
@@ -185,6 +185,26 @@ You can also setup the "entire" devenv I'm using (debian 10, x11/i3, xterm, vim,
 ```
 wget https://github.com/Mannu404/Edmund/scripts/env/setup_debian.sh && chmod +x setup_debian.sh && ./setup_debian.sh
 ```
+
+## what will your things do to my stuffs ?
+
+If you git clone and setup "gollum", here's what is required and will be touched:
+
+- Gollum will create a symlink in ~/bin/ and create the folder if doesn't exists.
+- These packages, and their dependencies, will be installed during init through apt
+  - microcom
+  - unzip
+  - default-jre
+  - cmake
+  - make
+  - If installing esp sdk (not by default)
+    - gcc git wget make libncurses-dev flex bison gperf python python-serial python-pip
+- ArduinoCLI and librairies will be wgetted and installed in default arduino location: ~/.Arduino
+- /dev/tty[somtheing] will be accessed for serial through microcom
+- some parts of the builds are done in /tmp [TODO: do in ./tmp]
+- Everything else is done under the project root and doesn't change or access your system.
+
+If you setup the complete 'dev env', well, check the scripts, but those stuffs touch everything and are meant to be used on a clean machine, from bashrc to installing and setting up sudo, you shouldn't use that on your dev machine, until it's a clean linux install and you want everything up and ready for you (according to my tastes :p). There's no way to invoke them through gollum, so until your really call them, you shouldn't encounter any problems.
 
 ## testing the stuff do the things the stuff is supposed to do
 
