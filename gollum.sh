@@ -16,7 +16,7 @@ while test $# -gt 0; do
 		exit;;
 	install:cli)
 		echo "Install cli"; 
-		./instal_cli.sh; 
+		./install_cli.sh; 
 		exit;;
 	install:deps)
 		echo "Install dependencies"; 
